@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.scss";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "./views/LandingPage";
+import MobileNavBar from "./components/nav/MobileNavBar";
+import MapPage from "./views/MapPage";
+import SquadPage from "./views/SquadPage";
+import ChatPage from "./views/ChatPage";
+import Container from "react-bootstrap/Container";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Container>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/squad" element={<SquadPage />} />
+          <Route path="/chat" element={<ChatPage />} />
+        </Routes>
+      </Container>
+      <MobileNavBar />
+    </BrowserRouter>
   );
 }
 
