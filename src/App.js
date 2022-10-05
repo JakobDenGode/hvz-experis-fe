@@ -1,4 +1,4 @@
-import "./App.scss";
+import "./sass/style.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./views/LandingPage";
 import MobileNavBar from "./components/nav/MobileNavBar";
