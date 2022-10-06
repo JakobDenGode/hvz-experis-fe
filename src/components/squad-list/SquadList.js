@@ -1,8 +1,17 @@
 import React from "react";
-import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Col";
+import SquadItem from "./SquadItem";
 
-function SquadList() {
-  return <div>SquadList</div>;
+function SquadList({ squads }) {
+  return (
+    <Row className="border">
+      {squads.map((squad) => {
+        const { name, id } = squad;
+
+        return <SquadItem key={id} name={name} />;
+      })}
+    </Row>
+  );
 }
 
 export default SquadList;
