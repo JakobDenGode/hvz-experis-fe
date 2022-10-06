@@ -5,3 +5,5 @@ function SquadPage() {
 }
 
 export default SquadPage;
+
+//test
