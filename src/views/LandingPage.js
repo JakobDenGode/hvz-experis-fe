@@ -18,7 +18,6 @@ const LandingPage = () => {
   const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
 
   useEffect(() => {
-    console.log("hi");
     const findGames = async () => {
       try {
         const response = await fetch(`${apiUrl}`);
