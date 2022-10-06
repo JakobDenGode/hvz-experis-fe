@@ -4,7 +4,14 @@ import Heading from "../common/Heading";
 import GameList from "../components/game-list/GameList";
 
 const LandingPage = () => {
-  const { loginWithRedirect, isAuthenticated, isLoading, user } = useAuth0();
+  const {
+    loginWithRedirect,
+    loginWithPopup,
+    logout,
+    isAuthenticated,
+    isLoading,
+    user,
+  } = useAuth0();
 
   /* 
   if (isLoading) {
@@ -51,6 +58,21 @@ const LandingPage = () => {
         <Heading title="Games" />
         <GameList games={games} />
       </div>
+      {isAuthenticated && (
+        <>
+          <div>
+            <img src={user.picture} alt={user.name} />
+            <h2>{user.name}</h2>
+            <p>{user.email}</p>
+          </div>
+          <button onClick={() => logout({ returnTo: window.location.origin })}>
+            Log Out
+          </button>
+        </>
+      )}
+      {!isAuthenticated && (
+        <button onClick={() => loginWithRedirect()}>Log In</button>
+      )}
     </>
   );
 };
