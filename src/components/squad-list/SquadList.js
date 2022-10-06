@@ -8,7 +8,7 @@ function SquadList({ squads }) {
       {squads.map((squad) => {
         const { name, id } = squad;
 
-        return <SquadItem key={id} name={name} />;
+        return <SquadItem key={id} id={id} name={name} />;
       })}
     </Row>
   );

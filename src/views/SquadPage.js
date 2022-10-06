@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import SquadList from "../components/squad-list/SquadList";
 import Heading from "../common/Heading";
+import HeaderNavBar from "../components/nav/HeaderNavBar";
 
-const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
+const apiUrl = "https://hvz-api-noroff.herokuapp.com/squad";
 
-//const [squad, setSquad] = useState([]);
+//const [squads, setSquad] = useState([]);
 
 function SquadPage() {
   useEffect(() => {
@@ -12,10 +13,10 @@ function SquadPage() {
     const findSquads = async () => {
       try {
         const response = await fetch(`${apiUrl}`);
-
         if (!response.ok) throw new Error("Could not complete request");
         const data = await response.json();
         console.log(data);
+        //      setSquad(data);
         return [null, data];
       } catch (error) {
         return [error.message, []];
@@ -40,7 +41,6 @@ function SquadPage() {
     <div>
       <Heading title="Squads" />
       <SquadList squads={squads} />
-      <p>test</p>
     </div>
   );
 }
