@@ -4,6 +4,8 @@ import React from "react";
 const MapPage = () => {
   const { getAccessTokenSilently } = useAuth0();
 
+  console.log(useAuth0());
+
   return <div>Map</div>;
 };
 

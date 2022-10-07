@@ -11,7 +11,10 @@ const LandingPage = () => {
     isAuthenticated,
     isLoading,
     user,
+    getIdTokenClaims,
   } = useAuth0();
+
+  console.log(user);
 
   /* 
   if (isLoading) {
@@ -31,6 +34,7 @@ const LandingPage = () => {
         if (!response.ok) throw new Error("Could not complete request");
         const data = await response.json();
         console.log(data);
+        setGames2(data);
         return [null, data];
       } catch (error) {
         return [error.message, []];
@@ -63,7 +67,7 @@ const LandingPage = () => {
           <div>
             <img src={user.picture} alt={user.name} />
             <h2>{user.name}</h2>
-            <p>{user.email}</p>
+            <p>{user.sub}</p>
           </div>
           <button onClick={() => logout({ returnTo: window.location.origin })}>
             Log Out
