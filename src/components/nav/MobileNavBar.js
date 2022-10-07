@@ -1,14 +1,21 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import userEvent from "@testing-library/user-event";
 import React from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 function MobileNavBar() {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
+
+  if (user) {
+    console.log(user["http://demozero.net/roles"]);
+  }
+
+  console.log(document.location.pathname);
 
   return (
     <>
-      {isAuthenticated && (
+      {isAuthenticated && document.location.pathname !== "/" && (
         <Navbar
           bg="light"
           expand="lg"
@@ -18,7 +25,12 @@ function MobileNavBar() {
             <div className="d-flex justify-content-around">
               <Nav.Link href="/squad">Squads</Nav.Link>
               <Nav.Link href="/map">Map</Nav.Link>
-              <Nav.Link href="/chat">Chat</Nav.Link>
+              {user && user["http://demozero.net/roles"].length > 0 && (
+                <>
+                  <Nav.Link>Chat</Nav.Link>
+                  <Nav.Link>Edit</Nav.Link>
+                </>
+              )}
             </div>
           </Nav>
         </Navbar>

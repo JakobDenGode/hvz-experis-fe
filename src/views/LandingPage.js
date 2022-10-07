@@ -14,6 +14,9 @@ const LandingPage = () => {
     getIdTokenClaims,
   } = useAuth0();
 
+  /*if (user) {
+    console.log(user["http://mynamespace/roles"].pop());
+  }*/
   console.log(user);
 
   /* 
@@ -31,10 +34,11 @@ const LandingPage = () => {
     const findGames = async () => {
       try {
         const response = await fetch(`${apiUrl}`);
-        if (!response.ok) throw new Error("Could not complete request");
+        //if (!response.ok) throw new Error("Could not complete request");
+        console.log(response);
         const data = await response.json();
         console.log(data);
-        setGames2(data);
+        //setGames2(data);
         return [null, data];
       } catch (error) {
         return [error.message, []];
@@ -55,6 +59,8 @@ const LandingPage = () => {
       id: 2,
     },
   ];
+
+  console.log(isAuthenticated);
 
   return (
     <>
