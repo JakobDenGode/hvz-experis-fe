@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*Styling for the map, unsure if it should be here - glitches into navbar */ 
+.leaflet-container {
+  width: 100vw; 
+  height: 100vh; 
+}
