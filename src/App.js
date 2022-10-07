@@ -6,10 +6,12 @@ import MapPage from "./views/MapPage";
 import SquadPage from "./views/SquadPage";
 import ChatPage from "./views/ChatPage";
 import Container from "react-bootstrap/Container";
+import HeaderNavBar from "./components/nav/HeaderNavBar";
 
 function App() {
   return (
     <BrowserRouter>
+      <HeaderNavBar />
       <Container>
         <Routes>
           <Route path="/" element={<LandingPage />} />
