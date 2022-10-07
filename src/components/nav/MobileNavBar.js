@@ -12,6 +12,7 @@ function MobileNavBar() {
   }
 
   console.log(document.location.pathname);
+  console.log(isAuthenticated);
 
   return (
     <>
@@ -23,7 +24,7 @@ function MobileNavBar() {
         >
           <Nav className="mx-auto  w-100">
             <div className="d-flex justify-content-around">
-              <Nav.Link href="/squad">Squads</Nav.Link>
+              <Nav.Link href="/games/:id/squad">Squads</Nav.Link>
               <Nav.Link href="/map">Map</Nav.Link>
               {user && user["http://demozero.net/roles"].length > 0 && (
                 <>
