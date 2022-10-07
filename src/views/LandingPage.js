@@ -4,7 +4,17 @@ import Heading from "../common/Heading";
 import GameList from "../components/game-list/GameList";
 
 const LandingPage = () => {
-  const { loginWithRedirect, isAuthenticated, isLoading, user } = useAuth0();
+  const {
+    loginWithRedirect,
+    loginWithPopup,
+    logout,
+    isAuthenticated,
+    isLoading,
+    user,
+    getIdTokenClaims,
+  } = useAuth0();
+
+  console.log(user);
 
   /* 
   if (isLoading) {
@@ -18,13 +28,13 @@ const LandingPage = () => {
   const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
 
   useEffect(() => {
-    console.log("hi");
     const findGames = async () => {
       try {
         const response = await fetch(`${apiUrl}`);
         if (!response.ok) throw new Error("Could not complete request");
         const data = await response.json();
         console.log(data);
+        setGames2(data);
         return [null, data];
       } catch (error) {
         return [error.message, []];
@@ -52,6 +62,21 @@ const LandingPage = () => {
         <Heading title="Games" />
         <GameList games={games} />
       </div>
+      {isAuthenticated && (
+        <>
+          <div>
+            <img src={user.picture} alt={user.name} />
+            <h2>{user.name}</h2>
+            <p>{user.sub}</p>
+          </div>
+          <button onClick={() => logout({ returnTo: window.location.origin })}>
+            Log Out
+          </button>
+        </>
+      )}
+      {!isAuthenticated && (
+        <button onClick={() => loginWithRedirect()}>Log In</button>
+      )}
     </>
   );
 };
