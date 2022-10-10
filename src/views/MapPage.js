@@ -7,6 +7,7 @@ const MapPage = () => {
 
   console.log(useAuth0());
 
+
   return (
     <div>
       <Map />
