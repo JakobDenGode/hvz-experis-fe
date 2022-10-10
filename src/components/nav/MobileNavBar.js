@@ -30,7 +30,7 @@ function MobileNavBar() {
             {user && user["http://demozero.net/roles"].length > 0 && (
               <>
                 <Link to={`/games/${gameId}/chat`}>Chat</Link>
-                <Nav.Link>Edit</Nav.Link>
+                <Link to={`/games/${gameId}/edit`}>Edit</Link>
               </>
             )}
           </div>

@@ -12,9 +12,10 @@ import MapPage from "./views/MapPage";
 import SquadPage from "./views/SquadPage";
 import ChatPage from "./views/ChatPage";
 import Container from "react-bootstrap/Container";
-import AdminPage from "./views/AdminPage";
+import AdminPage from "./views/EditPage";
 import { Auth0Provider } from "@auth0/auth0-react";
 import GamePage from "./views/GamePage";
+import EditPage from "./views/EditPage";
 
 const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ function App() {
             <Route path="/games/:gameId/squad" element={<SquadPage />} />
             <Route path="/games/:gameId/chat" element={<ChatPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/games/:gameId/edit" element={<EditPage />} />
             <Route path="games/:gameId/map" element={<MapPage />} />
           </Routes>
         </Container>
