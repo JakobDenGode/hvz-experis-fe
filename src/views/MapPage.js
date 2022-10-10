@@ -1,12 +1,17 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import React from "react";
+import Map from "../components/map/Map";
 
 const MapPage = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   console.log(useAuth0());
 
-  return <div>Map</div>;
+  return (
+    <div>
+      <Map />
+    </div>
+  );
 };
 
 export default withAuthenticationRequired(MapPage, {
