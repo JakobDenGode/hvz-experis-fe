@@ -29,7 +29,7 @@ function MobileNavBar() {
             <Link to={`/games/${gameId}/map`}>Map</Link>
             {user && user["http://demozero.net/roles"].length > 0 && (
               <>
-                <Nav.Link>Chat</Nav.Link>
+                <Link to={`/games/${gameId}/chat`}>Chat</Link>
                 <Nav.Link>Edit</Nav.Link>
               </>
             )}
