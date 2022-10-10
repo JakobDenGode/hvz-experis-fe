@@ -6,9 +6,17 @@ function GameList({ games }) {
   return (
     <Row className="border">
       {games.map((game) => {
-        const { name, age, id } = game;
+        const { gameTitle, gameState, players, id } = game;
 
-        return <GameItem key={id} name={name} age={age} id={id} />;
+        return (
+          <GameItem
+            key={id}
+            gameTitle={gameTitle}
+            gameState={gameState}
+            players={players}
+            id={id}
+          />
+        );
       })}
     </Row>
   );
