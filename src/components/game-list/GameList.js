@@ -1,5 +1,4 @@
 import React from "react";
-import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import GameItem from "./GameItem";
 
@@ -9,7 +8,7 @@ function GameList({ games }) {
       {games.map((game) => {
         const { name, age, id } = game;
 
-        return <GameItem key={id} name={name} age={age} />;
+        return <GameItem key={id} name={name} age={age} id={id} />;
       })}
     </Row>
   );

@@ -8,10 +8,11 @@ import ChatPage from "./views/ChatPage";
 import Container from "react-bootstrap/Container";
 import AdminPage from "./views/AdminPage";
 import { Auth0Provider } from "@auth0/auth0-react";
+import GamePage from "./views/GamePage";
 
 const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
   const navigate = useNavigate();
-
+  console.log("hi");
   const onRedirectCallback = (appState) => {
     navigate((appState && appState.returnTo) || window.location.pathname);
   };
@@ -33,10 +34,10 @@ function App() {
         <Container>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/map" element={<MapPage />} />
-            <Route path="/squad" element={<SquadPage />} />
+            <Route path="/games/:id/squad" element={<SquadPage />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/games/:id/map" element={<MapPage />} />
           </Routes>
         </Container>
         <MobileNavBar />
