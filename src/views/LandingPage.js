@@ -14,6 +14,9 @@ const LandingPage = () => {
     getIdTokenClaims,
   } = useAuth0();
 
+  /*if (user) {
+    console.log(user["http://mynamespace/roles"].pop());
+  }*/
   console.log(user);
 
   /* 
@@ -23,7 +26,7 @@ const LandingPage = () => {
 
   Move the button or the login elements to another component */
 
-  const [games2, setGames2] = useState([]);
+  const [games, setGames] = useState([]);
 
   const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
 
@@ -31,10 +34,11 @@ const LandingPage = () => {
     const findGames = async () => {
       try {
         const response = await fetch(`${apiUrl}`);
-        if (!response.ok) throw new Error("Could not complete request");
+        //if (!response.ok) throw new Error("Could not complete request");
+        console.log(response);
         const data = await response.json();
         console.log(data);
-        setGames2(data);
+        setGames(data);
         return [null, data];
       } catch (error) {
         return [error.message, []];
@@ -43,7 +47,7 @@ const LandingPage = () => {
     findGames();
   }, [apiUrl]);
 
-  const games = [
+  const games2 = [
     {
       name: "Knoll",
       age: 4,
@@ -55,6 +59,8 @@ const LandingPage = () => {
       id: 2,
     },
   ];
+
+  console.log(isAuthenticated);
 
   return (
     <>
@@ -81,16 +87,3 @@ const LandingPage = () => {
   );
 };
 export default LandingPage;
-
-/*
-{
-  isAuthenticated && (
-    <div>
-      <img src={user.picture} alt={user.name} />
-      <h2>{user.name}</h2>
-      <p>{user.email}</p>
-    </div>
-    <button onClick={() => loginWithRedirect()}>Log In</button>
-  );
-}
-*/

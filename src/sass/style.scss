@@ -1,11 +1,9 @@
 body,
 html {
   height: 100%;
-
 }
 
 
-
-
 @import "partials/layout";
+@import "partials/map";
 @import "~bootstrap/scss/bootstrap";
