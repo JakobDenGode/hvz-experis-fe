@@ -2,10 +2,12 @@ import React from "react";
 
 import Accordion from "react-bootstrap/Accordion";
 import EditGame from "./EditGame";
+import EditMissions from "./EditMissions";
+import EditSquads from "./EditSquads";
 
 function EditList() {
   return (
-    <Accordion>
+    <Accordion className="mt-2">
       <Accordion.Item eventKey="0">
         <Accordion.Header className="text-end">Game Info</Accordion.Header>
         <Accordion.Body>
@@ -14,11 +16,15 @@ function EditList() {
       </Accordion.Item>
       <Accordion.Item eventKey="1">
         <Accordion.Header>Missions</Accordion.Header>
-        <Accordion.Body>Lorem ipsum</Accordion.Body>
+        <Accordion.Body>
+          <EditMissions />
+        </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="2">
         <Accordion.Header>Squad</Accordion.Header>
-        <Accordion.Body>Lorem ipsum</Accordion.Body>
+        <Accordion.Body>
+          <EditSquads />
+        </Accordion.Body>
       </Accordion.Item>
     </Accordion>
   );

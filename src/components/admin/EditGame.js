@@ -4,17 +4,23 @@ import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
 function EditGame() {
   return (
     <div>
-      <Button className="w-100">Create game</Button>
+      <Button className="w-100">Edit game</Button>
       <Form className="bg-secondary rounded mt-3 mb-3">
         <h2 className="text-center">Game</h2>
 
         <Container>
           <Row>
-            <Col xs={4}>Player</Col>
-            <Col xs={4}>Status</Col>
-            <Col xs={4}>Change stat</Col>
+            <Col className="border text-center" xs={4}>
+              Player
+            </Col>
+            <Col className="border text-center" xs={4}>
+              Status
+            </Col>
+            <Col className="border text-center" xs={4}>
+              Change
+            </Col>
           </Row>
-          <Row>
+          <Row className="mt-2">
             <Col xs={4}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Control type="text" />
