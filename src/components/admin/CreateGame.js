@@ -2,21 +2,20 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-//import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
 
 const schema = yup.object().shape({
-  name: yup
+  gameTitle: yup
     .string()
-    .required("Name is required")
-    .min(3, "Your name must be at least 3 characters"),
-  email: yup
-    .string()
-    .required("Please enter an email address")
-    .email("Please enter a valid email address"),
+    .required("Title is required")
+    .min(3, "Title must be at least 3 characters"),
 });
 
 function CreateGame() {
   const [displayModalForm, setDisplayModalForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const {
     register,
@@ -28,11 +27,29 @@ function CreateGame() {
   });
 
   function displayModal() {
-    setDisplayModalForm(true);
+    setDisplayModalForm(!displayModalForm);
   }
 
   async function onSubmit(data, e) {
     console.log(data);
+    setSubmitting(true);
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: createHeaders(),
+        body: JSON.stringify({
+          username,
+          translations: [],
+        }),
+      });
+      if (!response.ok)
+        throw new Error("Could not create user with username" + username);
+      const data = await response.json();
+      return [null, data];
+    } catch (error) {
+      return [error.message, []];
+    }
   }
 
   return (
@@ -45,7 +62,30 @@ function CreateGame() {
           onSubmit={handleSubmit(onSubmit)}
           className={`modal--content p-3 d-flex flex-column mx-auto text-start position-relative`}
           autoComplete="off"
-        ></Form>
+        >
+          <span onClick={displayModal} className="modal--close">
+            &times;
+          </span>
+          <fieldset disabled={submitting}>
+            <Form.Label htmlFor="name" className="mt-3">
+              Name
+            </Form.Label>
+            <Form.Control
+              {...register("gameTitle")}
+              id="gameTitle"
+              placeholder="Title of game"
+            />
+            {errors.gameTitle && (
+              <div className="mb-3 text-danger">{errors.gameTitle.message}</div>
+            )}
+            <button
+              type="submit"
+              className="button mt-3 bg-primary text-white w-100 border border-none p-2"
+            >
+              {submitting === true ? "Working..." : "Submit"}
+            </button>
+          </fieldset>
+        </Form>
       </div>
     </>
   );
