@@ -7,14 +7,12 @@ import {
   useParams,
 } from "react-router-dom";
 import LandingPage from "./views/LandingPage";
-import MobileNavBar from "./components/nav/MobileNavBar";
 import MapPage from "./views/MapPage";
 import SquadPage from "./views/SquadPage";
 import ChatPage from "./views/ChatPage";
 import Container from "react-bootstrap/Container";
 import AdminPage from "./views/EditPage";
 import { Auth0Provider } from "@auth0/auth0-react";
-import GamePage from "./views/GamePage";
 import EditPage from "./views/EditPage";
 
 const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
