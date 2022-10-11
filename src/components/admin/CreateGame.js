@@ -1,0 +1,220 @@
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { createHeaders } from "./CreateHeaders";
+import FormMessage from "../../common/FormMessage";
+
+const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
+
+const schema = yup.object().shape({
+  gameTitle: yup
+    .string()
+    .required("Title is required")
+    .min(3, "Title must be at least 3 characters"),
+  nw_lat: yup
+    .number()
+    .integer("Value must be an integer")
+    .required("Please enter a northwest latitude"),
+  nw_lng: yup
+    .number()
+    .integer("Value must be an integer")
+    .required("Please enter a northwest longitude"),
+  se_lat: yup
+    .number()
+    .integer("Value must be an integer")
+    .required("Please enter a southeast latitude"),
+  se_lng: yup
+    .number()
+    .integer("Value must be an integer")
+    .required("Please enter a southeast longitude"),
+  gameDescription: yup
+    .string()
+    .required("Please enter a description")
+    .min(20, "Dame description must be at least 20 characters long")
+    .max(200, "Game description must be at most 200 characters long"),
+});
+
+function CreateGame() {
+  const [displayModalForm, setDisplayModalForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [postError, setPostError] = useState(null);
+  const [postSuccess, setPostSuccess] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  function displayModal() {
+    setDisplayModalForm(!displayModalForm);
+  }
+
+  async function onSubmit(data, e) {
+    console.log(data);
+    setSubmitting(true);
+    setPostError(null);
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: createHeaders(),
+        body: JSON.stringify({
+          id: 0,
+          gameTitle: data.gameTitle,
+          gameState: "REGISTRATION",
+          gameDescription: data.gameDescription,
+          nw_lat: data.nw_lat,
+          nw_lng: data.nw_lng,
+          se_lat: data.se_lat,
+          se_lng: data.se_lng,
+          players: [0],
+          missions: [0],
+        }),
+      });
+      setPostSuccess(true);
+      e.target.reset();
+      setTimeout(() => {
+        setDisplayModalForm(false);
+      }, 1500);
+      if (!response.ok) throw new Error("Could not create user with username");
+      console.log(response);
+      return [null, response];
+    } catch (error) {
+      setPostError(error.toString());
+      return [error.message, []];
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <>
+      <Button onClick={displayModal} className="w-100 mt-3 mb-3">
+        Create Game
+      </Button>
+      <div className={`modal ${displayModalForm ? "d-block" : "d-none"}`}>
+        <Form
+          onSubmit={handleSubmit(onSubmit)}
+          className={`modal--content p-3 d-flex flex-column mx-auto text-start position-relative`}
+          autoComplete="off"
+        >
+          <span onClick={displayModal} className="modal--close">
+            &times;
+          </span>
+          <fieldset disabled={submitting}>
+            <Form.Label htmlFor="name" className="mt-3">
+              Name
+            </Form.Label>
+            <Form.Control
+              {...register("gameTitle")}
+              id="gameTitle"
+              placeholder="Title of game"
+            />
+            {errors.gameTitle && (
+              <div className="mb-3 text-danger">{errors.gameTitle.message}</div>
+            )}
+            <Form.Label htmlFor="gameDescription" className="mt-3">
+              About the game
+            </Form.Label>
+            <Form.Control
+              {...register("gameDescription")}
+              id="gameDescription"
+              as="textarea"
+              rows={5}
+              placeholder="Describe the game - max 200 words"
+            />
+            {errors.gameDescription && (
+              <div className="mb-3 text-danger">
+                {errors.gameDescription.message}
+              </div>
+            )}
+            <Form.Label htmlFor="nw_lat" className="mt-3">
+              Northwest latitude
+            </Form.Label>
+            <Form.Control
+              {...register("nw_lat")}
+              id="nw_lat"
+              placeholder="nortwest latitude"
+            />
+            {errors.nw_lat && (
+              <div className="mb-3 text-danger">
+                {errors.nw_lat.message.includes("NaN")
+                  ? "Value must be a number (integer)"
+                  : errors.nw_lat.message}
+              </div>
+            )}
+            <Form.Label htmlFor="nw_lng" className="mt-3">
+              Northwest longitude
+            </Form.Label>
+            <Form.Control
+              {...register("nw_lng")}
+              id="nw_lng"
+              placeholder="nortwest longitude"
+            />
+            {errors.nw_lng && (
+              <div className="mb-3 text-danger">
+                {errors.nw_lng.message.includes("NaN")
+                  ? "Value must be a number (integer)"
+                  : errors.nw_lng.message}
+              </div>
+            )}
+            <Form.Label htmlFor="se_lat" className="mt-3">
+              Southeast latitude
+            </Form.Label>
+            <Form.Control
+              {...register("se_lat")}
+              id="se_lat"
+              placeholder="southeast latitude"
+            />
+            {errors.se_lat && (
+              <div className="mb-3 text-danger">
+                {errors.se_lat.message.includes("NaN")
+                  ? "Value must be a number (integer)"
+                  : errors.se_lat.message}
+              </div>
+            )}
+            <Form.Label htmlFor="se_lng" className="mt-3">
+              Southeast longitude
+            </Form.Label>
+            <Form.Control
+              {...register("se_lng")}
+              id="se_lng"
+              placeholder="southeast longitude"
+            />
+            {errors.se_lng && (
+              <div className="mb-3 text-danger">
+                {errors.se_lng.message.includes("NaN")
+                  ? "Value must be a number (integer)"
+                  : errors.se_lng.message}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="button mt-3 bg-primary text-white w-100 border border-none p-2"
+            >
+              {submitting === true ? "Working..." : "Submit"}
+            </button>
+          </fieldset>
+          {postError && (
+            <FormMessage styling="form--error">
+              Something went wrong when posting data
+            </FormMessage>
+          )}
+          {postSuccess && (
+            <FormMessage styling="form--success">
+              Message was successfully submitted
+            </FormMessage>
+          )}
+        </Form>
+      </div>
+    </>
+  );
+}
+
+export default CreateGame;
