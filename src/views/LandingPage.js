@@ -18,7 +18,7 @@ const LandingPage = () => {
   /*if (user) {
     console.log(user["http://mynamespace/roles"].pop());
   }*/
-  //console.log(user);
+  console.log(user);
 
   /* 
   if (isLoading) {
@@ -28,7 +28,6 @@ const LandingPage = () => {
   Move the button or the login elements to another component */
 
   const [games, setGames] = useState([]);
-  const [displayModalForm, setDisplayModalForm] = useState(false);
 
   const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
 
