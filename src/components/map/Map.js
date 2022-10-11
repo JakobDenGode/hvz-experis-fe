@@ -30,11 +30,19 @@ const rectangle = [
 ];
 
 console.log(mapsData);
+
+/*
+
 const cords = [mapsData[0].nw_lat, mapsData[0].sw_lat];
+
 console.log("test: " + cords);
 
+*/
+
 function Map() {
+  const gameId = useParams();
   const [gameData, setGame] = useState([]);
+  const [cords, setCords] = useState([0, 0]);
 
   useEffect(() => {
     const findGames = async () => {
@@ -45,9 +53,8 @@ function Map() {
         //if (!response.ok) throw new Error("Could not complete request");
         console.log(response);
         const data = await response.json();
-        console.log("---");
-        console.log(data.nw_lat + " test");
         setGame(data);
+        setCords([data.nw_lat, data.nw_lng]);
         return [null, data];
       } catch (error) {
         return [error.message, []];
@@ -56,9 +63,6 @@ function Map() {
     findGames();
   }, []);
 
-  const gameId = useParams();
-  console.log(gameId);
-
   return (
     <>
       <h1>{gameData.gameTitle}</h1>
@@ -66,7 +70,7 @@ function Map() {
 
       <MapContainer
         center={[59.93003177303357, 10.755969426866766]}
-        zoom={18}
+        zoom={14}
         scrollWheelZoom={false}
         height={180}
       >
