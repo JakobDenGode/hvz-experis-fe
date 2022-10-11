@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Heading from "../common/Heading";
 import GameList from "../components/game-list/GameList";
+import { Button } from "react-bootstrap";
+import CreateGame from "../components/admin/CreateGame";
 
 const LandingPage = () => {
   const {
@@ -17,7 +19,7 @@ const LandingPage = () => {
   /*if (user) {
     console.log(user["http://mynamespace/roles"].pop());
   }*/
-  console.log(user);
+  //console.log(user);
 
   /* 
   if (isLoading) {
@@ -27,6 +29,7 @@ const LandingPage = () => {
   Move the button or the login elements to another component */
 
   const [games, setGames] = useState([]);
+  const [displayModalForm, setDisplayModalForm] = useState(false);
 
   const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
 
@@ -47,25 +50,13 @@ const LandingPage = () => {
     findGames();
   }, [apiUrl]);
 
-  const games2 = [
-    {
-      name: "Knoll",
-      age: 4,
-      id: 1,
-    },
-    {
-      name: "Tott",
-      age: 3,
-      id: 2,
-    },
-  ];
-
   console.log(isAuthenticated);
 
   return (
     <>
       <div>
         <Heading title="Games" />
+        <CreateGame />
         <GameList games={games} />
       </div>
       {isAuthenticated && (
