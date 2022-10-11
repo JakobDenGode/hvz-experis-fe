@@ -3,6 +3,8 @@ import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { createHeaders } from "./CreateHeaders";
+import FormMessage from "../../common/FormMessage";
 
 const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
 
@@ -16,6 +18,8 @@ const schema = yup.object().shape({
 function CreateGame() {
   const [displayModalForm, setDisplayModalForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [postError, setPostError] = useState(null);
+  const [postSuccess, setPostSuccess] = useState(false);
 
   const {
     register,
@@ -33,22 +37,33 @@ function CreateGame() {
   async function onSubmit(data, e) {
     console.log(data);
     setSubmitting(true);
+    setPostError(null);
 
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: createHeaders(),
         body: JSON.stringify({
-          username,
-          translations: [],
+          id: 0,
+          gameTitle: data.gameTitle,
+          gameState: "REGISTRATION",
+          nw_lat: 0,
+          nw_lng: 0,
+          se_lat: 0,
+          se_lng: 0,
+          players: [0],
+          missions: [0],
         }),
       });
-      if (!response.ok)
-        throw new Error("Could not create user with username" + username);
-      const data = await response.json();
-      return [null, data];
+      setPostSuccess(true);
+      if (!response.ok) throw new Error("Could not create user with username");
+      console.log(response);
+      return [null, response];
     } catch (error) {
+      setPostError(error.toString());
       return [error.message, []];
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -85,6 +100,16 @@ function CreateGame() {
               {submitting === true ? "Working..." : "Submit"}
             </button>
           </fieldset>
+          {postError && (
+            <FormMessage styling="form--error">
+              Something went wrong when posting data
+            </FormMessage>
+          )}
+          {postSuccess && (
+            <FormMessage styling="form--success">
+              Message was successfully submitted
+            </FormMessage>
+          )}
         </Form>
       </div>
     </>

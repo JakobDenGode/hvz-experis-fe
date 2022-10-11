@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Heading from "../common/Heading";
 import GameList from "../components/game-list/GameList";
-import { Button } from "react-bootstrap";
 import CreateGame from "../components/admin/CreateGame";
 
 const LandingPage = () => {
