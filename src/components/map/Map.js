@@ -43,6 +43,10 @@ function Map() {
   const gameId = useParams();
   const [gameData, setGame] = useState([]);
   const [cords, setCords] = useState([0, 0]);
+  const [getRectangle, setRectangle] = useState([
+    [0, 0],
+    [0, 0],
+  ]);
 
   useEffect(() => {
     const findGames = async () => {
@@ -55,6 +59,10 @@ function Map() {
         const data = await response.json();
         setGame(data);
         setCords([data.nw_lat, data.nw_lng]);
+        setRectangle([
+          [data.nw_lat, data.nw_lng],
+          [data.se_lat, data.se_lng],
+        ]);
         return [null, data];
       } catch (error) {
         return [error.message, []];
@@ -63,14 +71,16 @@ function Map() {
     findGames();
   }, []);
 
+  console.log("test rectangle:");
+  console.log(getRectangle);
+
   return (
     <>
-      <h1>{gameData.gameTitle}</h1>
-      <p>{gameData.nw_lat}</p>
+      <p>{gameData.gameTitle}</p>
 
       <MapContainer
-        center={[59.93003177303357, 10.755969426866766]}
-        zoom={14}
+        center={[59.92295744566574, 10.739275233893595]}
+        zoom={12}
         scrollWheelZoom={false}
         height={180}
       >
@@ -85,7 +95,7 @@ function Map() {
         </Marker>
         <Marker position={mapsData[1].coordinates} />
         <Rectangle
-          bounds={rectangle}
+          bounds={getRectangle}
           pathOptions={{ color: "black" }}
         ></Rectangle>
       </MapContainer>
