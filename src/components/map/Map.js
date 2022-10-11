@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   MapContainer,
   TileLayer,
@@ -9,52 +10,66 @@ import {
   Tooltip,
 } from "react-leaflet";
 
-const mapsData = [
-  {
-    id: 1,
-    name: "game1",
-    nw_lat: 59.93003177303357,
-    sw_lat: 10.755969426866766,
-  },
-  {
-    id: 2,
-    name: "gam2",
-    coordinates: [60.93003177303357, 10.755969426866766],
-  },
-];
-
-const rectangle = [
-  [10.755969426866766, 59.928406],
-  [59.93003177303357, 10.76105],
-];
-
-console.log(mapsData);
-const cords = [mapsData[0].nw_lat, mapsData[0].sw_lat];
-console.log("test: " + cords);
-
 function Map() {
+  const gameId = useParams();
+  const [gameData, setGame] = useState([]);
+  const [cords, setCords] = useState([0, 0]);
+  const [getRectangle, setRectangle] = useState([
+    [0, 0],
+    [0, 0],
+  ]);
+
+  useEffect(() => {
+    const findGames = async () => {
+      try {
+        const response = await fetch(
+          `https://hvz-api-noroff.herokuapp.com/game/${gameId.gameId}`
+        );
+        //if (!response.ok) throw new Error("Could not complete request");
+        console.log(response);
+        const data = await response.json();
+        setGame(data);
+        //get coordinates for marker
+        setCords([data.nw_lat, data.nw_lng]);
+        //get coordinates to draw rectangle
+        setRectangle([
+          [data.nw_lat, data.nw_lng],
+          [data.se_lat, data.se_lng],
+        ]);
+        return [null, data];
+      } catch (error) {
+        return [error.message, []];
+      }
+    };
+    findGames();
+  }, []);
+
+  console.log("test rectangle:");
+  console.log(getRectangle);
+
   return (
-    <MapContainer
-      center={[59.93003177303357, 10.755969426866766]}
-      zoom={18}
-      scrollWheelZoom={false}
-      height={180}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={cords}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
-      <Marker position={mapsData[1].coordinates} />
-      <Rectangle
-        bounds={rectangle}
-        pathOptions={{ color: "black" }}
-      ></Rectangle>
-    </MapContainer>
+    <>
+      <p>{gameData.gameTitle}</p>
+      <MapContainer
+        center={[59.92295744566574, 10.739275233893595]}
+        zoom={12}
+        scrollWheelZoom={false}
+        height={180}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={cords}></Marker>
+        {/* test marker/ for missions */}
+        <Marker position={[59.92295744566574, 10.739275233893595]} />
+        {/*Rectangle*/}
+        <Rectangle
+          bounds={getRectangle}
+          pathOptions={{ color: "black" }}
+        ></Rectangle>
+      </MapContainer>
+    </>
   );
 }
 
