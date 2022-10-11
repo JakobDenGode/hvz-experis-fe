@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -8,6 +8,7 @@ import {
   Rectangle,
   Tooltip,
 } from "react-leaflet";
+import { useParams } from "react-router-dom";
 
 const mapsData = [
   {
@@ -33,28 +34,58 @@ const cords = [mapsData[0].nw_lat, mapsData[0].sw_lat];
 console.log("test: " + cords);
 
 function Map() {
+  const [gameData, setGame] = useState([]);
+
+  useEffect(() => {
+    const findGames = async () => {
+      try {
+        const response = await fetch(
+          `https://hvz-api-noroff.herokuapp.com/game/${gameId.gameId}`
+        );
+        //if (!response.ok) throw new Error("Could not complete request");
+        console.log(response);
+        const data = await response.json();
+        console.log("---");
+        console.log(data.nw_lat + " test");
+        setGame(data);
+        return [null, data];
+      } catch (error) {
+        return [error.message, []];
+      }
+    };
+    findGames();
+  }, []);
+
+  const gameId = useParams();
+  console.log(gameId);
+
   return (
-    <MapContainer
-      center={[59.93003177303357, 10.755969426866766]}
-      zoom={18}
-      scrollWheelZoom={false}
-      height={180}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={cords}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
-      <Marker position={mapsData[1].coordinates} />
-      <Rectangle
-        bounds={rectangle}
-        pathOptions={{ color: "black" }}
-      ></Rectangle>
-    </MapContainer>
+    <>
+      <h1>{gameData.gameTitle}</h1>
+      <p>{gameData.nw_lat}</p>
+
+      <MapContainer
+        center={[59.93003177303357, 10.755969426866766]}
+        zoom={18}
+        scrollWheelZoom={false}
+        height={180}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={cords}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+        <Marker position={mapsData[1].coordinates} />
+        <Rectangle
+          bounds={rectangle}
+          pathOptions={{ color: "black" }}
+        ></Rectangle>
+      </MapContainer>
+    </>
   );
 }
 
