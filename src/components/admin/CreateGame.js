@@ -13,6 +13,22 @@ const schema = yup.object().shape({
     .string()
     .required("Title is required")
     .min(3, "Title must be at least 3 characters"),
+  nw_lat: yup
+    .number()
+    .integer("Value must be an integer")
+    .required("Please enter a northwest latitude"),
+  nw_lng: yup
+    .number()
+    .integer("Value must be an integer")
+    .required("Please enter a northwest longitude"),
+  se_lat: yup
+    .number()
+    .integer("Value must be an integer")
+    .required("Please enter a southeast latitude"),
+  se_lng: yup
+    .number()
+    .integer("Value must be an integer")
+    .required("Please enter a southeast longitude"),
 });
 
 function CreateGame() {
@@ -34,7 +50,7 @@ function CreateGame() {
     setDisplayModalForm(!displayModalForm);
   }
 
-  async function onSubmit(data, e) {
+  async function onSubmit(data) {
     console.log(data);
     setSubmitting(true);
     setPostError(null);
@@ -47,10 +63,10 @@ function CreateGame() {
           id: 0,
           gameTitle: data.gameTitle,
           gameState: "REGISTRATION",
-          nw_lat: 0,
-          nw_lng: 0,
-          se_lat: 0,
-          se_lng: 0,
+          nw_lat: data.nw_lat,
+          nw_lng: data.nw_lng,
+          se_lat: data.se_lat,
+          se_lng: data.se_lng,
           players: [0],
           missions: [0],
         }),
@@ -93,6 +109,67 @@ function CreateGame() {
             {errors.gameTitle && (
               <div className="mb-3 text-danger">{errors.gameTitle.message}</div>
             )}
+            <Form.Label htmlFor="nw_lat" className="mt-3">
+              Northwest latitude
+            </Form.Label>
+            <Form.Control
+              {...register("nw_lat")}
+              id="nw_lat"
+              placeholder="nortwest latitude"
+            />
+            {errors.nw_lat && (
+              <div className="mb-3 text-danger">
+                {errors.nw_lat.message.includes("NaN")
+                  ? "Value must be a number (integer)"
+                  : errors.nw_lat.message}
+              </div>
+            )}
+            <Form.Label htmlFor="nw_lng" className="mt-3">
+              Northwest longitude
+            </Form.Label>
+            <Form.Control
+              {...register("nw_lng")}
+              id="nw_lng"
+              placeholder="nortwest longitude"
+            />
+            {errors.nw_lng && (
+              <div className="mb-3 text-danger">
+                {errors.nw_lng.message.includes("NaN")
+                  ? "Value must be a number (integer)"
+                  : errors.nw_lng.message}
+              </div>
+            )}
+            <Form.Label htmlFor="se_lat" className="mt-3">
+              Southeast latitude
+            </Form.Label>
+            <Form.Control
+              {...register("se_lat")}
+              id="se_lat"
+              placeholder="southeast latitude"
+            />
+            {errors.se_lat && (
+              <div className="mb-3 text-danger">
+                {errors.se_lat.message.includes("NaN")
+                  ? "Value must be a number (integer)"
+                  : errors.se_lat.message}
+              </div>
+            )}
+            <Form.Label htmlFor="se_lng" className="mt-3">
+              Southeast longitude
+            </Form.Label>
+            <Form.Control
+              {...register("se_lng")}
+              id="se_lng"
+              placeholder="southeast longitude"
+            />
+            {errors.se_lng && (
+              <div className="mb-3 text-danger">
+                {errors.se_lng.message.includes("NaN")
+                  ? "Value must be a number (integer)"
+                  : errors.se_lng.message}
+              </div>
+            )}
+
             <button
               type="submit"
               className="button mt-3 bg-primary text-white w-100 border border-none p-2"
