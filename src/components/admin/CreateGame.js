@@ -29,6 +29,11 @@ const schema = yup.object().shape({
     .number()
     .integer("Value must be an integer")
     .required("Please enter a southeast longitude"),
+  gameDescription: yup
+    .string()
+    .required("Please enter a description")
+    .min(20, "Dame description must be at least 20 characters long")
+    .max(200, "Game description must be at most 200 characters long"),
 });
 
 function CreateGame() {
@@ -40,7 +45,6 @@ function CreateGame() {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -50,7 +54,7 @@ function CreateGame() {
     setDisplayModalForm(!displayModalForm);
   }
 
-  async function onSubmit(data) {
+  async function onSubmit(data, e) {
     console.log(data);
     setSubmitting(true);
     setPostError(null);
@@ -63,6 +67,7 @@ function CreateGame() {
           id: 0,
           gameTitle: data.gameTitle,
           gameState: "REGISTRATION",
+          gameDescription: data.gameDescription,
           nw_lat: data.nw_lat,
           nw_lng: data.nw_lng,
           se_lat: data.se_lat,
@@ -72,6 +77,10 @@ function CreateGame() {
         }),
       });
       setPostSuccess(true);
+      e.target.reset();
+      setTimeout(() => {
+        setDisplayModalForm(false);
+      }, 1500);
       if (!response.ok) throw new Error("Could not create user with username");
       console.log(response);
       return [null, response];
@@ -108,6 +117,21 @@ function CreateGame() {
             />
             {errors.gameTitle && (
               <div className="mb-3 text-danger">{errors.gameTitle.message}</div>
+            )}
+            <Form.Label htmlFor="gameDescription" className="mt-3">
+              About the game
+            </Form.Label>
+            <Form.Control
+              {...register("gameDescription")}
+              id="gameDescription"
+              as="textarea"
+              rows={5}
+              placeholder="Describe the game - max 200 words"
+            />
+            {errors.gameDescription && (
+              <div className="mb-3 text-danger">
+                {errors.gameDescription.message}
+              </div>
             )}
             <Form.Label htmlFor="nw_lat" className="mt-3">
               Northwest latitude
