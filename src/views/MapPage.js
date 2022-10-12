@@ -1,6 +1,5 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import React, { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { createHeaders } from "../components/admin/CreateHeaders";
 import JoinButton from "../components/map/JoinButton";
@@ -29,6 +28,7 @@ const MapPage = () => {
       });
       if (!response.ok) throw new Error("Could not create user with username");
       console.log(response);
+      setSubmitting(true);
       return [null, response];
     } catch (error) {
       //setPostError(error.toString());
@@ -43,7 +43,12 @@ const MapPage = () => {
   return (
     <>
       <Map />
-      <JoinButton handleOnClick={joinButton} />
+      {submitting ? (
+        <div className="text-center">Player is added</div>
+      ) : (
+        <JoinButton handleOnClick={joinButton} />
+      )}
+
       <MobileNavBar />
     </>
   );
