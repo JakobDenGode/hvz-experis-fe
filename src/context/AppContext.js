@@ -1,7 +1,7 @@
-import UserProvider from "./UserContext";
+import PlayerProvider from "./PlayerContext";
 
 const AppContext = ({ children }) => {
-  return <UserProvider>{children}</UserProvider>;
+  return <PlayerProvider>{children}</PlayerProvider>;
 };
 
 export default AppContext;
