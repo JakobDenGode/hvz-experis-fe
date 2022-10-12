@@ -9,8 +9,11 @@ import {
   Rectangle,
   Tooltip,
 } from "react-leaflet";
+import { createHeaders } from "../admin/CreateHeaders";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Map() {
+  const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
   const [gameData, setGame] = useState([]);
   const [cords, setCords] = useState([0, 0]);
@@ -21,9 +24,11 @@ function Map() {
 
   useEffect(() => {
     const findGames = async () => {
+      const accessToken = await getAccessTokenSilently();
       try {
         const response = await fetch(
-          `https://hvz-api-noroff.herokuapp.com/game/${gameId.gameId}`
+          `https://hvz-api-noroff.herokuapp.com/game/${gameId.gameId}`,
+          { headers: createHeaders(accessToken) }
         );
         //if (!response.ok) throw new Error("Could not complete request");
         console.log(response);

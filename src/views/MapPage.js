@@ -16,13 +16,12 @@ const MapPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const { player, setPlayer } = usePlayer();
 
-  console.log(getAccessTokenSilently());
-
   async function joinButton() {
+    const accessToken = await getAccessTokenSilently();
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
-        headers: createHeaders(),
+        headers: createHeaders(accessToken),
         body: JSON.stringify({
           id: 0,
           biteCode: "string",
