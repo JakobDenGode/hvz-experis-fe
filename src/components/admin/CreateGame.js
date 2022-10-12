@@ -64,7 +64,6 @@ function CreateGame() {
     const accessToken = await getAccessTokenSilently();
 
     try {
-      console.log(accessToken);
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: createHeaders(accessToken),
