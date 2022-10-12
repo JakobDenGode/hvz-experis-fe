@@ -37,6 +37,7 @@ function App() {
         domain="dev-3w1bagtd.us.auth0.com"
         clientId="J6nMaFhZ1CTfvlD0o73lDgOhB5FmRqcf"
         redirectUri={window.location.origin}
+        audience="https://hvz-server.com"
       >
         <Container>
           <Routes>

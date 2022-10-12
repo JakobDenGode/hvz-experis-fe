@@ -5,6 +5,7 @@ import { createHeaders } from "../components/admin/CreateHeaders";
 import JoinButton from "../components/map/JoinButton";
 import Map from "../components/map/Map";
 import MobileNavBar from "../components/nav/MobileNavBar";
+import { usePlayer } from "../context/PlayerContext";
 
 const apiUrl = `https://hvz-api-noroff.herokuapp.com/game/player`;
 
@@ -13,6 +14,9 @@ const MapPage = () => {
   console.log(gameId.gameId);
   const { getAccessTokenSilently } = useAuth0();
   const [submitting, setSubmitting] = useState(false);
+  const { player, setPlayer } = usePlayer();
+
+  console.log(getAccessTokenSilently());
 
   async function joinButton() {
     try {
@@ -29,6 +33,7 @@ const MapPage = () => {
       if (!response.ok) throw new Error("Could not create user with username");
       console.log(response);
       setSubmitting(true);
+
       return [null, response];
     } catch (error) {
       //setPostError(error.toString());
