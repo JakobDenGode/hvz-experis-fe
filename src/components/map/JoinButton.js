@@ -1,15 +1,11 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-function JoinButton() {
-  function joinGame() {
-    console.log("hi");
-  }
-
+function JoinButton({ handleOnClick }) {
   return (
     <div className="text-center">
       <Button
-        onClick={joinGame}
+        onClick={handleOnClick}
         className="border w-50 rounded-circle text-center mx-auto"
       >
         Join!

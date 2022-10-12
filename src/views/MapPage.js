@@ -11,12 +11,16 @@ const MapPage = () => {
   console.log(gameId);
   const { getAccessTokenSilently } = useAuth0();
 
-  console.log(useAuth0());
+  function joinButton() {
+    console.log("hi");
+  }
+
+  //console.log(useAuth0());
 
   return (
     <>
       <Map />
-      <JoinButton />
+      <JoinButton handleOnClick={joinButton} />
       <MobileNavBar />
     </>
   );
