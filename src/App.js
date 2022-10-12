@@ -17,7 +17,7 @@ import EditPage from "./views/EditPage";
 
 const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
   const navigate = useNavigate();
-  console.log("hi");
+
   const onRedirectCallback = (appState) => {
     navigate((appState && appState.returnTo) || window.location.pathname);
   };
@@ -30,7 +30,7 @@ const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
 
 function App() {
   const { gameId } = useParams();
-  console.log(gameId);
+
   return (
     <BrowserRouter>
       <Auth0ProviderWithRedirectCallback

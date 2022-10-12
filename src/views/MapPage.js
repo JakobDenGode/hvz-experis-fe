@@ -1,18 +1,41 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { createHeaders } from "../components/admin/CreateHeaders";
 import JoinButton from "../components/map/JoinButton";
 import Map from "../components/map/Map";
 import MobileNavBar from "../components/nav/MobileNavBar";
 
+const apiUrl = `https://hvz-api-noroff.herokuapp.com/game/player`;
+
 const MapPage = () => {
   const gameId = useParams();
-  console.log(gameId);
+  console.log(gameId.gameId);
   const { getAccessTokenSilently } = useAuth0();
+  const [submitting, setSubmitting] = useState(false);
 
-  function joinButton() {
-    console.log("hi");
+  async function joinButton() {
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: createHeaders(),
+        body: JSON.stringify({
+          id: 0,
+          biteCode: "string",
+          game: gameId.gameId,
+          human: true,
+        }),
+      });
+      if (!response.ok) throw new Error("Could not create user with username");
+      console.log(response);
+      return [null, response];
+    } catch (error) {
+      //setPostError(error.toString());
+      return [error.message, []];
+    } finally {
+      //setSubmitting(false);
+    }
   }
 
   //console.log(useAuth0());
