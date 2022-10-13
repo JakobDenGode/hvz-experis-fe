@@ -29,7 +29,7 @@ const LandingPage = () => {
 
   const [games, setGames] = useState([]);
 
-  const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
+  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game`;
 
   useEffect(() => {
     const findGames = async () => {
