@@ -11,6 +11,7 @@ import {
 } from "react-leaflet";
 import { createHeaders } from "../admin/CreateHeaders";
 import { useAuth0 } from "@auth0/auth0-react";
+import HeaderNavBar from "../nav/HeaderNavBar";
 
 function Map() {
   const { getAccessTokenSilently } = useAuth0();
@@ -54,7 +55,7 @@ function Map() {
 
   return (
     <>
-      <p>{gameData.gameTitle}</p>
+      <HeaderNavBar title={gameData.gameTitle} />
       <MapContainer
         center={[59.92295744566574, 10.739275233893595]}
         zoom={12}

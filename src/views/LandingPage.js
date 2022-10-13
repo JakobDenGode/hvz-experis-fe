@@ -36,9 +36,7 @@ const LandingPage = () => {
       try {
         const response = await fetch(`${apiUrl}`);
         //if (!response.ok) throw new Error("Could not complete request");
-        console.log(response);
         const data = await response.json();
-        console.log(data);
         setGames(data);
         return [null, data];
       } catch (error) {
@@ -48,7 +46,7 @@ const LandingPage = () => {
     findGames();
   }, [apiUrl]);
 
-  console.log(isAuthenticated);
+  //console.log(isAuthenticated);
 
   return (
     <>
