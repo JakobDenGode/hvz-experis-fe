@@ -15,6 +15,7 @@ const MapPage = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [submitting, setSubmitting] = useState(false);
   const { player, setPlayer } = usePlayer();
+  console.log(player);
 
   async function joinButton() {
     const accessToken = await getAccessTokenSilently();
