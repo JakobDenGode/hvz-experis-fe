@@ -7,7 +7,7 @@ import { createHeaders } from "./CreateHeaders";
 import FormMessage from "../../common/FormMessage";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
+const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game`;
 
 const schema = yup.object().shape({
   gameTitle: yup
