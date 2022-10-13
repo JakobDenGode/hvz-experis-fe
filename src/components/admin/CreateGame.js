@@ -5,8 +5,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createHeaders } from "./CreateHeaders";
 import FormMessage from "../../common/FormMessage";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
+const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game`;
 
 const schema = yup.object().shape({
   gameTitle: yup
@@ -41,6 +42,7 @@ function CreateGame() {
   const [submitting, setSubmitting] = useState(false);
   const [postError, setPostError] = useState(null);
   const [postSuccess, setPostSuccess] = useState(false);
+  const { getAccessTokenSilently } = useAuth0();
 
   const {
     register,
@@ -59,10 +61,12 @@ function CreateGame() {
     setSubmitting(true);
     setPostError(null);
 
+    const accessToken = await getAccessTokenSilently();
+
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
-        headers: createHeaders(),
+        headers: createHeaders(accessToken),
         body: JSON.stringify({
           id: 0,
           gameTitle: data.gameTitle,
