@@ -1,7 +1,8 @@
-export const createHeaders = () => {
+export const createHeaders = (accessToken) => {
   return {
-    "Content-Type": "application/json",
+    "content-type": "application/json",
+    Authorization: `Bearer ${accessToken}`,
   };
 };
 
-export const handleResponse = () => {};
+//export const handleResponse = () => {};

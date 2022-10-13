@@ -17,7 +17,7 @@ import EditPage from "./views/EditPage";
 
 const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
   const navigate = useNavigate();
-  console.log("hi");
+
   const onRedirectCallback = (appState) => {
     navigate((appState && appState.returnTo) || window.location.pathname);
   };
@@ -30,13 +30,14 @@ const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
 
 function App() {
   const { gameId } = useParams();
-  console.log(gameId);
+
   return (
     <BrowserRouter>
       <Auth0ProviderWithRedirectCallback
         domain="dev-3w1bagtd.us.auth0.com"
         clientId="J6nMaFhZ1CTfvlD0o73lDgOhB5FmRqcf"
         redirectUri={window.location.origin}
+        audience="https://hvz-server.com"
       >
         <Container>
           <Routes>
