@@ -9,10 +9,10 @@ import { STORAGE_KEY_PLAYER } from "../const/storageKeys";
 import { usePlayer } from "../context/PlayerContext";
 import { storageSave } from "../utils/storage";
 
-const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/player`;
-
 const MapPage = () => {
   const gameId = useParams();
+
+  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameID}/player`;
 
   const { getAccessTokenSilently } = useAuth0();
   const [submitting, setSubmitting] = useState(false);
@@ -22,10 +22,10 @@ const MapPage = () => {
   function test() {
     storageSave(STORAGE_KEY_PLAYER, {
       id: 1,
-      type: "human",
+      type: "zombie",
       bitecode: "3424234",
     });
-    setPlayer({ id: 1, type: "human", bitecode: "3424234" });
+    setPlayer({ id: 1, type: "zombie", bitecode: "3424234" });
     console.log("hi");
   }
 
