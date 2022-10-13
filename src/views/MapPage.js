@@ -7,7 +7,7 @@ import Map from "../components/map/Map";
 import MobileNavBar from "../components/nav/MobileNavBar";
 import { usePlayer } from "../context/PlayerContext";
 
-const apiUrl = `https://hvz-api-noroff.herokuapp.com/game/player`;
+const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/player`;
 
 const MapPage = () => {
   const gameId = useParams();

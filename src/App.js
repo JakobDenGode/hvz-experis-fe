@@ -34,10 +34,10 @@ function App() {
   return (
     <BrowserRouter>
       <Auth0ProviderWithRedirectCallback
-        domain="dev-3w1bagtd.us.auth0.com"
-        clientId="J6nMaFhZ1CTfvlD0o73lDgOhB5FmRqcf"
+        domain={process.env.REACT_APP_AUTH0_DOMAIN}
+        clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
         redirectUri={window.location.origin}
-        audience="https://hvz-server.com"
+        audience={process.env.REACT_APP_AUTH0_AUDIENCE}
       >
         <Container>
           <Routes>
