@@ -1,6 +1,6 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { json, useParams } from "react-router-dom";
 import { createHeaders } from "../components/admin/CreateHeaders";
 import JoinButton from "../components/map/JoinButton";
 import Map from "../components/map/Map";
@@ -33,27 +33,28 @@ const MapPage = () => {
     const accessToken = await getAccessTokenSilently();
 
     try {
-      /*
-      const response2 = await fetch(apiUrl2, {
-        method: "GET",
-        headers: createHeaders(accessToken),
-      });
-      console.log(response2);
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: createHeaders(accessToken),
       });
 
+      const response2 = await fetch(apiUrl2, {
+        method: "GET",
+        headers: createHeaders(accessToken),
+      });
+      const result = await response2.json();
+      console.log(result);
+
       if (!response.ok) throw new Error("Could not create user with username");
       console.log(response);
-*/
+
       setSubmitting(true);
       storageSave(STORAGE_KEY_PLAYER, {
-        id: 1,
+        id: result.player,
         type: "zombie",
         bitecode: "3424234",
       });
-      setPlayer({ id: 1, type: "zombie", bitecode: "3424234" });
+      setPlayer({ id: result.player, type: "zombie", bitecode: "3424234" });
 
       //return [null, response];
     } catch (error) {
