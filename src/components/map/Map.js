@@ -61,7 +61,7 @@ function Map() {
       const accessToken = await getAccessTokenSilently();
       try {
         const response = await fetch(
-          `https://hvz-api-noroff.herokuapp.com/game/1/mission/1`,
+          `https://hvz-api-noroff.herokuapp.com/game/${gameId.gameId}/mission/1`,
           { headers: createHeaders(accessToken) }
         );
         //if (!response.ok) throw new Error("Could not complete request");
