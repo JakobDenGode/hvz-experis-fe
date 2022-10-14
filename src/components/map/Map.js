@@ -8,8 +8,10 @@ import {
   useMapEvent,
   Rectangle,
   Tooltip,
+  LocationMarker,
   Circle,
 } from "react-leaflet";
+import L from "leaflet";
 import { createHeaders } from "../admin/CreateHeaders";
 import { useAuth0 } from "@auth0/auth0-react";
 import { divIcon } from "leaflet";
@@ -25,9 +27,19 @@ function Map() {
     [0, 0],
   ]);
 
+  //styling for missions
   const fillZombie = { fillColor: "red" };
   const fillHuman = { fillColor: "blue" };
 
+  //styling for tombstone marker
+  const tombstone = L.icon({
+    iconUrl: "https://img.icons8.com/ios-filled/50/000000/grave.png",
+    iconSize: [23, 23], // size of the icon
+    iconAnchor: [23, 23], // point of the icon which will correspond to marker's location
+    popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+  });
+
+  //Get game
   useEffect(() => {
     const findGames = async () => {
       const accessToken = await getAccessTokenSilently();
@@ -78,7 +90,6 @@ function Map() {
         setMissionCords(data);
         console.log(missionCords);
 
-        //get coordinates to draw rectangle
         return [null, data];
       } catch (error) {
         return [error.message, []];
@@ -89,7 +100,7 @@ function Map() {
 
   missionCords.map((item) => console.log(item.missionLat, item.missionLng));
 
-  //Function to get all mission markers coordinaters
+  //Function to get all mission markers
   function MultipleMarkers() {
     const map = useMapEvent({
       click() {
@@ -101,7 +112,7 @@ function Map() {
         <Circle
           center={[item.missionLat, item.missionLng]}
           pathOptions={fillHuman}
-          radius={50}
+          radius={70}
         >
           <Popup>
             {item.missionName} <br></br> {item.missionDescription}
@@ -111,6 +122,7 @@ function Map() {
     });
   }
 
+  //Get player location when the game starts
   function LocationMarker() {
     const [position, setPosition] = useState(null);
     const map = useMapEvent({
@@ -123,6 +135,9 @@ function Map() {
       },
     });
 
+    console.log("Player location: ");
+    console.log(position);
+
     return position === null ? null : (
       <Marker position={position}>
         <Popup>Player Location</Popup>
@@ -130,12 +145,13 @@ function Map() {
     );
   }
 
+  //Map
   return (
     <>
       <p>{gameData.gameTitle}</p>
       <MapContainer
         center={[35.6762, 139.6503]}
-        zoom={12}
+        zoom={8}
         scrollWheelZoom={false}
         height={180}
       >
@@ -144,15 +160,15 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-
+        {/* marker for missions */}
         <MultipleMarkers />
-        {/* test marker/ for missions */}
-
-        {/*Rectangle*/}
+        {/*Rectangle to draw game area*/}
         <Rectangle
           bounds={getRectangle}
           pathOptions={{ color: "black" }}
         ></Rectangle>
+        {/*test marker for tombstone styling*/}
+        <Marker icon={tombstone} position={[59.931145, 10.78683]}></Marker>
       </MapContainer>
     </>
   );
