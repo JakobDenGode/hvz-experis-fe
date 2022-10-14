@@ -15,6 +15,7 @@ import L from "leaflet";
 import { createHeaders } from "../admin/CreateHeaders";
 import { useAuth0 } from "@auth0/auth0-react";
 import { divIcon } from "leaflet";
+import { Button } from "react-bootstrap";
 
 function Map() {
   const { getAccessTokenSilently } = useAuth0();
@@ -36,7 +37,7 @@ function Map() {
     iconUrl: "https://img.icons8.com/ios-filled/50/000000/grave.png",
     iconSize: [23, 23], // size of the icon
     iconAnchor: [23, 23], // point of the icon which will correspond to marker's location
-    popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+    popupAnchor: [-10, -15], // point from which the popup should open relative to the iconAnchor
   });
 
   //Get game
@@ -168,7 +169,10 @@ function Map() {
           pathOptions={{ color: "black" }}
         ></Rectangle>
         {/*test marker for tombstone styling*/}
-        <Marker icon={tombstone} position={[59.931145, 10.78683]}></Marker>
+        <Marker icon={tombstone} position={[59.931145, 10.78683]}>
+          {" "}
+          <Popup>A dead player</Popup>
+        </Marker>
       </MapContainer>
     </>
   );
