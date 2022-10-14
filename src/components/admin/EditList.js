@@ -4,6 +4,7 @@ import Accordion from "react-bootstrap/Accordion";
 import EditGame from "./EditGame";
 import EditMissions from "./EditMissions";
 import EditSquads from "./EditSquads";
+import EditCreatedGame from "./EditCreatedGame";
 
 function EditList() {
   return (
@@ -12,6 +13,7 @@ function EditList() {
         <Accordion.Header className="text-end">Game Info</Accordion.Header>
         <Accordion.Body>
           <EditGame />
+          <EditCreatedGame />
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
