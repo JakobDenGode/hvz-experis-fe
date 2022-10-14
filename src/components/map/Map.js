@@ -102,7 +102,11 @@ function Map() {
           center={[item.missionLat, item.missionLng]}
           pathOptions={fillHuman}
           radius={50}
-        />
+        >
+          <Popup>
+            {item.missionName} <br></br> {item.missionDescription}
+          </Popup>
+        </Circle>
       );
     });
   }
