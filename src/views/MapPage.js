@@ -26,7 +26,6 @@ const MapPage = () => {
       bitecode: "3424234",
     });
     setPlayer({ id: 1, type: "zombie", bitecode: "3424234" });
-    console.log("hi");
   }
 
   async function joinButton() {
