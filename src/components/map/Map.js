@@ -111,15 +111,35 @@ function Map() {
     });
   }
 
+  function LocationMarker() {
+    const [position, setPosition] = useState(null);
+    const map = useMapEvent({
+      click() {
+        map.locate();
+      },
+      locationfound(e) {
+        setPosition(e.latlng);
+        map.flyTo(e.latlng, map.getZoom());
+      },
+    });
+
+    return position === null ? null : (
+      <Marker position={position}>
+        <Popup>Player Location</Popup>
+      </Marker>
+    );
+  }
+
   return (
     <>
       <p>{gameData.gameTitle}</p>
       <MapContainer
-        center={[59.92295744566574, 10.739275233893595]}
+        center={[35.6762, 139.6503]}
         zoom={12}
         scrollWheelZoom={false}
         height={180}
       >
+        <LocationMarker />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
