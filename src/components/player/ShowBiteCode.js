@@ -4,6 +4,10 @@ import { usePlayer } from "../../context/PlayerContext";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useParams } from "react-router-dom";
+import { createHeaders } from "../admin/CreateHeaders";
+import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
+import FormMessage from "../../common/FormMessage";
 
 const schema = yup.object().shape({
   bitecode: yup
@@ -17,6 +21,10 @@ function ShowBiteCode() {
   const [displayHumanCode, setDisplayHumanCode] = useState(false);
   const [displayZombieCode, setDisplayZombieCode] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [postError, setPostError] = useState(null);
+  const [postSuccess, setPostSuccess] = useState(false);
+  const gameId = useParams();
+  const { getAccessTokenSilently } = useAuth0();
 
   const {
     register,
@@ -35,7 +43,39 @@ function ShowBiteCode() {
   }
 
   async function onSubmit(data, e) {
-    console.log(data);
+    console.log(gameId);
+    const accessToken = await getAccessTokenSilently();
+    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/kill/Sjekk1`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: createHeaders(accessToken),
+        body: JSON.stringify({
+          id: 0,
+          timeOfDeath: "string",
+          lat: 0,
+          lng: 0,
+          game: gameId.gameId,
+          playerKiller: 15,
+          playerDeath: 0,
+        }),
+      });
+      console.log(response);
+      setPostSuccess(true);
+      e.target.reset();
+      setTimeout(() => {
+        setDisplayZombieCode(false);
+      }, 1500);
+      if (!response.ok) throw new Error("Could not register kill");
+      return [null, response];
+    } catch (error) {
+      console.log(error);
+      setPostError(error.toString());
+      return [error.message, []];
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -92,6 +132,16 @@ function ShowBiteCode() {
                 : "Bite your victim!"}
             </button>
           </fieldset>
+          {postError && (
+            <FormMessage styling="form--error">
+              You faild to bite the victim
+            </FormMessage>
+          )}
+          {postSuccess && (
+            <FormMessage styling="form--success">
+              You zombified the victim
+            </FormMessage>
+          )}
         </Form>
       </div>
     </div>

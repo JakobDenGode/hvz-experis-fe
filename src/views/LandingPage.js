@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Heading from "../common/Heading";
 import GameList from "../components/game-list/GameList";
 import CreateGame from "../components/admin/CreateGame";
+import { createHeaders } from "../components/admin/CreateHeaders";
 
 const LandingPage = () => {
   const {
@@ -13,12 +14,34 @@ const LandingPage = () => {
     isLoading,
     user,
     getIdTokenClaims,
+    getAccessTokenSilently,
   } = useAuth0();
 
   /*if (user) {
     console.log(user["http://mynamespace/roles"].pop());
   }*/
   console.log(user);
+
+  useEffect(() => {
+    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}user/register`;
+    const postUser = async () => {
+      if (user) {
+        const accessToken = await getAccessTokenSilently();
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: createHeaders(accessToken),
+          });
+          console.log(response);
+          if (!response.ok) throw new Error("Could not register kill");
+        } catch (error) {
+          console.log(error);
+          return [error.message, []];
+        }
+      }
+    };
+    postUser();
+  }, [user]);
 
   /* 
   if (isLoading) {
@@ -38,7 +61,6 @@ const LandingPage = () => {
         //if (!response.ok) throw new Error("Could not complete request");
         const data = await response.json();
         setGames(data);
-        return [null, data];
       } catch (error) {
         return [error.message, []];
       }
