@@ -8,6 +8,7 @@ import {
   useMapEvent,
   Rectangle,
   Tooltip,
+  Circle,
 } from "react-leaflet";
 import { createHeaders } from "../admin/CreateHeaders";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -24,7 +25,8 @@ function Map() {
     [0, 0],
   ]);
 
-  const fillRedOptions = { fillColor: "red" };
+  const fillZombie = { fillColor: "red" };
+  const fillHuman = { fillColor: "blue" };
 
   useEffect(() => {
     const findGames = async () => {
@@ -55,7 +57,7 @@ function Map() {
 
   //Get missions
   useEffect(() => {
-    const findGames = async () => {
+    const findMissions = async () => {
       const accessToken = await getAccessTokenSilently();
       try {
         const response = await fetch(
@@ -82,29 +84,10 @@ function Map() {
         return [error.message, []];
       }
     };
-    findGames();
+    findMissions();
   }, []);
 
-  console.log("++++");
-  console.log(missionCords);
-
-  console.log("------");
   missionCords.map((item) => console.log(item.missionLat, item.missionLng));
-
-  /*
-  cords.map((item) => console.log(item.missionLat, item.missionLng));
-
-  console.log(testyBoi);
-  */
-
-  /*
-  return missionCords.map(item => {
-    <Marker position={item.missionLat, item.missionLng} />
-    
-})
-}
-
-*/
 
   //Function to get all mission markers coordinaters
   function MultipleMarkers() {
@@ -114,7 +97,13 @@ function Map() {
       },
     });
     return missionCords.map((item) => {
-      return <Marker position={[item.missionLat, item.missionLng]} />;
+      return (
+        <Circle
+          center={[item.missionLat, item.missionLng]}
+          pathOptions={fillHuman}
+          radius={50}
+        />
+      );
     });
   }
 
@@ -134,7 +123,7 @@ function Map() {
 
         <MultipleMarkers />
         {/* test marker/ for missions */}
-        <Marker position={[59.931145, 10.79683]} />
+
         {/*Rectangle*/}
         <Rectangle
           bounds={getRectangle}
