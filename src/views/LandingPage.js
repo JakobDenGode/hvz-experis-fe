@@ -57,7 +57,7 @@ const LandingPage = () => {
   useEffect(() => {
     const findGames = async () => {
       try {
-        const response = await fetch(`${apiUrl}`);
+        const response = await fetch(apiUrl);
         //if (!response.ok) throw new Error("Could not complete request");
         const data = await response.json();
         setGames(data);

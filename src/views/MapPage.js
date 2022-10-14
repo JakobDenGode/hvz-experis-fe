@@ -12,7 +12,8 @@ import { storageSave } from "../utils/storage";
 const MapPage = () => {
   const gameId = useParams();
 
-  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameID}/player`;
+  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/player`;
+  const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}user/current`;
 
   const { getAccessTokenSilently } = useAuth0();
   const [submitting, setSubmitting] = useState(false);
@@ -30,22 +31,31 @@ const MapPage = () => {
 
   async function joinButton() {
     const accessToken = await getAccessTokenSilently();
+
     try {
+      /*
+      const response2 = await fetch(apiUrl2, {
+        method: "GET",
+        headers: createHeaders(accessToken),
+      });
+      console.log(response2);
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: createHeaders(accessToken),
-        body: JSON.stringify({
-          id: 0,
-          biteCode: "string",
-          game: gameId.gameId,
-          human: true,
-        }),
       });
+
       if (!response.ok) throw new Error("Could not create user with username");
       console.log(response);
+*/
       setSubmitting(true);
+      storageSave(STORAGE_KEY_PLAYER, {
+        id: 1,
+        type: "zombie",
+        bitecode: "3424234",
+      });
+      setPlayer({ id: 1, type: "zombie", bitecode: "3424234" });
 
-      return [null, response];
+      //return [null, response];
     } catch (error) {
       //setPostError(error.toString());
       return [error.message, []];
@@ -64,7 +74,6 @@ const MapPage = () => {
       ) : (
         <JoinButton handleOnClick={joinButton} />
       )}
-      <button onClick={test}>Hallo</button>
       <MobileNavBar />
     </>
   );
