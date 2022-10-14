@@ -51,10 +51,10 @@ const MapPage = () => {
       setSubmitting(true);
       storageSave(STORAGE_KEY_PLAYER, {
         id: result.player,
-        type: "zombie",
-        bitecode: "3424234",
+        type: "",
+        bitecode: "",
       });
-      setPlayer({ id: result.player, type: "zombie", bitecode: "3424234" });
+      setPlayer({ id: result.player, type: "", bitecode: "" });
 
       //return [null, response];
     } catch (error) {
