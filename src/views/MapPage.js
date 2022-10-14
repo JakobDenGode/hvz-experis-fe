@@ -5,16 +5,28 @@ import { createHeaders } from "../components/admin/CreateHeaders";
 import JoinButton from "../components/map/JoinButton";
 import Map from "../components/map/Map";
 import MobileNavBar from "../components/nav/MobileNavBar";
+import { STORAGE_KEY_PLAYER } from "../const/storageKeys";
 import { usePlayer } from "../context/PlayerContext";
-
-const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/player`;
+import { storageSave } from "../utils/storage";
 
 const MapPage = () => {
   const gameId = useParams();
-  console.log(gameId.gameId);
+
+  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameID}/player`;
+
   const { getAccessTokenSilently } = useAuth0();
   const [submitting, setSubmitting] = useState(false);
   const { player, setPlayer } = usePlayer();
+  console.log(player);
+
+  function test() {
+    storageSave(STORAGE_KEY_PLAYER, {
+      id: 1,
+      type: "zombie",
+      bitecode: "3424234",
+    });
+    setPlayer({ id: 1, type: "zombie", bitecode: "3424234" });
+  }
 
   async function joinButton() {
     const accessToken = await getAccessTokenSilently();
@@ -52,7 +64,7 @@ const MapPage = () => {
       ) : (
         <JoinButton handleOnClick={joinButton} />
       )}
-
+      <button onClick={test}>Hallo</button>
       <MobileNavBar />
     </>
   );

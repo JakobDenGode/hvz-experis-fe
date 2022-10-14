@@ -80,15 +80,20 @@ function CreateGame() {
           missions: [0],
         }),
       });
+      console.log(response);
+      //const result = await response.json();
+      //console.log(result);
       setPostSuccess(true);
       e.target.reset();
       setTimeout(() => {
         setDisplayModalForm(false);
       }, 1500);
       if (!response.ok) throw new Error("Could not create user with username");
-      console.log(response);
+      console.log(response.headers.get("Location"));
+
       return [null, response];
     } catch (error) {
+      console.log(error);
       setPostError(error.toString());
       return [error.message, []];
     } finally {

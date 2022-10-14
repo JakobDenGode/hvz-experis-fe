@@ -5,21 +5,28 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { usePlayer } from "../../context/PlayerContext";
 
 function MobileNavBar() {
   const { gameId } = useParams();
   console.log(gameId);
   const { isAuthenticated, user } = useAuth0();
 
+  const { player, setPlayer } = usePlayer();
+
+  /*
   if (user) {
     console.log(user["http://demozero.net/roles"]);
-  }
+  }player.type === "zombie" ? "dark" : "light"
   console.log(isAuthenticated);
+  */
 
   return (
     <>
       <Navbar
-        bg="light"
+        bg={`${
+          !player ? "light" : player.type === "zombie" ? "secondary" : "primary"
+        }`}
         expand="lg"
         className="position-fixed w-100 bottom-0 right-0 border"
       >

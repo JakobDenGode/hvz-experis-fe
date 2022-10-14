@@ -4,6 +4,7 @@ import Heading from "../common/Heading";
 import HeaderNavBar from "../components/nav/HeaderNavBar";
 import MobileNavBar from "../components/nav/MobileNavBar";
 import { useParams } from "react-router-dom";
+import { usePlayer } from "../context/PlayerContext";
 
 const apiUrl = "https://hvz-api-noroff.herokuapp.com/squad";
 
@@ -12,6 +13,9 @@ const apiUrl = "https://hvz-api-noroff.herokuapp.com/squad";
 function SquadPage() {
   const gameId = useParams();
   console.log(gameId);
+
+  const { player, setPlayer } = usePlayer();
+  console.log(player);
 
   useEffect(() => {
     console.log("squad");
