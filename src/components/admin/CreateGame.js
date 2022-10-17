@@ -42,7 +42,7 @@ function CreateGame() {
   const [submitting, setSubmitting] = useState(false);
   const [postError, setPostError] = useState(null);
   const [postSuccess, setPostSuccess] = useState(false);
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
   const {
     register,
@@ -103,9 +103,11 @@ function CreateGame() {
 
   return (
     <>
-      <Button onClick={displayModal} className="w-100 mt-3 mb-3">
-        Create Game
-      </Button>
+      {user && user["http://demozero.net/roles"].length > 0 && (
+        <Button onClick={displayModal} className="w-100 mt-3 mb-3">
+          Create Game
+        </Button>
+      )}
       <div className={`modal ${displayModalForm ? "d-block" : "d-none"}`}>
         <Form
           onSubmit={handleSubmit(onSubmit)}

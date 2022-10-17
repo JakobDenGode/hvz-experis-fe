@@ -68,12 +68,16 @@ const LandingPage = () => {
     findGames();
   }, [apiUrl]);
 
-  //console.log(isAuthenticated);
-
   return (
     <>
       <div>
-        <Heading title="Games" />
+        <Heading
+          title={
+            user && user["http://demozero.net/roles"].length > 0
+              ? "Admin"
+              : "Games"
+          }
+        />
         <CreateGame />
         <GameList games={games} />
       </div>

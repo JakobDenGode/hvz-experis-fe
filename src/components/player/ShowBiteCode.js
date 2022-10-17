@@ -104,7 +104,7 @@ function ShowBiteCode() {
             &times;
           </span>
           <h4>Your bite code</h4>
-          {player && <p>#{player.bitecode}</p>}
+          {player && <p>{player.bitecode}</p>}
         </Form>
       </div>
       <div className={`modal ${displayZombieCode ? "d-block" : "d-none"}`}>
@@ -139,7 +139,7 @@ function ShowBiteCode() {
           </fieldset>
           {postError && (
             <FormMessage styling="form--error">
-              You faild to bite the victim
+              You failed to bite the victim
             </FormMessage>
           )}
           {postSuccess && (

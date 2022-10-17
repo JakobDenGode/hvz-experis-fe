@@ -11,15 +11,14 @@ import { storageSave } from "../utils/storage";
 
 const MapPage = () => {
   const gameId = useParams();
-
-  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/player`;
-  const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}user/current`;
-
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const [submitting, setSubmitting] = useState(false);
   const { player, setPlayer } = usePlayer();
   const navigate = useNavigate();
   console.log(player);
+
+  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/player`;
+  const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}user/current`;
 
   async function joinButton() {
     const accessToken = await getAccessTokenSilently();
@@ -30,28 +29,40 @@ const MapPage = () => {
         headers: createHeaders(accessToken),
       });
 
-      const response2 = await fetch(apiUrl2, {
+      const playerId = await fetch(apiUrl2, {
         method: "GET",
         headers: createHeaders(accessToken),
       });
-      const result = await response2.json();
-      console.log(result);
+
+      const playerIdResult = await playerId.json();
+
+      const apiUrl3 = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/player/${playerIdResult.player}`;
+
+      const biteCode = await fetch(apiUrl3, {
+        method: "GET",
+        headers: createHeaders(accessToken),
+      });
+      const biteCodeIdResult = await biteCode.json();
 
       if (!response.ok) throw new Error("Could not create user with username");
       console.log(response);
 
       setSubmitting(true);
       storageSave(STORAGE_KEY_PLAYER, {
-        id: result.player,
-        human: "true",
-        bitecode: "",
+        id: playerIdResult.player,
+        human: "false",
+        bitecode: biteCodeIdResult.biteCode,
       });
-      setPlayer({ id: result.player, type: "", bitecode: "" });
+      setPlayer({
+        id: playerIdResult.player,
+        human: "false",
+        bitecode: biteCodeIdResult.biteCode,
+      });
 
       window.history.replaceState(
         null,
         "",
-        `/game/${gameId.gameId}/player/${result.player}/map`
+        `/game/${gameId.gameId}/player/${playerIdResult.player}/map`
       );
     } catch (error) {
       //setPostError(error.toString());
@@ -64,10 +75,14 @@ const MapPage = () => {
   return (
     <div className="position-relative">
       <Map />
-      {submitting ? (
-        <div className="text-center">Player is added</div>
-      ) : (
-        <JoinButton handleOnClick={joinButton} />
+      {user && !user["http://demozero.net/roles"].length > 0 && (
+        <div>
+          {submitting ? (
+            <div className="text-center">Player is added</div>
+          ) : (
+            <JoinButton handleOnClick={joinButton} />
+          )}
+        </div>
       )}
       <MobileNavBar />
     </div>

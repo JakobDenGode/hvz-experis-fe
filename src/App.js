@@ -46,6 +46,10 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/games/:gameId/squad" element={<SquadPage />} />
+            <Route
+              path="/games/:gameId/player/:playerId/squad"
+              element={<SquadPage />}
+            />
             <Route path="/games/:gameId/chat" element={<ChatPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/games/:gameId/edit" element={<EditPage />} />
