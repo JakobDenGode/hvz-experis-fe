@@ -23,7 +23,7 @@ const LandingPage = () => {
   console.log(user);
 
   useEffect(() => {
-    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}user/register`;
+    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}users`;
     const postUser = async () => {
       if (user) {
         const accessToken = await getAccessTokenSilently();
@@ -52,7 +52,7 @@ const LandingPage = () => {
 
   const [games, setGames] = useState([]);
 
-  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game`;
+  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games`;
 
   useEffect(() => {
     const findGames = async () => {

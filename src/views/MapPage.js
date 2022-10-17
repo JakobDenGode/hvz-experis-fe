@@ -17,8 +17,8 @@ const MapPage = () => {
   const navigate = useNavigate();
   console.log(player);
 
-  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/player`;
-  const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}user/current`;
+  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players`;
+  const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}users/current`;
 
   async function joinButton() {
     const accessToken = await getAccessTokenSilently();
@@ -36,7 +36,7 @@ const MapPage = () => {
 
       const playerIdResult = await playerId.json();
 
-      const apiUrl3 = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/player/${playerIdResult.player}`;
+      const apiUrl3 = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players/${playerIdResult.player}`;
 
       const biteCode = await fetch(apiUrl3, {
         method: "GET",
@@ -50,12 +50,12 @@ const MapPage = () => {
       setSubmitting(true);
       storageSave(STORAGE_KEY_PLAYER, {
         id: playerIdResult.player,
-        human: "false",
+        human: "true",
         bitecode: biteCodeIdResult.biteCode,
       });
       setPlayer({
         id: playerIdResult.player,
-        human: "false",
+        human: "true",
         bitecode: biteCodeIdResult.biteCode,
       });
 
@@ -75,15 +75,12 @@ const MapPage = () => {
   return (
     <div className="position-relative">
       <Map />
-      {user && !user["http://demozero.net/roles"].length > 0 && (
+      {user && !user["http://demozero.net/roles"].length > 0 && !player && (
         <div>
-          {submitting ? (
-            <div className="text-center">Player is added</div>
-          ) : (
-            <JoinButton handleOnClick={joinButton} />
-          )}
+          <JoinButton handleOnClick={joinButton} />
         </div>
       )}
+      {submitting && <div className="text-center">Player is added</div>}
       <MobileNavBar />
     </div>
   );
