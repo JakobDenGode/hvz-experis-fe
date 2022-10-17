@@ -50,6 +50,10 @@ function App() {
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/games/:gameId/edit" element={<EditPage />} />
             <Route path="games/:gameId/map" element={<MapPage />} />
+            <Route
+              path="games/:gameId/player/:playerId/map"
+              element={<MapPage />}
+            />
           </Routes>
         </Container>
       </Auth0ProviderWithRedirectCallback>

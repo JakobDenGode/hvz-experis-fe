@@ -1,6 +1,6 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import React, { useState } from "react";
-import { json, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { json, Link, useNavigate, useParams } from "react-router-dom";
 import { createHeaders } from "../components/admin/CreateHeaders";
 import JoinButton from "../components/map/JoinButton";
 import Map from "../components/map/Map";
@@ -18,6 +18,7 @@ const MapPage = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [submitting, setSubmitting] = useState(false);
   const { player, setPlayer } = usePlayer();
+  const navigate = useNavigate();
   console.log(player);
 
   async function joinButton() {
@@ -47,7 +48,11 @@ const MapPage = () => {
       });
       setPlayer({ id: result.player, type: "", bitecode: "" });
 
-      //return [null, response];
+      window.history.replaceState(
+        null,
+        "",
+        `/game/${gameId.gameId}/player/${result.player}/map`
+      );
     } catch (error) {
       //setPostError(error.toString());
       return [error.message, []];
@@ -55,8 +60,6 @@ const MapPage = () => {
       //setSubmitting(false);
     }
   }
-
-  //console.log(useAuth0());
 
   return (
     <div className="position-relative">
