@@ -14,6 +14,7 @@ import Container from "react-bootstrap/Container";
 import AdminPage from "./views/EditPage";
 import { Auth0Provider } from "@auth0/auth0-react";
 import EditPage from "./views/EditPage";
+import { usePlayer } from "./context/PlayerContext";
 
 const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
 
 function App() {
   const { gameId } = useParams();
+  const { player, setPlayer } = usePlayer();
+  console.log(player);
 
   return (
     <BrowserRouter>

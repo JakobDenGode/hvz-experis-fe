@@ -20,15 +20,6 @@ const MapPage = () => {
   const { player, setPlayer } = usePlayer();
   console.log(player);
 
-  function test() {
-    storageSave(STORAGE_KEY_PLAYER, {
-      id: 1,
-      type: "zombie",
-      bitecode: "3424234",
-    });
-    setPlayer({ id: 1, type: "zombie", bitecode: "3424234" });
-  }
-
   async function joinButton() {
     const accessToken = await getAccessTokenSilently();
 
@@ -51,7 +42,7 @@ const MapPage = () => {
       setSubmitting(true);
       storageSave(STORAGE_KEY_PLAYER, {
         id: result.player,
-        type: "",
+        human: "true",
         bitecode: "",
       });
       setPlayer({ id: result.player, type: "", bitecode: "" });
@@ -68,7 +59,7 @@ const MapPage = () => {
   //console.log(useAuth0());
 
   return (
-    <>
+    <div className="position-relative">
       <Map />
       {submitting ? (
         <div className="text-center">Player is added</div>
@@ -76,7 +67,7 @@ const MapPage = () => {
         <JoinButton handleOnClick={joinButton} />
       )}
       <MobileNavBar />
-    </>
+    </div>
   );
 };
 

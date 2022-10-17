@@ -35,7 +35,7 @@ function ShowBiteCode() {
   });
 
   function showBiteCode() {
-    if (player.type === "human") {
+    if (player.human === "true") {
       setDisplayHumanCode(!displayHumanCode);
     } else {
       setDisplayZombieCode(!displayZombieCode);
@@ -84,7 +84,7 @@ function ShowBiteCode() {
         <Button
           onClick={showBiteCode}
           className={`${
-            player.type === "zombie" ? "btn-secondary" : "btn-primary"
+            player.human === "true" ? "btn-secondary" : "btn-primary"
           }`}
         >
           Bite Code

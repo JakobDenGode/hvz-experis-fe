@@ -6,7 +6,7 @@ function JoinButton({ handleOnClick }) {
     <div className="text-center">
       <Button
         onClick={handleOnClick}
-        className="border w-50 rounded-circle text-center mx-auto"
+        className="border rounded-circle join-button position-absolute start-50 translate-middle"
       >
         Join!
       </Button>

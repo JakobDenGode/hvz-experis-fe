@@ -25,7 +25,11 @@ function MobileNavBar() {
     <>
       <Navbar
         bg={`${
-          !player ? "light" : player.type === "zombie" ? "secondary" : "primary"
+          !player
+            ? "secondary"
+            : player.human === "false"
+            ? "primary"
+            : "secondary"
         }`}
         expand="lg"
         className="position-fixed w-100 bottom-0 right-0 border"

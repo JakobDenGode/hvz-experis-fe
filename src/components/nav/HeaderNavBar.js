@@ -8,7 +8,15 @@ function HeaderNavBar({ title }) {
   const navigate = useNavigate();
 
   function goToLanding() {
-    navigate("/");
+    const confirmLogOut = window.confirm("Are you sure you want to log out?");
+
+    if (confirmLogOut) {
+      navigate("/");
+
+      // delete player
+      // delete squad
+      // delete local storage
+    }
   }
 
   return (
