@@ -73,7 +73,7 @@ const LandingPage = () => {
       <div>
         <Heading
           title={
-            user && user["http://demozero.net/roles"].length > 0
+            user && user["https//:hvz-server.com/roles"].length > 0
               ? "Admin"
               : "Games"
           }

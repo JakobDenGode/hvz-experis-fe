@@ -96,10 +96,11 @@ function CreateGame() {
       setSubmitting(false);
     }
   }
+  console.log(user);
 
   return (
     <>
-      {user && user["http://demozero.net/roles"].length > 0 && (
+      {user && user["https//:hvz-server.com/roles"].length > 0 && (
         <Button onClick={displayModal} className="w-100 mt-3 mb-3">
           Create Game
         </Button>

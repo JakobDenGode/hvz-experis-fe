@@ -75,7 +75,7 @@ const MapPage = () => {
   return (
     <div className="position-relative">
       <Map />
-      {user && !user["http://demozero.net/roles"].length > 0 && !player && (
+      {user && !user["https//:hvz-server.com/roles"].length > 0 && !player && (
         <div>
           <JoinButton handleOnClick={joinButton} />
         </div>

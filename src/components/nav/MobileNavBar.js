@@ -51,7 +51,7 @@ function MobileNavBar() {
             ) : (
               <Link to={`/games/${gameId}/map`}>Map</Link>
             )}
-            {user && user["http://demozero.net/roles"].length > 0 && (
+            {user && user["https//:hvz-server.com/roles"].length > 0 && (
               <>
                 <Link to={`/games/${gameId}/chat`}>Chat</Link>
                 <Link to={`/games/${gameId}/edit`}>Edit</Link>
