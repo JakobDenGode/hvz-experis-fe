@@ -5,6 +5,9 @@ import EditGame from "./EditGame";
 import EditMissions from "./EditMissions";
 import EditSquads from "./EditSquads";
 import EditCreatedGame from "./EditCreatedGame";
+import { useParams } from "react-router-dom";
+import HeaderNavBar from "../nav/HeaderNavBar";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function EditList() {
   return (
