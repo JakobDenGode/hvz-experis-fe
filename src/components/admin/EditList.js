@@ -5,13 +5,14 @@ import EditGame from "./EditGame";
 import EditMissions from "./EditMissions";
 import EditSquads from "./EditSquads";
 import EditCreatedGame from "./EditCreatedGame";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import HeaderNavBar from "../nav/HeaderNavBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createHeaders } from "../admin/CreateHeaders";
 import { Button } from "react-bootstrap";
 
 function EditList() {
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
   const [gameData, setGame] = useState([]);
@@ -26,6 +27,7 @@ function EditList() {
         method: "DELETE",
       }
     );
+    navigate("/");
     console.log("deleted");
   };
 
