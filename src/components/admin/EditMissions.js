@@ -4,7 +4,6 @@ import { Form, Button, Col, Container, Row } from "react-bootstrap";
 function EditMissions() {
   return (
     <div>
-      <Button className="w-100">Create mission</Button>
       <Form className="bg-secondary rounded mt-3 mb-3">
         <h2 className="text-center">Game</h2>
 
