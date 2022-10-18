@@ -12,7 +12,7 @@ function EditGame() {
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    const findGames = async () => {
+    const findPlayers = async () => {
       const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players`;
       const accessToken = await getAccessTokenSilently();
       try {
@@ -28,7 +28,7 @@ function EditGame() {
         return [error.message, []];
       }
     };
-    findGames();
+    findPlayers();
   }, []);
 
   function toggleHumanZombie(id) {
