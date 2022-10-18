@@ -23,7 +23,7 @@ const LandingPage = () => {
   console.log(user);
 
   useEffect(() => {
-    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}user/register`;
+    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}users`;
     const postUser = async () => {
       if (user) {
         const accessToken = await getAccessTokenSilently();
@@ -52,12 +52,12 @@ const LandingPage = () => {
 
   const [games, setGames] = useState([]);
 
-  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game`;
+  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games`;
 
   useEffect(() => {
     const findGames = async () => {
       try {
-        const response = await fetch(`${apiUrl}`);
+        const response = await fetch(apiUrl);
         //if (!response.ok) throw new Error("Could not complete request");
         const data = await response.json();
         setGames(data);
@@ -68,12 +68,16 @@ const LandingPage = () => {
     findGames();
   }, [apiUrl]);
 
-  //console.log(isAuthenticated);
-
   return (
     <>
       <div>
-        <Heading title="Games" />
+        <Heading
+          title={
+            user && user["https//:hvz-server.com/roles"].length > 0
+              ? "Admin"
+              : "Games"
+          }
+        />
         <CreateGame />
         <GameList games={games} />
       </div>

@@ -34,8 +34,13 @@ function ShowBiteCode() {
     resolver: yupResolver(schema),
   });
 
-  function showBiteCode() {
-    if (player.type === "human") {
+  async function showBiteCode() {
+    const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/player/Sjekk1`;
+
+    try {
+    } catch {}
+
+    if (player.human === "true") {
       setDisplayHumanCode(!displayHumanCode);
     } else {
       setDisplayZombieCode(!displayZombieCode);
@@ -84,7 +89,7 @@ function ShowBiteCode() {
         <Button
           onClick={showBiteCode}
           className={`${
-            player.type === "zombie" ? "btn-secondary" : "btn-primary"
+            player.human === "true" ? "btn-secondary" : "btn-primary"
           }`}
         >
           Bite Code
@@ -99,7 +104,7 @@ function ShowBiteCode() {
             &times;
           </span>
           <h4>Your bite code</h4>
-          {player && <p>#{player.bitecode}</p>}
+          {player && <p>{player.bitecode}</p>}
         </Form>
       </div>
       <div className={`modal ${displayZombieCode ? "d-block" : "d-none"}`}>
@@ -134,7 +139,7 @@ function ShowBiteCode() {
           </fieldset>
           {postError && (
             <FormMessage styling="form--error">
-              You faild to bite the victim
+              You failed to bite the victim
             </FormMessage>
           )}
           {postSuccess && (

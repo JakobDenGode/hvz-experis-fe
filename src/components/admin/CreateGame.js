@@ -7,7 +7,7 @@ import { createHeaders } from "./CreateHeaders";
 import FormMessage from "../../common/FormMessage";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game`;
+const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games`;
 
 const schema = yup.object().shape({
   gameTitle: yup
@@ -42,7 +42,7 @@ function CreateGame() {
   const [submitting, setSubmitting] = useState(false);
   const [postError, setPostError] = useState(null);
   const [postSuccess, setPostSuccess] = useState(false);
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
   const {
     register,
@@ -68,16 +68,12 @@ function CreateGame() {
         method: "POST",
         headers: createHeaders(accessToken),
         body: JSON.stringify({
-          id: 0,
           gameTitle: data.gameTitle,
-          gameState: "REGISTRATION",
           gameDescription: data.gameDescription,
           nw_lat: data.nw_lat,
           nw_lng: data.nw_lng,
           se_lat: data.se_lat,
           se_lng: data.se_lng,
-          players: [0],
-          missions: [0],
         }),
       });
       console.log(response);
@@ -100,12 +96,15 @@ function CreateGame() {
       setSubmitting(false);
     }
   }
+  console.log(user);
 
   return (
     <>
-      <Button onClick={displayModal} className="w-100 mt-3 mb-3">
-        Create Game
-      </Button>
+      {user && user["https//:hvz-server.com/roles"].length > 0 && (
+        <Button onClick={displayModal} className="w-100 mt-3 mb-3">
+          Create Game
+        </Button>
+      )}
       <div className={`modal ${displayModalForm ? "d-block" : "d-none"}`}>
         <Form
           onSubmit={handleSubmit(onSubmit)}
