@@ -1,12 +1,8 @@
-import React from "react";
-import { Col } from "react-bootstrap";
+import React, { useState } from "react";
+import { Col, Form } from "react-bootstrap";
 
-function PlayerItem({ id, state }) {
-  console.log(state);
-
-  function deletePlayer() {
-    console.log("hi");
-  }
+function PlayerItem({ id, state, onToggleClick }) {
+  function deletePlayer() {}
   return (
     <>
       <Col className="my-2 mx-auto" xs={4}>
@@ -20,7 +16,12 @@ function PlayerItem({ id, state }) {
         xs={4}
       >
         <label className="switch">
-          <input type="checkbox" id="featured" />
+          <Form.Control
+            onChange={() => onToggleClick(id)}
+            checked={state}
+            type="checkbox"
+            id="featured"
+          />
           <span className="slider round"></span>
         </label>
         <span onClick={deletePlayer} className="fs-2 pb-1">

@@ -8,6 +8,7 @@ import { createHeaders } from "./CreateHeaders";
 function EditGame() {
   const gameId = useParams();
   const [players, setPlayers] = useState([]);
+  const [toggle, setToggle] = useState();
   const { getAccessTokenSilently } = useAuth0();
 
   const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players`;
@@ -29,7 +30,21 @@ function EditGame() {
       }
     };
     findGames();
-  }, [apiUrl]);
+  }, []);
+
+  function toggleHumanZombie(id) {
+    const newPlayers = players.map((player) => {
+      // find the same id as you click on
+      console.log(player);
+      if (player.id === id) {
+        return { ...player, human: !player.human };
+      }
+      return player;
+    });
+
+    setPlayers(newPlayers);
+    console.log(players);
+  }
 
   return (
     <div>
@@ -48,7 +63,7 @@ function EditGame() {
               Change
             </Col>
           </Row>
-          <PlayerList players={players} />
+          <PlayerList players={players} onToggleClick={toggleHumanZombie} />
         </Container>
       </Form>
       <Button className="w-100 border-danger bg-danger">Delete game</Button>
