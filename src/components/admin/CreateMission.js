@@ -84,8 +84,6 @@ function CreateMission() {
         }),
       });
       console.log(response);
-      //const result = await response.json();
-      //console.log(result);
       setPostSuccess(true);
       e.target.reset();
       setTimeout(() => {

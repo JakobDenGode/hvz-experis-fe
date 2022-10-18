@@ -11,10 +11,9 @@ function EditGame() {
   const [toggle, setToggle] = useState();
   const { getAccessTokenSilently } = useAuth0();
 
-  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players`;
-
   useEffect(() => {
     const findGames = async () => {
+      const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players`;
       const accessToken = await getAccessTokenSilently();
       try {
         const response = await fetch(apiUrl, {
@@ -37,6 +36,28 @@ function EditGame() {
       // find the same id as you click on
       console.log(player);
       if (player.id === id) {
+        const updatePlayer = async () => {
+          const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players/${id}`;
+          const accessToken = await getAccessTokenSilently();
+          try {
+            const response = await fetch(apiUrl2, {
+              method: "PUT",
+              headers: createHeaders(accessToken),
+              body: JSON.stringify({
+                id: id,
+                game: gameId.gameId,
+                human: !player.human,
+              }),
+            });
+            console.log(response);
+            if (!response.ok) throw new Error("Could not register kill");
+          } catch (error) {
+            console.log(error);
+            return [error.message, []];
+          }
+        };
+        updatePlayer();
+
         return { ...player, human: !player.human };
       }
       return player;
