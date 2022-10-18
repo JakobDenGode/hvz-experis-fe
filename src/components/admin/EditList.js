@@ -8,7 +8,7 @@ import EditCreatedGame from "./EditCreatedGame";
 
 function EditList() {
   return (
-    <Accordion className="mt-2">
+    <Accordion className="mt-2" defaultActiveKey="0">
       <Accordion.Item eventKey="0">
         <Accordion.Header className="text-end">Game Info</Accordion.Header>
         <Accordion.Body>
