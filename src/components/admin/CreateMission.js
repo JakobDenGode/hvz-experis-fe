@@ -38,13 +38,14 @@ function CreateMission() {
   const { user, getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
 
-  const [checked, setChecked] = useState(false);
-  const [radioValue, setRadioValue] = useState("1");
+  const [radioValue, setRadioValue] = useState("HUMAN");
 
   const radioButtons = [
-    { name: "HUMAN", value: "1" },
-    { name: "ZOMBIE", value: "2" },
+    { name: "HUMAN", value: "HUMAN" },
+    { name: "ZOMBIE", value: "ZOMBIE" },
   ];
+
+  console.log(radioValue);
 
   const {
     register,
@@ -60,11 +61,45 @@ function CreateMission() {
 
   async function onSubmit(data, e) {
     console.log(data);
+    console.log(radioValue);
     setSubmitting(true);
     setPostError(null);
 
     const accessToken = await getAccessTokenSilently();
     const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: createHeaders(accessToken),
+        body: JSON.stringify({
+          missionName: data.missionName,
+          missionDescription: data.missionDescription,
+          missionVisibility: data.missionVisibility,
+          startTime: data.startTime,
+          endTime: data.endTime,
+          missionLat: data.missionLat,
+          missionLat: data.missionLat,
+          game: gameId.gameId,
+        }),
+      });
+      console.log(response);
+      //const result = await response.json();
+      //console.log(result);
+      setPostSuccess(true);
+      e.target.reset();
+      setTimeout(() => {
+        setDisplayModalForm(false);
+      }, 1500);
+      if (!response.ok) throw new Error("Could not create user with username");
+      return [null, response];
+    } catch (error) {
+      console.log(error);
+      setPostError(error.toString());
+      return [error.message, []];
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -121,7 +156,7 @@ function CreateMission() {
                   key={idx}
                   id={`radio-${idx}`}
                   type="radio"
-                  variant={idx % 2 ? "outline-success" : "outline-danger"}
+                  variant={idx % 2 ? "outline-primary" : "outline-secondary"}
                   name="radio"
                   value={radio.value}
                   checked={radioValue === radio.value}
