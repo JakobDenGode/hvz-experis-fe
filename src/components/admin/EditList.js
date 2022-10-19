@@ -48,8 +48,8 @@ function EditList() {
       <Accordion.Item eventKey="0">
         <Accordion.Header className="text-end">Game Info</Accordion.Header>
         <Accordion.Body>
-          <EditGame />
           <EditCreatedGame />
+          <EditGame />
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="1">

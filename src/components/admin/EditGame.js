@@ -16,6 +16,18 @@ function EditGame() {
   const [toggle, setToggle] = useState();
   const { getAccessTokenSilently } = useAuth0();
 
+  function goToLanding() {
+    const confirmLogOut = window.confirm(
+      "Are you sure you want to delete the game?"
+    );
+    if (confirmLogOut) {
+      // delete player
+      deleteGame();
+      // Navigate back to LandingPage
+      navigate("/");
+    }
+  }
+
   //Delete a game
   let deleteGame = async () => {
     const accessToken = await getAccessTokenSilently();
@@ -26,8 +38,6 @@ function EditGame() {
         method: "DELETE",
       }
     );
-    navigate("/");
-    console.log("deleted");
   };
 
   useEffect(() => {
@@ -106,8 +116,8 @@ function EditGame() {
           <PlayerList players={players} onToggleClick={toggleHumanZombie} />
         </Container>
       </Form>
-      <Button className="w-100 border-danger bg-danger" onClick={deleteGame}>
-        Delete current game
+      <Button className="w-100 border-danger bg-danger" onClick={goToLanding}>
+        Delete game
       </Button>
     </div>
   );
