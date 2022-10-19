@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 import { usePlayer } from "../../context/PlayerContext";
@@ -15,6 +16,9 @@ function GameItem({ gameTitle, gameState, players, id }) {
           <p>{gameState}</p>
         </Link>
       }
+      <Link to={`/games/${id}/admin`}>
+        <Button className="w-100">Edit game</Button>
+      </Link>
     </Col>
   );
 }

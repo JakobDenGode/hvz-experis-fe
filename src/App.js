@@ -51,7 +51,7 @@ function App() {
               element={<SquadPage />}
             />
             <Route path="/games/:gameId/chat" element={<ChatPage />} />
-            <Route path="/admin" element={<AdminPage />} />
+            <Route path="games/:gameId/admin" element={<AdminPage />} />
             <Route path="/games/:gameId/edit" element={<EditPage />} />
             <Route path="games/:gameId/map" element={<MapPage />} />
             <Route

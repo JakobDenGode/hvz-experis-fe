@@ -1,6 +1,31 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
+
+import Accordion from "react-bootstrap/Accordion";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { createHeaders } from "../admin/CreateHeaders";
+
+function EditGame() {
+  const navigate = useNavigate();
+  const { getAccessTokenSilently } = useAuth0();
+  const gameId = useParams();
+
+  //Delete a game
+  let deleteGame = async () => {
+    const accessToken = await getAccessTokenSilently();
+    await fetch(
+      `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}`,
+      {
+        headers: createHeaders(accessToken),
+        method: "DELETE",
+      }
+    );
+    navigate("/");
+    console.log("deleted");
+  };
+
 import { useParams } from "react-router-dom";
 import PlayerList from "../player-list/PlayerList";
 import { createHeaders } from "./CreateHeaders";
@@ -87,7 +112,9 @@ function EditGame() {
           <PlayerList players={players} onToggleClick={toggleHumanZombie} />
         </Container>
       </Form>
-      <Button className="w-100 border-danger bg-danger">Delete game</Button>
+      <Button className="w-100 border-danger bg-danger" onClick={deleteGame}>
+        Delete current game
+      </Button>
     </div>
   );
 }

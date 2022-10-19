@@ -6,8 +6,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { createHeaders } from "./CreateHeaders";
 import FormMessage from "../../common/FormMessage";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useParams } from "react-router-dom";
 
-const apiUrl = "https://hvz-api-noroff.herokuapp.com/game";
+const apiUrl = "https://hvz-api-noroff.herokuapp.com/api/v1/games";
 
 const schema = yup.object().shape({
   gameTitle: yup
@@ -43,6 +44,7 @@ function EditCreatedGame() {
   const [postError, setPostError] = useState(null);
   const [postSuccess, setPostSuccess] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
+  const gameId = useParams();
 
   const {
     register,
@@ -64,22 +66,25 @@ function EditCreatedGame() {
     const accessToken = await getAccessTokenSilently();
 
     try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: createHeaders(accessToken),
-        body: JSON.stringify({
-          id: 0,
-          gameTitle: data.gameTitle,
-          gameState: "REGISTRATION",
-          gameDescription: data.gameDescription,
-          nw_lat: data.nw_lat,
-          nw_lng: data.nw_lng,
-          se_lat: data.se_lat,
-          se_lng: data.se_lng,
-          players: [0],
-          missions: [0],
-        }),
-      });
+      const response = await fetch(
+        `https://hvz-api-noroff.herokuapp.com/api/v1/games/${gameId.gameId}`,
+        {
+          method: "PUT",
+          headers: createHeaders(accessToken),
+          body: JSON.stringify({
+            id: gameId.gameId,
+            gameTitle: data.gameTitle,
+            gameState: "REGISTRATION",
+            gameDescription: data.gameDescription,
+            nw_lat: data.nw_lat,
+            nw_lng: data.nw_lng,
+            se_lat: data.se_lat,
+            se_lng: data.se_lng,
+          }),
+        }
+      );
+      console.log("test");
+      console.log(data);
       setPostSuccess(true);
       e.target.reset();
       setTimeout(() => {
