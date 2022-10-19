@@ -14,7 +14,7 @@ import {
 import L from "leaflet";
 import { createHeaders } from "../admin/CreateHeaders";
 import { useAuth0 } from "@auth0/auth0-react";
-
+import { usePlayer } from "../../context/PlayerContext";
 import HeaderNavBar from "../nav/HeaderNavBar";
 
 import { divIcon } from "leaflet";
@@ -23,6 +23,7 @@ import { Button } from "react-bootstrap";
 function Map() {
   const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
+  const { player, setPlayer } = usePlayer();
   const [gameData, setGame] = useState([]);
   const [cords, setCords] = useState([]);
   const [missionCords, setMissionCords] = useState([]);
@@ -52,8 +53,7 @@ function Map() {
           `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}`,
           { headers: createHeaders(accessToken) }
         );
-        //if (!response.ok) throw new Error("Could not complete request");
-        console.log(response);
+
         const data = await response.json();
         setGame(data);
         //get coordinates for marker
@@ -77,22 +77,13 @@ function Map() {
       const accessToken = await getAccessTokenSilently();
       try {
         const response = await fetch(
-          `https://hvz-api-noroff.herokuapp.com/api/v1/games/${gameId.gameId}/missions/1`,
+          `https://hvz-api-noroff.herokuapp.com/api/v1/games/${gameId.gameId}/missions/${player.id}`,
           { headers: createHeaders(accessToken) }
         );
-        //if (!response.ok) throw new Error("Could not complete request");
-        console.log(response);
+
         const data = await response.json();
 
-        console.log("-------");
-        console.log(data);
-        console.log("here");
-        data.map((item) =>
-          console.log(item.missionName, item.missionLat, item.missionLng)
-        );
-
         setMissionCords(data);
-        console.log(missionCords);
 
         return [null, data];
       } catch (error) {
@@ -101,8 +92,6 @@ function Map() {
     };
     findMissions();
   }, []);
-
-  missionCords.map((item) => console.log(item.missionLat, item.missionLng));
 
   //Function to get all mission markers
   function MultipleMarkers() {
@@ -138,9 +127,6 @@ function Map() {
         map.flyTo(e.latlng, map.getZoom());
       },
     });
-
-    console.log("Player location: ");
-    console.log(position);
 
     return position === null ? null : (
       <Marker position={position}>
@@ -182,12 +168,3 @@ function Map() {
 }
 
 export default Map;
-
-/*
-<Marker
-  position={mapsData.map(function (data) {
-    return data.coordinates;
-  })}
-/>;
-
-*/
