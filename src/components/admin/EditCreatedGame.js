@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup, Form, ToggleButton } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -45,13 +45,38 @@ function EditCreatedGame() {
   const [postSuccess, setPostSuccess] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
+  const [gameData, setGame] = useState([]);
 
-  const [radioValue, setRadioValue] = useState();
+  const [stateValue, setStateValue] = useState();
   const radioButtons = [
     { name: "REGISTRATION", value: "REGISTRATION" },
     { name: "IN_PROGRESS", value: "IN_PROGRESS" },
     { name: "COMPLETE", value: "COMPLETE" },
   ];
+
+  //Get data to display
+  //Get game
+  useEffect(() => {
+    const findGames = async () => {
+      const accessToken = await getAccessTokenSilently();
+      try {
+        const response = await fetch(
+          `https://hvz-api-noroff.herokuapp.com/api/v1/games/${gameId.gameId}`,
+          { headers: createHeaders(accessToken) }
+        );
+        //if (!response.ok) throw new Error("Could not complete request");
+        console.log("responsen min: ");
+        console.log(response);
+        const data = await response.json();
+        setGame(data);
+        console.log(gameData);
+        return [null, data];
+      } catch (error) {
+        return [error.message, []];
+      }
+    };
+    findGames();
+  }, []);
 
   const {
     register,
@@ -66,7 +91,7 @@ function EditCreatedGame() {
   }
 
   async function onSubmit(data, e) {
-    console.log(radioValue);
+    console.log(stateValue);
     setSubmitting(true);
     setPostError(null);
 
@@ -81,7 +106,7 @@ function EditCreatedGame() {
           body: JSON.stringify({
             id: gameId.gameId,
             gameTitle: data.gameTitle,
-            gameState: data.radioValue,
+            gameState: stateValue,
             gameDescription: data.gameDescription,
             nw_lat: data.nw_lat,
             nw_lng: data.nw_lng,
@@ -91,7 +116,7 @@ function EditCreatedGame() {
         }
       );
       console.log("my radio: ");
-      console.log(radioValue);
+      console.log(stateValue);
       console.log("test");
       console.log(data);
       setPostSuccess(true);
@@ -131,7 +156,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("gameTitle")}
               id="gameTitle"
-              placeholder="Title of game"
+              defaultValue={gameData.gameTitle}
             />
             {errors.gameTitle && (
               <div className="mb-3 text-danger">{errors.gameTitle.message}</div>
@@ -224,8 +249,8 @@ function EditCreatedGame() {
                   variant={"outline-primary"}
                   name="radio"
                   value={radio.value}
-                  checked={radioValue === radio.value}
-                  onChange={(e) => setRadioValue(e.currentTarget.value)}
+                  checked={stateValue === radio.value}
+                  onChange={(e) => setStateValue(e.currentTarget.value)}
                 >
                   {radio.name}
                 </ToggleButton>
