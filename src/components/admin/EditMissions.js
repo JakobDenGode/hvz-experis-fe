@@ -33,6 +33,19 @@ function EditMissions() {
 
   function displayModal(id) {
     setDisplayModalForm(!displayModalForm);
+    /*
+    const newMissions = missions.map((mission) => {
+      // find the same id as you click on
+      console.log(player);
+      /*
+      if (mission.id === id) {
+
+        return { ...mission, human: !player.human };
+      }
+      return player;
+    });
+
+    */
     console.log(id);
   }
 

@@ -34,15 +34,15 @@ function ShowBiteCode() {
     resolver: yupResolver(schema),
   });
 
-  async function showBiteCode() {
-    const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/player/Sjekk1`;
+  function showBiteCode() {
+    //const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/player/Sjekk1`;
+    console.log(player.human);
 
-    try {
-    } catch {}
-
-    if (player.human === "true") {
+    if (player.human === true) {
+      console.log("hi");
       setDisplayHumanCode(!displayHumanCode);
     } else {
+      console.log("oh");
       setDisplayZombieCode(!displayZombieCode);
     }
   }
@@ -89,7 +89,7 @@ function ShowBiteCode() {
         <Button
           onClick={showBiteCode}
           className={`${
-            player.human === "true" ? "btn-secondary" : "btn-primary"
+            player.human === true ? "btn-secondary" : "btn-primary"
           }`}
         >
           Bite Code

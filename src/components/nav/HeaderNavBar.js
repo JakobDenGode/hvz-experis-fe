@@ -5,12 +5,47 @@ import { usePlayer } from "../../context/PlayerContext";
 import ShowBiteCode from "../player/ShowBiteCode";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createHeaders } from "../admin/CreateHeaders";
+import { storageSave } from "../../utils/storage";
+import { STORAGE_KEY_PLAYER } from "../../const/storageKeys";
 
 function HeaderNavBar({ title }) {
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
   const gameId = useParams();
   const { player, setPlayer } = usePlayer();
+
+  useEffect(() => {
+    const findPlayer = async () => {
+      const accessToken = await getAccessTokenSilently();
+
+      if (player) {
+        const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players/${player.id}`;
+        try {
+          const playerId = await fetch(apiUrl, {
+            method: "GET",
+            headers: createHeaders(accessToken),
+          });
+          const playerIdResults = await playerId.json();
+          console.log(playerIdResults);
+          if (playerIdResults.human !== player.human) {
+            storageSave(STORAGE_KEY_PLAYER, {
+              id: player.id,
+              human: !player.human,
+              biteCode: playerIdResults.biteCode,
+            });
+            setPlayer({
+              id: player.id,
+              human: !player.human,
+              biteCode: playerIdResults.biteCode,
+            });
+          }
+        } catch (error) {
+          return [error.message, []];
+        }
+      }
+    };
+    findPlayer();
+  }, []);
 
   function goToLanding() {
     const confirmLogOut = window.confirm("Are you sure you want to log out?");
@@ -24,10 +59,8 @@ function HeaderNavBar({ title }) {
 
       // Navigate back to LandingPage
       navigate("/");
-      
-      
+
       // delete squad
-      
     }
   }
 
@@ -39,9 +72,8 @@ function HeaderNavBar({ title }) {
         headers: createHeaders(accessToken),
         method: "DELETE",
       }
-    )
+    );
   };
-  
 
   return (
     <Nav className="mx-auto w-100 bg-light justify-content-around">
@@ -52,7 +84,7 @@ function HeaderNavBar({ title }) {
     </Nav>
   );
 
-    /*
+  /*
   useEffect(() => {
     const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}`;
     const getGame = async () => {
@@ -73,7 +105,6 @@ function HeaderNavBar({ title }) {
     getGame();
   }, []);
   */
-
 }
 
 export default HeaderNavBar;

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, ButtonGroup, Form, ToggleButton } from "react-bootstrap";
+import {
+  Button,
+  ButtonGroup,
+  Form,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "react-bootstrap";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useParams } from "react-router-dom";
@@ -39,13 +45,7 @@ function EditMission({ onShowEditForm, id }) {
   const [missions, setMissions] = useState([]);
   const gameId = useParams();
 
-  const [editRadioValue, setEditRadioValue] = useState("1");
-
-  const editRadios = [
-    { name: "Active", value: "1" },
-    { name: "Radio", value: "2" },
-    { name: "Radio", value: "3" },
-  ];
+  const [radioButton, setRadioButton] = useState("HUMAN");
 
   useEffect(() => {
     const getMissionUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions/${id}/players/9`;
@@ -87,16 +87,17 @@ function EditMission({ onShowEditForm, id }) {
     setPostError(null);
 
     const accessToken = await getAccessTokenSilently();
-    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions`;
+    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions/${id}`;
 
     try {
       const response = await fetch(apiUrl, {
-        method: "POST",
+        method: "PUT",
         headers: createHeaders(accessToken),
         body: JSON.stringify({
+          id: id,
           missionName: data.missionName,
           missionDescription: data.missionDescription,
-          missionVisibility: data.missionVisibility,
+          missionVisibility: radioButton,
           startTime: data.startTime,
           endTime: data.endTime,
           missionLat: data.missionLat,
@@ -119,6 +120,11 @@ function EditMission({ onShowEditForm, id }) {
     } finally {
       setSubmitting(false);
     }
+  }
+
+  function changeVisibility(e) {
+    console.log(e);
+    setRadioButton(e);
   }
 
   return (
@@ -175,22 +181,24 @@ function EditMission({ onShowEditForm, id }) {
             <Form.Label htmlFor="missionVisibility" className="mt-3">
               Visibility
             </Form.Label>
-            <ButtonGroup className="d-block">
-              {editRadios.map((radio, idx) => (
-                <ToggleButton
-                  key={idx}
-                  id={`radio-${idx}`}
-                  type="radio"
-                  variant={idx % 2 ? "outline-success" : "outline-danger"}
-                  name="radio"
-                  value={radio.value}
-                  checked={editRadioValue === radio.value}
-                  onChange={(e) => setEditRadioValue(e.currentTarget.value)}
-                >
-                  {radio.name}
-                </ToggleButton>
-              ))}
-            </ButtonGroup>
+
+            <ToggleButtonGroup
+              type="radio"
+              name="options"
+              id="missionVisibility"
+              defaultValue={radioButton}
+              onChange={changeVisibility}
+            >
+              <ToggleButton id="tbg-radio-1" value="HUMAN">
+                HUMAN
+              </ToggleButton>
+              <ToggleButton id="tbg-radio-2" value="ZOMBIE">
+                ZOMBIE
+              </ToggleButton>
+              <ToggleButton id="tbg-radio-3" value="GLOBAL">
+                GLOBAL
+              </ToggleButton>
+            </ToggleButtonGroup>
 
             <Form.Label htmlFor="nw_lat" className="mt-3">
               Start Time
