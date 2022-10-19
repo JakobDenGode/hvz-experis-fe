@@ -5,10 +5,11 @@ import EditGame from "./EditGame";
 import EditMissions from "./EditMissions";
 import EditSquads from "./EditSquads";
 import EditCreatedGame from "./EditCreatedGame";
+import CreateMission from "./CreateMission";
 
 function EditList() {
   return (
-    <Accordion className="mt-2">
+    <Accordion className="mt-2" defaultActiveKey="1">
       <Accordion.Item eventKey="0">
         <Accordion.Header className="text-end">Game Info</Accordion.Header>
         <Accordion.Body>
@@ -19,6 +20,7 @@ function EditList() {
       <Accordion.Item eventKey="1">
         <Accordion.Header>Missions</Accordion.Header>
         <Accordion.Body>
+          <CreateMission />
           <EditMissions />
         </Accordion.Body>
       </Accordion.Item>
