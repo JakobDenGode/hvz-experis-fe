@@ -38,10 +38,11 @@ function EditList() {
   }, []);
 
   return (
-
+    /*
     <Accordion className="mt-2">
       <h1>test</h1>
       <HeaderNavBar title={gameData.gameTitle} />
+    */
 
     <Accordion className="mt-2" defaultActiveKey="1">
       <Accordion.Item eventKey="0">

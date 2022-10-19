@@ -3,14 +3,18 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
 
 import Accordion from "react-bootstrap/Accordion";
-import { useNavigate, useParams } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
 import { createHeaders } from "../admin/CreateHeaders";
 
+import { useParams } from "react-router-dom";
+import PlayerList from "../player-list/PlayerList";
+
 function EditGame() {
-  const navigate = useNavigate();
-  const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
+  const navigate = useNavigate();
+  const [players, setPlayers] = useState([]);
+  const [toggle, setToggle] = useState();
+  const { getAccessTokenSilently } = useAuth0();
 
   //Delete a game
   let deleteGame = async () => {
@@ -25,16 +29,6 @@ function EditGame() {
     navigate("/");
     console.log("deleted");
   };
-
-import { useParams } from "react-router-dom";
-import PlayerList from "../player-list/PlayerList";
-import { createHeaders } from "./CreateHeaders";
-
-function EditGame() {
-  const gameId = useParams();
-  const [players, setPlayers] = useState([]);
-  const [toggle, setToggle] = useState();
-  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     const findPlayers = async () => {
