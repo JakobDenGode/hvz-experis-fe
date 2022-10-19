@@ -169,7 +169,7 @@ function EditCreatedGame() {
               id="gameDescription"
               as="textarea"
               rows={5}
-              placeholder="Describe the game - max 200 words"
+              defaultValue={gameData.gameDescription}
             />
             {errors.gameDescription && (
               <div className="mb-3 text-danger">
@@ -182,7 +182,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("nw_lat")}
               id="nw_lat"
-              placeholder="nortwest latitude"
+              defaultValue={gameData.nw_lat}
             />
             {errors.nw_lat && (
               <div className="mb-3 text-danger">
@@ -197,7 +197,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("nw_lng")}
               id="nw_lng"
-              placeholder="nortwest longitude"
+              defaultValue={gameData.nw_lng}
             />
             {errors.nw_lng && (
               <div className="mb-3 text-danger">
@@ -212,7 +212,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("se_lat")}
               id="se_lat"
-              placeholder="southeast latitude"
+              defaultValue={gameData.se_lat}
             />
             {errors.se_lat && (
               <div className="mb-3 text-danger">
@@ -227,7 +227,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("se_lng")}
               id="se_lng"
-              placeholder="southeast longitude"
+              defaultValue={gameData.se_lng}
             />
             {errors.se_lng && (
               <div className="mb-3 text-danger">
@@ -237,9 +237,8 @@ function EditCreatedGame() {
               </div>
             )}
             <Form.Label htmlFor="gameState" className="mt-3">
-              State
+              State of game
             </Form.Label>
-            <h1>game state test</h1>
             <ButtonGroup className="d-block">
               {radioButtons.map((radio, idx) => (
                 <ToggleButton
@@ -270,7 +269,7 @@ function EditCreatedGame() {
           )}
           {postSuccess && (
             <FormMessage styling="form--success">
-              Message was successfully edited
+              Game was successfully edited
             </FormMessage>
           )}
         </Form>
