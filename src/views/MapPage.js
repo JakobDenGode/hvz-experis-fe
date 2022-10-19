@@ -50,12 +50,12 @@ const MapPage = () => {
       setSubmitting(true);
       storageSave(STORAGE_KEY_PLAYER, {
         id: playerIdResult.player,
-        human: "true",
+        human: true,
         bitecode: biteCodeIdResult.biteCode,
       });
       setPlayer({
         id: playerIdResult.player,
-        human: "true",
+        human: true,
         bitecode: biteCodeIdResult.biteCode,
       });
 

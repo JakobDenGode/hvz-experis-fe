@@ -27,7 +27,7 @@ function MobileNavBar() {
         bg={`${
           !player
             ? "secondary"
-            : player.human === "false"
+            : player.human === false
             ? "primary"
             : "secondary"
         }`}
