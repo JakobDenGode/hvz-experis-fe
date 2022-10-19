@@ -46,10 +46,10 @@ function EditCreatedGame() {
   const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
 
-  const [radioValue, setRadioValue] = useState("REGISTRATION");
+  const [radioValue, setRadioValue] = useState();
   const radioButtons = [
     { name: "REGISTRATION", value: "REGISTRATION" },
-    { name: "START", value: "START" },
+    { name: "IN_PROGRESS", value: "IN_PROGRESS" },
     { name: "COMPLETE", value: "COMPLETE" },
   ];
 
@@ -66,7 +66,7 @@ function EditCreatedGame() {
   }
 
   async function onSubmit(data, e) {
-    console.log(data);
+    console.log(radioValue);
     setSubmitting(true);
     setPostError(null);
 
@@ -81,7 +81,7 @@ function EditCreatedGame() {
           body: JSON.stringify({
             id: gameId.gameId,
             gameTitle: data.gameTitle,
-            gameState: "REGISTRATION",
+            gameState: data.radioValue,
             gameDescription: data.gameDescription,
             nw_lat: data.nw_lat,
             nw_lng: data.nw_lng,
@@ -90,6 +90,8 @@ function EditCreatedGame() {
           }),
         }
       );
+      console.log("my radio: ");
+      console.log(radioValue);
       console.log("test");
       console.log(data);
       setPostSuccess(true);
@@ -209,7 +211,9 @@ function EditCreatedGame() {
                   : errors.se_lng.message}
               </div>
             )}
-
+            <Form.Label htmlFor="gameState" className="mt-3">
+              State
+            </Form.Label>
             <h1>game state test</h1>
             <ButtonGroup className="d-block">
               {radioButtons.map((radio, idx) => (
