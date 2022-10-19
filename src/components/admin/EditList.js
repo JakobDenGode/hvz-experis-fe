@@ -9,6 +9,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import HeaderNavBar from "../nav/HeaderNavBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createHeaders } from "../admin/CreateHeaders";
+import CreateMission from "./CreateMission";
+
 function EditList() {
   const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
@@ -36,9 +38,12 @@ function EditList() {
   }, []);
 
   return (
+
     <Accordion className="mt-2">
       <h1>test</h1>
       <HeaderNavBar title={gameData.gameTitle} />
+
+    <Accordion className="mt-2" defaultActiveKey="1">
       <Accordion.Item eventKey="0">
         <Accordion.Header className="text-end">Game Info</Accordion.Header>
         <Accordion.Body>
@@ -49,6 +54,7 @@ function EditList() {
       <Accordion.Item eventKey="1">
         <Accordion.Header>Missions</Accordion.Header>
         <Accordion.Body>
+          <CreateMission />
           <EditMissions />
         </Accordion.Body>
       </Accordion.Item>
