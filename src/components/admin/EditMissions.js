@@ -9,6 +9,7 @@ function EditMissions() {
   const gameId = useParams();
   const { getAccessTokenSilently } = useAuth0();
   const [missions, setMissions] = useState([]);
+  const [displayModalForm, setDisplayModalForm] = useState(false);
 
   useEffect(() => {
     const findMissions = async () => {
@@ -30,9 +31,14 @@ function EditMissions() {
     findMissions();
   }, []);
 
+  function displayModal(id) {
+    setDisplayModalForm(!displayModalForm);
+    console.log(id);
+  }
+
   return (
     <div>
-      <Form className="bg-secondary rounded mt-3 mb-3">
+      <div className="bg-secondary rounded mt-3 mb-3">
         <h2 className="text-center">Game</h2>
 
         <Container>
@@ -47,9 +53,9 @@ function EditMissions() {
               Change
             </Col>
           </Row>
-          <MissionList missions={missions} />
+          <MissionList missions={missions} onShowEditForm={displayModal} />
         </Container>
-      </Form>
+      </div>
       <Button className="w-100 border-danger bg-danger">Delete mission</Button>
     </div>
   );
