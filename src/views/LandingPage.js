@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Heading from "../common/Heading";
 import GameList from "../components/game-list/GameList";
 import CreateGame from "../components/admin/CreateGame";
+import { createHeaders } from "../components/admin/CreateHeaders";
 
 const LandingPage = () => {
   const {
@@ -13,12 +14,34 @@ const LandingPage = () => {
     isLoading,
     user,
     getIdTokenClaims,
+    getAccessTokenSilently,
   } = useAuth0();
 
   /*if (user) {
     console.log(user["http://mynamespace/roles"].pop());
   }*/
   console.log(user);
+
+  useEffect(() => {
+    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}users`;
+    const postUser = async () => {
+      if (user) {
+        const accessToken = await getAccessTokenSilently();
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: createHeaders(accessToken),
+          });
+          console.log(response);
+          if (!response.ok) throw new Error("Could not register kill");
+        } catch (error) {
+          console.log(error);
+          return [error.message, []];
+        }
+      }
+    };
+    postUser();
+  }, [user]);
 
   /* 
   if (isLoading) {
@@ -29,18 +52,15 @@ const LandingPage = () => {
 
   const [games, setGames] = useState([]);
 
-  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game`;
+  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games`;
 
   useEffect(() => {
     const findGames = async () => {
       try {
-        const response = await fetch(`${apiUrl}`);
+        const response = await fetch(apiUrl);
         //if (!response.ok) throw new Error("Could not complete request");
-        console.log(response);
         const data = await response.json();
-        console.log(data);
         setGames(data);
-        return [null, data];
       } catch (error) {
         return [error.message, []];
       }
@@ -48,12 +68,16 @@ const LandingPage = () => {
     findGames();
   }, [apiUrl]);
 
-  console.log(isAuthenticated);
-
   return (
     <>
       <div>
-        <Heading title="Games" />
+        <Heading
+          title={
+            user && user["https//:hvz-server.com/roles"].length > 0
+              ? "Admin"
+              : "Games"
+          }
+        />
         <CreateGame />
         <GameList games={games} />
       </div>

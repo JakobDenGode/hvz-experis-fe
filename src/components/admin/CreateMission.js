@@ -1,48 +1,51 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, ButtonGroup, Form, ToggleButton } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createHeaders } from "./CreateHeaders";
 import FormMessage from "../../common/FormMessage";
-import { useAuth0 } from "@auth0/auth0-react";
-
-const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games`;
+import { useParams } from "react-router-dom";
 
 const schema = yup.object().shape({
-  gameTitle: yup
+  missionName: yup
     .string()
-    .required("Title is required")
-    .min(3, "Title must be at least 3 characters"),
-  nw_lat: yup
-    .number()
-    .integer("Value must be an integer")
-    .required("Please enter a northwest latitude"),
-  nw_lng: yup
-    .number()
-    .integer("Value must be an integer")
-    .required("Please enter a northwest longitude"),
-  se_lat: yup
-    .number()
-    .integer("Value must be an integer")
-    .required("Please enter a southeast latitude"),
-  se_lng: yup
-    .number()
-    .integer("Value must be an integer")
-    .required("Please enter a southeast longitude"),
-  gameDescription: yup
+    .required("Name of mission is required")
+    .min(3, "Name must be at least 3 characters"),
+  missionDescription: yup
     .string()
     .required("Please enter a description")
     .min(20, "Dame description must be at least 20 characters long")
     .max(200, "Game description must be at most 200 characters long"),
+  startTime: yup.string().required("Start time is required"),
+  endTime: yup.string().required("End time is required"),
+  missionLat: yup
+    .number()
+    .integer("Value must be an integer")
+    .required("Please enter a northwest longitude"),
+  missionLng: yup
+    .number()
+    .integer("Value must be an integer")
+    .required("Please enter a southeast latitude"),
 });
 
-function CreateGame() {
+function CreateMission() {
   const [displayModalForm, setDisplayModalForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [postError, setPostError] = useState(null);
   const [postSuccess, setPostSuccess] = useState(false);
   const { user, getAccessTokenSilently } = useAuth0();
+  const gameId = useParams();
+
+  const [radioValue, setRadioValue] = useState("HUMAN");
+
+  const radioButtons = [
+    { name: "HUMAN", value: "HUMAN" },
+    { name: "ZOMBIE", value: "ZOMBIE" },
+  ];
+
+  console.log(radioValue);
 
   const {
     register,
@@ -58,35 +61,35 @@ function CreateGame() {
 
   async function onSubmit(data, e) {
     console.log(data);
+    console.log(radioValue);
     setSubmitting(true);
     setPostError(null);
 
     const accessToken = await getAccessTokenSilently();
+    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions`;
 
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: createHeaders(accessToken),
         body: JSON.stringify({
-          gameTitle: data.gameTitle,
-          gameDescription: data.gameDescription,
-          nw_lat: data.nw_lat,
-          nw_lng: data.nw_lng,
-          se_lat: data.se_lat,
-          se_lng: data.se_lng,
+          missionName: data.missionName,
+          missionDescription: data.missionDescription,
+          missionVisibility: data.missionVisibility,
+          startTime: data.startTime,
+          endTime: data.endTime,
+          missionLat: data.missionLat,
+          missionLat: data.missionLat,
+          game: gameId.gameId,
         }),
       });
       console.log(response);
-      //const result = await response.json();
-      //console.log(result);
       setPostSuccess(true);
       e.target.reset();
       setTimeout(() => {
         setDisplayModalForm(false);
       }, 1500);
       if (!response.ok) throw new Error("Could not create user with username");
-      console.log(response.headers.get("Location"));
-
       return [null, response];
     } catch (error) {
       console.log(error);
@@ -96,13 +99,12 @@ function CreateGame() {
       setSubmitting(false);
     }
   }
-  console.log(user);
 
   return (
     <>
       {user && user["https//:hvz-server.com/roles"].length > 0 && (
         <Button onClick={displayModal} className="w-100 mt-3 mb-3">
-          Create Game
+          Create Mission
         </Button>
       )}
       <div className={`modal ${displayModalForm ? "d-block" : "d-none"}`}>
@@ -116,89 +118,102 @@ function CreateGame() {
           </span>
           <fieldset disabled={submitting}>
             <Form.Label htmlFor="name" className="mt-3">
-              Name
+              Mission Name
             </Form.Label>
             <Form.Control
-              {...register("gameTitle")}
-              id="gameTitle"
-              placeholder="Title of game"
+              {...register("missionName")}
+              id="missionName"
+              placeholder="Name of Mission"
             />
-            {errors.gameTitle && (
-              <div className="mb-3 text-danger">{errors.gameTitle.message}</div>
+            {errors.missionName && (
+              <div className="mb-3 text-danger">
+                {errors.missionName.message}
+              </div>
             )}
-            <Form.Label htmlFor="gameDescription" className="mt-3">
-              About the game
+            <Form.Label htmlFor="missionDescription" className="mt-3">
+              Description
             </Form.Label>
             <Form.Control
-              {...register("gameDescription")}
-              id="gameDescription"
+              {...register("missionDescription")}
+              id="missionDescription"
               as="textarea"
               rows={5}
-              placeholder="Describe the game - max 200 words"
+              placeholder="Describe the mission - max 200 words"
             />
-            {errors.gameDescription && (
+            {errors.missionDescription && (
               <div className="mb-3 text-danger">
-                {errors.gameDescription.message}
+                {errors.missionDescription.message}
               </div>
             )}
+            <Form.Label htmlFor="missionVisibility" className="mt-3">
+              Visibility
+            </Form.Label>
+            <ButtonGroup className="d-block">
+              {radioButtons.map((radio, idx) => (
+                <ToggleButton
+                  key={idx}
+                  id={`radio-${idx}`}
+                  type="radio"
+                  variant={idx % 2 ? "outline-primary" : "outline-secondary"}
+                  name="radio"
+                  value={radio.value}
+                  checked={radioValue === radio.value}
+                  onChange={(e) => setRadioValue(e.currentTarget.value)}
+                >
+                  {radio.name}
+                </ToggleButton>
+              ))}
+            </ButtonGroup>
             <Form.Label htmlFor="nw_lat" className="mt-3">
-              Northwest latitude
+              Start Time
             </Form.Label>
             <Form.Control
-              {...register("nw_lat")}
-              id="nw_lat"
-              placeholder="nortwest latitude"
+              {...register("startTime")}
+              id="startTime"
+              placeholder="Mission starts at..."
             />
-            {errors.nw_lat && (
-              <div className="mb-3 text-danger">
-                {errors.nw_lat.message.includes("NaN")
-                  ? "Value must be a number (integer)"
-                  : errors.nw_lat.message}
-              </div>
+            {errors.startTime && (
+              <div className="mb-3 text-danger">{errors.startTime.message}</div>
             )}
             <Form.Label htmlFor="nw_lng" className="mt-3">
-              Northwest longitude
+              End Time
             </Form.Label>
             <Form.Control
-              {...register("nw_lng")}
-              id="nw_lng"
-              placeholder="nortwest longitude"
+              {...register("endTime")}
+              id="endTime"
+              placeholder="Mission ends at..."
             />
-            {errors.nw_lng && (
+            {errors.endTime && (
+              <div className="mb-3 text-danger">{errors.endTime.message}</div>
+            )}
+            <Form.Label htmlFor="missionLat" className="mt-3">
+              Mission Latitude
+            </Form.Label>
+            <Form.Control
+              {...register("missionLat")}
+              id="missionLat"
+              placeholder="Mission Latitude"
+            />
+            {errors.missionLat && (
               <div className="mb-3 text-danger">
-                {errors.nw_lng.message.includes("NaN")
+                {errors.missionLat.message.includes("NaN")
                   ? "Value must be a number (integer)"
-                  : errors.nw_lng.message}
+                  : errors.missionLat.message}
               </div>
             )}
-            <Form.Label htmlFor="se_lat" className="mt-3">
-              Southeast latitude
+            <Form.Label htmlFor="missionLng" className="mt-3">
+              Mission Longitude
             </Form.Label>
             <Form.Control
-              {...register("se_lat")}
-              id="se_lat"
-              placeholder="southeast latitude"
+              {...register("missionLng")}
+              id="missionLng"
+              placeholder="Mission Longitude"
             />
-            {errors.se_lat && (
+            {errors.missionLng && (
               <div className="mb-3 text-danger">
-                {errors.se_lat.message.includes("NaN")
+                {errors.missionLng.message.includes("NaN")
                   ? "Value must be a number (integer)"
-                  : errors.se_lat.message}
-              </div>
-            )}
-            <Form.Label htmlFor="se_lng" className="mt-3">
-              Southeast longitude
-            </Form.Label>
-            <Form.Control
-              {...register("se_lng")}
-              id="se_lng"
-              placeholder="southeast longitude"
-            />
-            {errors.se_lng && (
-              <div className="mb-3 text-danger">
-                {errors.se_lng.message.includes("NaN")
-                  ? "Value must be a number (integer)"
-                  : errors.se_lng.message}
+                  : errors.missionLng.message}
               </div>
             )}
 
@@ -225,4 +240,4 @@ function CreateGame() {
   );
 }
 
-export default CreateGame;
+export default CreateMission;

@@ -24,3 +24,9 @@ export const storageRead = (key) => {
 
   return null;
 };
+
+export const storageDelete = (key) => {
+  validateKey(key);
+
+  localStorage.removeItem(key);
+};

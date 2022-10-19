@@ -1,39 +1,69 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { json, Link, useNavigate, useParams } from "react-router-dom";
 import { createHeaders } from "../components/admin/CreateHeaders";
 import JoinButton from "../components/map/JoinButton";
 import Map from "../components/map/Map";
 import MobileNavBar from "../components/nav/MobileNavBar";
+import { STORAGE_KEY_PLAYER } from "../const/storageKeys";
 import { usePlayer } from "../context/PlayerContext";
-
-const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/player`;
+import { storageSave } from "../utils/storage";
 
 const MapPage = () => {
   const gameId = useParams();
-  console.log(gameId.gameId);
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const [submitting, setSubmitting] = useState(false);
   const { player, setPlayer } = usePlayer();
+  const navigate = useNavigate();
+  console.log(player);
+
+  const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players`;
+  const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}users/current`;
 
   async function joinButton() {
     const accessToken = await getAccessTokenSilently();
+
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: createHeaders(accessToken),
-        body: JSON.stringify({
-          id: 0,
-          biteCode: "string",
-          game: gameId.gameId,
-          human: true,
-        }),
       });
+
+      const playerId = await fetch(apiUrl2, {
+        method: "GET",
+        headers: createHeaders(accessToken),
+      });
+
+      const playerIdResult = await playerId.json();
+
+      const apiUrl3 = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players/${playerIdResult.player}`;
+
+      const biteCode = await fetch(apiUrl3, {
+        method: "GET",
+        headers: createHeaders(accessToken),
+      });
+      const biteCodeIdResult = await biteCode.json();
+
       if (!response.ok) throw new Error("Could not create user with username");
       console.log(response);
-      setSubmitting(true);
 
-      return [null, response];
+      setSubmitting(true);
+      storageSave(STORAGE_KEY_PLAYER, {
+        id: playerIdResult.player,
+        human: "true",
+        bitecode: biteCodeIdResult.biteCode,
+      });
+      setPlayer({
+        id: playerIdResult.player,
+        human: "true",
+        bitecode: biteCodeIdResult.biteCode,
+      });
+
+      window.history.replaceState(
+        null,
+        "",
+        `/game/${gameId.gameId}/player/${playerIdResult.player}/map`
+      );
     } catch (error) {
       //setPostError(error.toString());
       return [error.message, []];
@@ -42,19 +72,17 @@ const MapPage = () => {
     }
   }
 
-  //console.log(useAuth0());
-
   return (
-    <>
+    <div className="position-relative">
       <Map />
-      {submitting ? (
-        <div className="text-center">Player is added</div>
-      ) : (
-        <JoinButton handleOnClick={joinButton} />
+      {user && !user["https//:hvz-server.com/roles"].length > 0 && !player && (
+        <div>
+          <JoinButton handleOnClick={joinButton} />
+        </div>
       )}
-
+      {submitting && <div className="text-center">Player is added</div>}
       <MobileNavBar />
-    </>
+    </div>
   );
 };
 

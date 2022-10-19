@@ -6,8 +6,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { createHeaders } from "./CreateHeaders";
 import FormMessage from "../../common/FormMessage";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useParams } from "react-router-dom";
 
-const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games`;
+const apiUrl = "https://hvz-api-noroff.herokuapp.com/api/v1/games";
 
 const schema = yup.object().shape({
   gameTitle: yup
@@ -37,12 +38,13 @@ const schema = yup.object().shape({
     .max(200, "Game description must be at most 200 characters long"),
 });
 
-function CreateGame() {
+function EditCreatedGame() {
   const [displayModalForm, setDisplayModalForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [postError, setPostError] = useState(null);
   const [postSuccess, setPostSuccess] = useState(false);
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
+  const gameId = useParams();
 
   const {
     register,
@@ -64,47 +66,46 @@ function CreateGame() {
     const accessToken = await getAccessTokenSilently();
 
     try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: createHeaders(accessToken),
-        body: JSON.stringify({
-          gameTitle: data.gameTitle,
-          gameDescription: data.gameDescription,
-          nw_lat: data.nw_lat,
-          nw_lng: data.nw_lng,
-          se_lat: data.se_lat,
-          se_lng: data.se_lng,
-        }),
-      });
-      console.log(response);
-      //const result = await response.json();
-      //console.log(result);
+      const response = await fetch(
+        `https://hvz-api-noroff.herokuapp.com/api/v1/games/${gameId.gameId}`,
+        {
+          method: "PUT",
+          headers: createHeaders(accessToken),
+          body: JSON.stringify({
+            id: gameId.gameId,
+            gameTitle: data.gameTitle,
+            gameState: "REGISTRATION",
+            gameDescription: data.gameDescription,
+            nw_lat: data.nw_lat,
+            nw_lng: data.nw_lng,
+            se_lat: data.se_lat,
+            se_lng: data.se_lng,
+          }),
+        }
+      );
+      console.log("test");
+      console.log(data);
       setPostSuccess(true);
       e.target.reset();
       setTimeout(() => {
         setDisplayModalForm(false);
       }, 1500);
       if (!response.ok) throw new Error("Could not create user with username");
-      console.log(response.headers.get("Location"));
-
+      console.log(response);
       return [null, response];
     } catch (error) {
-      console.log(error);
       setPostError(error.toString());
       return [error.message, []];
     } finally {
       setSubmitting(false);
     }
   }
-  console.log(user);
 
   return (
     <>
-      {user && user["https//:hvz-server.com/roles"].length > 0 && (
-        <Button onClick={displayModal} className="w-100 mt-3 mb-3">
-          Create Game
-        </Button>
-      )}
+      <Button onClick={displayModal} className="w-100 mt-3 mb-3 btn-success">
+        Edit Created Game
+      </Button>
       <div className={`modal ${displayModalForm ? "d-block" : "d-none"}`}>
         <Form
           onSubmit={handleSubmit(onSubmit)}
@@ -216,7 +217,7 @@ function CreateGame() {
           )}
           {postSuccess && (
             <FormMessage styling="form--success">
-              Message was successfully submitted
+              Message was successfully edited
             </FormMessage>
           )}
         </Form>
@@ -225,4 +226,4 @@ function CreateGame() {
   );
 }
 
-export default CreateGame;
+export default EditCreatedGame;
