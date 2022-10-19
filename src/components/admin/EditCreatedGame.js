@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, ButtonGroup, Form, ToggleButton } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -45,6 +45,13 @@ function EditCreatedGame() {
   const [postSuccess, setPostSuccess] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
+
+  const [radioValue, setRadioValue] = useState("REGISTRATION");
+  const radioButtons = [
+    { name: "REGISTRATION", value: "REGISTRATION" },
+    { name: "START", value: "START" },
+    { name: "COMPLETE", value: "COMPLETE" },
+  ];
 
   const {
     register,
@@ -203,6 +210,23 @@ function EditCreatedGame() {
               </div>
             )}
 
+            <h1>game state test</h1>
+            <ButtonGroup className="d-block">
+              {radioButtons.map((radio, idx) => (
+                <ToggleButton
+                  key={idx}
+                  id={`radio-${idx}`}
+                  type="radio"
+                  variant={"outline-primary"}
+                  name="radio"
+                  value={radio.value}
+                  checked={radioValue === radio.value}
+                  onChange={(e) => setRadioValue(e.currentTarget.value)}
+                >
+                  {radio.name}
+                </ToggleButton>
+              ))}
+            </ButtonGroup>
             <button
               type="submit"
               className="button mt-3 bg-primary text-white w-100 border border-none p-2"
