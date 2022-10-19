@@ -24,7 +24,6 @@ function GameItem({ gameTitle, gameState, players, id }) {
           <Button className="w-100">Edit game</Button>
         </Link>
       }
-      
     </Col>
   );
 }
