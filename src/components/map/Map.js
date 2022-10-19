@@ -53,8 +53,7 @@ function Map() {
           `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}`,
           { headers: createHeaders(accessToken) }
         );
-        //if (!response.ok) throw new Error("Could not complete request");
-        // console.log(response);
+
         const data = await response.json();
         setGame(data);
         //get coordinates for marker
@@ -81,22 +80,10 @@ function Map() {
           `https://hvz-api-noroff.herokuapp.com/api/v1/games/${gameId.gameId}/missions/${player.id}`,
           { headers: createHeaders(accessToken) }
         );
-        //if (!response.ok) throw new Error("Could not complete request");
-        //console.log(response);
+
         const data = await response.json();
 
-        // FOR DEBUGGING
-        //console.log("-------");
-        //console.log(data);
-        //console.log("here");
-        /*
-        data.map((item) =>
-          console.log(item.missionName, item.missionLat, item.missionLng)
-        );
-        */
-
         setMissionCords(data);
-        // console.log(missionCords);
 
         return [null, data];
       } catch (error) {
@@ -105,9 +92,6 @@ function Map() {
     };
     findMissions();
   }, []);
-
-  // MAYBE REMOVE?
-  // missionCords.map((item) => console.log(item.missionLat, item.missionLng));
 
   //Function to get all mission markers
   function MultipleMarkers() {
@@ -143,9 +127,6 @@ function Map() {
         map.flyTo(e.latlng, map.getZoom());
       },
     });
-
-    //console.log("Player location: ");
-    //console.log(position);
 
     return position === null ? null : (
       <Marker position={position}>
@@ -187,12 +168,3 @@ function Map() {
 }
 
 export default Map;
-
-/*
-<Marker
-  position={mapsData.map(function (data) {
-    return data.coordinates;
-  })}
-/>;
-
-*/

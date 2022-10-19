@@ -7,14 +7,11 @@ export default withAuthenticationRequired(AdminPage, {
 });
 
 function AdminPage() {
-  /*
   const { user } = useAuth0();
-  console.log(user);
-  if (user && user["http://demozero.net/roles"].length === 0) {
+
+  if (user && !user["https//:hvz-server.com/roles"].length > 0) {
     return <div>Permission denied</div>;
   }
-  */
-
   return (
     <div>
       <EditList />
