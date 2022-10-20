@@ -1,6 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useState } from "react";
-import { Button, ButtonGroup, Form, ToggleButton } from "react-bootstrap";
+import {
+  Button,
+  ButtonGroup,
+  Form,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -38,14 +44,7 @@ function CreateMission() {
   const { user, getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
 
-  const [radioValue, setRadioValue] = useState("HUMAN");
-
-  const radioButtons = [
-    { name: "HUMAN", value: "HUMAN" },
-    { name: "ZOMBIE", value: "ZOMBIE" },
-  ];
-
-  console.log(radioValue);
+  const [radioButton, setRadioButton] = useState("HUMAN");
 
   const {
     register,
@@ -61,7 +60,6 @@ function CreateMission() {
 
   async function onSubmit(data, e) {
     console.log(data);
-    console.log(radioValue);
     setSubmitting(true);
     setPostError(null);
 
@@ -75,7 +73,7 @@ function CreateMission() {
         body: JSON.stringify({
           missionName: data.missionName,
           missionDescription: data.missionDescription,
-          missionVisibility: radioValue,
+          missionVisibility: radioButton,
           startTime: data.startTime,
           endTime: data.endTime,
           missionLat: data.missionLat,
@@ -98,6 +96,11 @@ function CreateMission() {
     } finally {
       setSubmitting(false);
     }
+  }
+
+  function changeVisibility(e) {
+    console.log(e);
+    setRadioButton(e);
   }
 
   return (
@@ -149,22 +152,22 @@ function CreateMission() {
               Visibility
             </Form.Label>
 
-            <ButtonGroup className="d-block">
-              {radioButtons.map((radio, idx) => (
-                <ToggleButton
-                  key={idx}
-                  id={`radio-${idx}`}
-                  type="radio"
-                  variant={idx % 2 ? "outline-primary" : "outline-secondary"}
-                  name="radio"
-                  value={radio.value}
-                  checked={radioValue === radio.value}
-                  onChange={(e) => setRadioValue(e.currentTarget.value)}
-                >
-                  {radio.name}
-                </ToggleButton>
-              ))}
-            </ButtonGroup>
+            <ToggleButtonGroup
+              type="radio"
+              name="options"
+              defaultValue={radioButton}
+              onChange={changeVisibility}
+            >
+              <ToggleButton id="tbg-radio-1" value="HUMAN">
+                HUMAN
+              </ToggleButton>
+              <ToggleButton id="tbg-radio-2" value="ZOMBIE">
+                ZOMBIE
+              </ToggleButton>
+              <ToggleButton id="tbg-radio-3" value="GLOBAL">
+                GLOBAL
+              </ToggleButton>
+            </ToggleButtonGroup>
 
             <Form.Label htmlFor="nw_lat" className="mt-3">
               Start Time

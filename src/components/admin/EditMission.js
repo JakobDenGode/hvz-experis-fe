@@ -44,6 +44,7 @@ function EditMission({ onShowEditForm, id }) {
   const { user, getAccessTokenSilently } = useAuth0();
   const [missions, setMissions] = useState([]);
   const gameId = useParams();
+  const [formData, setFormData] = useState();
 
   const [radioButton, setRadioButton] = useState("HUMAN");
 
@@ -59,6 +60,8 @@ function EditMission({ onShowEditForm, id }) {
         const missionResult = await mission.json();
         setMissions(missionResult);
         console.log(missionResult);
+
+        console.log(missionResult.missionVisibility);
         if (!mission.ok) throw new Error("Could not register kill");
       } catch (error) {
         console.log(error);
@@ -66,7 +69,7 @@ function EditMission({ onShowEditForm, id }) {
       }
     };
     postUser();
-  }, [user]);
+  }, []);
 
   const {
     register,
@@ -78,10 +81,13 @@ function EditMission({ onShowEditForm, id }) {
 
   function displayModal() {
     setDisplayModalForm(!displayModalForm);
+    console.log(id);
   }
 
+  //console.log(formData);
   async function onSubmit(data, e) {
     console.log(data);
+    setFormData({ ...data, missionVisibility: radioButton });
 
     setSubmitting(true);
     setPostError(null);
@@ -131,7 +137,6 @@ function EditMission({ onShowEditForm, id }) {
     <>
       <Button
         onClick={() => {
-          onShowEditForm(id);
           displayModal();
         }}
         className="w-75"
@@ -185,17 +190,16 @@ function EditMission({ onShowEditForm, id }) {
             <ToggleButtonGroup
               type="radio"
               name="options"
-              id="missionVisibility"
               defaultValue={radioButton}
               onChange={changeVisibility}
             >
-              <ToggleButton id="tbg-radio-1" value="HUMAN">
+              <ToggleButton id={`tbg-radio-${id}-first`} value="HUMAN">
                 HUMAN
               </ToggleButton>
-              <ToggleButton id="tbg-radio-2" value="ZOMBIE">
+              <ToggleButton id={`tbg-radio-${id}-second`} value="ZOMBIE">
                 ZOMBIE
               </ToggleButton>
-              <ToggleButton id="tbg-radio-3" value="GLOBAL">
+              <ToggleButton id={`tbg-radio-${id}-third`} value="GLOBAL">
                 GLOBAL
               </ToggleButton>
             </ToggleButtonGroup>
@@ -260,6 +264,7 @@ function EditMission({ onShowEditForm, id }) {
             <button
               type="submit"
               className="button mt-3 bg-primary text-white w-100 border border-none p-2"
+              onClick={formData && onShowEditForm(id, formData)}
             >
               {submitting === true ? "Working..." : "Submit"}
             </button>
