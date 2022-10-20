@@ -33,11 +33,13 @@ function EditMissions() {
 
   function changeArray(id, formData) {
     console.log(id);
+    console.log(formData);
     if (formData) {
       console.log("hi");
       const newMissions = missions.map((mission) => {
         return mission;
       });
+      console.log(newMissions);
       //setMissions(newMissions);
     }
   }

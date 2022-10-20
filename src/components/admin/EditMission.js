@@ -69,7 +69,7 @@ function EditMission({ onShowEditForm, id }) {
       }
     };
     postUser();
-  }, []);
+  }, [formData]);
 
   const {
     register,
