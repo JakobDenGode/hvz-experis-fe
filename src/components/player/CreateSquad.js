@@ -5,16 +5,17 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormMessage from "../../common/FormMessage";
 import { useAuth0 } from "@auth0/auth0-react";
-import { createHashRouter, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { createHeaders } from "../admin/CreateHeaders";
-
-const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games`;
+import { usePlayer, useSquad } from "../../context/PlayerContext";
+import { STORAGE_KEY_SQUAD } from "../../const/storageKeys";
+import { storageSave } from "../../utils/storage";
 
 const schema = yup.object().shape({
   name: yup
     .string()
-    .required("Title is required")
-    .min(3, "Title must be at least 3 characters"),
+    .required("Squad name is required")
+    .min(3, "Squad name must be at least 3 characters"),
 });
 
 function CreateSquad() {
@@ -23,6 +24,10 @@ function CreateSquad() {
   const [postError, setPostError] = useState(null);
   const [postSuccess, setPostSuccess] = useState(false);
   const { user, getAccessTokenSilently } = useAuth0();
+  const { player, setPlayer } = usePlayer();
+  const { squad, setSquad } = useSquad();
+  console.log(squad);
+
   const gameId = useParams();
 
   const {
@@ -43,6 +48,7 @@ function CreateSquad() {
     setPostError(null);
 
     const accessToken = await getAccessTokenSilently();
+    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/squad`;
 
     try {
       const response = await fetch(apiUrl, {
@@ -51,22 +57,28 @@ function CreateSquad() {
         body: JSON.stringify({
           name: data.name,
           game: gameId.gameId,
+          player: player.id,
         }),
       });
       console.log(response);
       setPostSuccess(true);
-      e.target.reset();
+      setSquad({});
+      storageSave(STORAGE_KEY_SQUAD, {
+        player: player.id,
+        name: data.name,
+      });
+      setSquad({
+        player: player.id,
+        name: data.name,
+      });
       setTimeout(() => {
         setDisplayModalForm(false);
       }, 1500);
       if (!response.ok) throw new Error("Could not create user with username");
-      console.log(response.headers.get("Location"));
-
       return [null, response];
     } catch (error) {
       console.log(error);
       setPostError(error.toString());
-      return [error.message, []];
     } finally {
       setSubmitting(false);
     }
@@ -92,12 +104,12 @@ function CreateSquad() {
               Give your squad a name
             </Form.Label>
             <Form.Control
-              {...register("gameTitle")}
-              id="gameTitle"
+              {...register("name")}
+              id="name"
               placeholder="Name of squad"
             />
-            {errors.gameTitle && (
-              <div className="mb-3 text-danger">{errors.gameTitle.message}</div>
+            {errors.name && (
+              <div className="mb-3 text-danger">{errors.name.message}</div>
             )}
 
             <button

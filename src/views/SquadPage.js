@@ -4,15 +4,17 @@ import Heading from "../common/Heading";
 import HeaderNavBar from "../components/nav/HeaderNavBar";
 import MobileNavBar from "../components/nav/MobileNavBar";
 import { useParams } from "react-router-dom";
-import { usePlayer } from "../context/PlayerContext";
+import { usePlayer, useSquad } from "../context/PlayerContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createHeaders } from "../components/admin/CreateHeaders";
 import CreateSquad from "../components/player/CreateSquad";
+import LeaveSquad from "../components/player/LeaveSquad";
 
 function SquadPage() {
   const gameId = useParams();
   const { player, setPlayer } = usePlayer();
-  const [squads, setSquad] = useState([]);
+  const { squad, setSquad } = useSquad();
+  const [squads, setSquads] = useState([]);
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
@@ -28,7 +30,7 @@ function SquadPage() {
         if (!response.ok) throw new Error("Could not complete request");
         const data = await response.json();
         console.log(data);
-        setSquad(data);
+        setSquads(data);
         return [null, data];
       } catch (error) {
         return [error.message, []];
@@ -42,6 +44,7 @@ function SquadPage() {
     <div>
       <Heading title="Squads" />
       {player && <CreateSquad />}
+      {squad && <LeaveSquad />}
       <CreateSquad />
       <SquadList squads={squads} />
       <MobileNavBar />
