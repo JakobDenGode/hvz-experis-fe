@@ -19,6 +19,7 @@ function HeaderNavBar({ title }) {
       const accessToken = await getAccessTokenSilently();
 
       if (player) {
+        console.log("hi");
         const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players/${player.id}`;
         try {
           const playerId = await fetch(apiUrl, {

@@ -13,7 +13,7 @@ const schema = yup.object().shape({
   bitecode: yup
     .string()
     .required("Bite code is required")
-    .min(5, "Bite code must be at least 5 characters"),
+    .min(4, "Bite code must be at least 5 characters"),
 });
 
 function ShowBiteCode() {
@@ -49,21 +49,20 @@ function ShowBiteCode() {
 
   async function onSubmit(data, e) {
     console.log(gameId);
+    console.log(data);
     const accessToken = await getAccessTokenSilently();
-    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/kill/Sjekk1`;
+    const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/kills`;
 
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: createHeaders(accessToken),
         body: JSON.stringify({
-          id: 0,
-          timeOfDeath: "string",
+          biteCode: data.bitecode,
           lat: 0,
           lng: 0,
           game: gameId.gameId,
-          playerKiller: 15,
-          playerDeath: 0,
+          playerKiller: player.id,
         }),
       });
       console.log(response);

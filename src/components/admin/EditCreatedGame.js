@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, ButtonGroup, Form, ToggleButton } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -45,6 +45,38 @@ function EditCreatedGame() {
   const [postSuccess, setPostSuccess] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
+  const [gameData, setGame] = useState([]);
+
+  const [stateValue, setStateValue] = useState();
+  const radioButtons = [
+    { name: "REGISTRATION", value: "REGISTRATION" },
+    { name: "IN_PROGRESS", value: "IN_PROGRESS" },
+    { name: "COMPLETE", value: "COMPLETE" },
+  ];
+
+  //Get data to display
+  //Get game
+  useEffect(() => {
+    const findGames = async () => {
+      const accessToken = await getAccessTokenSilently();
+      try {
+        const response = await fetch(
+          `https://hvz-api-noroff.herokuapp.com/api/v1/games/${gameId.gameId}`,
+          { headers: createHeaders(accessToken) }
+        );
+        //if (!response.ok) throw new Error("Could not complete request");
+        console.log("responsen min: ");
+        console.log(response);
+        const data = await response.json();
+        setGame(data);
+        console.log(gameData);
+        return [null, data];
+      } catch (error) {
+        return [error.message, []];
+      }
+    };
+    findGames();
+  }, []);
 
   const {
     register,
@@ -59,7 +91,7 @@ function EditCreatedGame() {
   }
 
   async function onSubmit(data, e) {
-    console.log(data);
+    console.log(stateValue);
     setSubmitting(true);
     setPostError(null);
 
@@ -74,7 +106,7 @@ function EditCreatedGame() {
           body: JSON.stringify({
             id: gameId.gameId,
             gameTitle: data.gameTitle,
-            gameState: "REGISTRATION",
+            gameState: stateValue,
             gameDescription: data.gameDescription,
             nw_lat: data.nw_lat,
             nw_lng: data.nw_lng,
@@ -83,6 +115,8 @@ function EditCreatedGame() {
           }),
         }
       );
+      console.log("my radio: ");
+      console.log(stateValue);
       console.log("test");
       console.log(data);
       setPostSuccess(true);
@@ -104,7 +138,7 @@ function EditCreatedGame() {
   return (
     <>
       <Button onClick={displayModal} className="w-100 mt-3 mb-3 btn-success">
-        Edit Created Game
+        Edit Game
       </Button>
       <div className={`modal ${displayModalForm ? "d-block" : "d-none"}`}>
         <Form
@@ -122,7 +156,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("gameTitle")}
               id="gameTitle"
-              placeholder="Title of game"
+              defaultValue={gameData.gameTitle}
             />
             {errors.gameTitle && (
               <div className="mb-3 text-danger">{errors.gameTitle.message}</div>
@@ -135,7 +169,7 @@ function EditCreatedGame() {
               id="gameDescription"
               as="textarea"
               rows={5}
-              placeholder="Describe the game - max 200 words"
+              defaultValue={gameData.gameDescription}
             />
             {errors.gameDescription && (
               <div className="mb-3 text-danger">
@@ -148,7 +182,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("nw_lat")}
               id="nw_lat"
-              placeholder="nortwest latitude"
+              defaultValue={gameData.nw_lat}
             />
             {errors.nw_lat && (
               <div className="mb-3 text-danger">
@@ -163,7 +197,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("nw_lng")}
               id="nw_lng"
-              placeholder="nortwest longitude"
+              defaultValue={gameData.nw_lng}
             />
             {errors.nw_lng && (
               <div className="mb-3 text-danger">
@@ -178,7 +212,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("se_lat")}
               id="se_lat"
-              placeholder="southeast latitude"
+              defaultValue={gameData.se_lat}
             />
             {errors.se_lat && (
               <div className="mb-3 text-danger">
@@ -193,7 +227,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("se_lng")}
               id="se_lng"
-              placeholder="southeast longitude"
+              defaultValue={gameData.se_lng}
             />
             {errors.se_lng && (
               <div className="mb-3 text-danger">
@@ -202,7 +236,27 @@ function EditCreatedGame() {
                   : errors.se_lng.message}
               </div>
             )}
-
+            <Form.Label htmlFor="gameState" className="mt-3">
+              State of game
+            </Form.Label>
+            {/*
+            <ButtonGroup className="d-block">
+              {radioButtons.map((radio, idx) => (
+                <ToggleButton
+                  key={idx}
+                  id={`radio-${idx}`}
+                  type="radio"
+                  variant={"outline-primary"}
+                  name="radio"
+                  value={radio.value}
+                  checked={stateValue === radio.value}
+                  onChange={(e) => setStateValue(e.currentTarget.value)}
+                >
+                  {radio.name}
+                </ToggleButton>
+              ))}
+            </ButtonGroup>
+            */}
             <button
               type="submit"
               className="button mt-3 bg-primary text-white w-100 border border-none p-2"
@@ -217,7 +271,7 @@ function EditCreatedGame() {
           )}
           {postSuccess && (
             <FormMessage styling="form--success">
-              Message was successfully edited
+              Game was successfully edited
             </FormMessage>
           )}
         </Form>

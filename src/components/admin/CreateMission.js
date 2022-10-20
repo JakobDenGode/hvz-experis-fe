@@ -75,7 +75,7 @@ function CreateMission() {
         body: JSON.stringify({
           missionName: data.missionName,
           missionDescription: data.missionDescription,
-          missionVisibility: data.missionVisibility,
+          missionVisibility: radioValue,
           startTime: data.startTime,
           endTime: data.endTime,
           missionLat: data.missionLat,
@@ -148,6 +148,7 @@ function CreateMission() {
             <Form.Label htmlFor="missionVisibility" className="mt-3">
               Visibility
             </Form.Label>
+
             <ButtonGroup className="d-block">
               {radioButtons.map((radio, idx) => (
                 <ToggleButton
@@ -164,6 +165,7 @@ function CreateMission() {
                 </ToggleButton>
               ))}
             </ButtonGroup>
+
             <Form.Label htmlFor="nw_lat" className="mt-3">
               Start Time
             </Form.Label>

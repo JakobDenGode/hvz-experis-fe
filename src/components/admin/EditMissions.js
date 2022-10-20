@@ -13,7 +13,7 @@ function EditMissions() {
 
   useEffect(() => {
     const findMissions = async () => {
-      const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions/9`;
+      const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions/1`;
       const accessToken = await getAccessTokenSilently();
       try {
         const response = await fetch(apiUrl, {
