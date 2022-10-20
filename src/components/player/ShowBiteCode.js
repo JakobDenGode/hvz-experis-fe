@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { createHeaders } from "../admin/CreateHeaders";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import FormMessage from "../../common/FormMessage";
+// Spør mr front tech om hvordan vi kaller på map ting :)
 
 const schema = yup.object().shape({
   bitecode: yup
@@ -25,6 +26,7 @@ function ShowBiteCode() {
   const [postSuccess, setPostSuccess] = useState(false);
   const gameId = useParams();
   const { getAccessTokenSilently } = useAuth0();
+  //const [killState, setKillState] = useState([]);
 
   const {
     register,

@@ -32,6 +32,7 @@ function Map() {
     [0, 0],
     [0, 0],
   ]);
+  const [killState, setKillState] = useState([]);
 
   //styling for missions
   const fillZombie = { fillColor: "red" };
@@ -147,7 +148,7 @@ function Map() {
       return (
         <Marker icon={tombstone} position={[killItem.lat, killItem.lng]}>
           <Popup>
-            A dead player<br></br>
+            A dead player<br></br> Killed at: <br></br>
             {killItem.timeOfDeath}
           </Popup>
         </Marker>
@@ -172,8 +173,8 @@ function Map() {
       <>
         <Marker position={position}>
           <Popup>Player Location</Popup>
-          {console.log(position.lat)}
-          {console.log(position.lng)}
+          {/* Sets state for kill position */}
+          {/*setKillState([position.lat, position.lng])*/}
         </Marker>
       </>
     );
