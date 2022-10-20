@@ -16,9 +16,9 @@ import { createHeaders } from "../admin/CreateHeaders";
 import { useAuth0 } from "@auth0/auth0-react";
 import { usePlayer } from "../../context/PlayerContext";
 import HeaderNavBar from "../nav/HeaderNavBar";
-
 import { divIcon } from "leaflet";
 import { Button } from "react-bootstrap";
+import { showBiteCode } from "../player/ShowBiteCode";
 
 function Map() {
   const { getAccessTokenSilently } = useAuth0();
@@ -148,13 +148,15 @@ function Map() {
       return (
         <Marker icon={tombstone} position={[killItem.lat, killItem.lng]}>
           <Popup>
-            A dead player<br></br> Killed at: <br></br>
+            A dead player: {killItem.id}
+            <br></br> Killed at: <br></br>
             {killItem.timeOfDeath}
           </Popup>
         </Marker>
       );
     });
   }
+  
 
   //Get player location when the game starts
   function LocationMarker() {
@@ -174,7 +176,8 @@ function Map() {
         <Marker position={position}>
           <Popup>Player Location</Popup>
           {/* Sets state for kill position */}
-          {/*setKillState([position.lat, position.lng])*/}
+          {/*setKillState([position.lat, position.lng]) */}
+          {console.log(killState)}
         </Marker>
       </>
     );
