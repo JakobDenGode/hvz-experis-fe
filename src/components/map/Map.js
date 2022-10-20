@@ -27,6 +27,7 @@ function Map() {
   const [gameData, setGame] = useState([]);
   const [cords, setCords] = useState([]);
   const [missionCords, setMissionCords] = useState([]);
+  const [killCords, setKillCords] = useState([]);
   const [getRectangle, setRectangle] = useState([
     [0, 0],
     [0, 0],
@@ -115,6 +116,45 @@ function Map() {
     });
   }
 
+  //Get all kills in a game
+  useEffect(() => {
+    const findKills = async () => {
+      const accessToken = await getAccessTokenSilently();
+      try {
+        const response = await fetch(
+          `https://hvz-api-noroff.herokuapp.com/api/v1/games/${gameId.gameId}/kills`,
+          { headers: createHeaders(accessToken) }
+        );
+        const data = await response.json();
+        setKillCords(data);
+        return [null, data];
+      } catch (error) {
+        return [error.message, []];
+      }
+    };
+    findKills();
+  }, []);
+
+  //Function to get all tombstones where players have been killed
+  function MultipleTombstoneMarkers() {
+    const map = useMapEvent({
+      click() {
+        map.locate();
+      },
+    });
+
+    return killCords.map((killItem) => {
+      return (
+        <Marker icon={tombstone} position={[killItem.lat, killItem.lng]}>
+          <Popup>
+            A dead player<br></br>
+            {killItem.timeOfDeath}
+          </Popup>
+        </Marker>
+      );
+    });
+  }
+
   //Get player location when the game starts
   function LocationMarker() {
     const [position, setPosition] = useState(null);
@@ -129,9 +169,13 @@ function Map() {
     });
 
     return position === null ? null : (
-      <Marker position={position}>
-        <Popup>Player Location</Popup>
-      </Marker>
+      <>
+        <Marker position={position}>
+          <Popup>Player Location</Popup>
+          {console.log(position.lat)}
+          {console.log(position.lng)}
+        </Marker>
+      </>
     );
   }
 
@@ -158,10 +202,7 @@ function Map() {
           pathOptions={{ color: "black" }}
         ></Rectangle>
         {/*test marker for tombstone styling*/}
-        <Marker icon={tombstone} position={[59.931145, 10.78683]}>
-          {" "}
-          <Popup>A dead player</Popup>
-        </Marker>
+        <MultipleTombstoneMarkers />
       </MapContainer>
     </>
   );
