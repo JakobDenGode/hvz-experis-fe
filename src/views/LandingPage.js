@@ -27,6 +27,7 @@ const LandingPage = () => {
     const postUser = async () => {
       if (user) {
         const accessToken = await getAccessTokenSilently();
+        console.log(accessToken);
         try {
           const response = await fetch(apiUrl, {
             method: "POST",

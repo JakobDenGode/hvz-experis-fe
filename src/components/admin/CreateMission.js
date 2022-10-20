@@ -75,7 +75,7 @@ function CreateMission() {
         body: JSON.stringify({
           missionName: data.missionName,
           missionDescription: data.missionDescription,
-          missionVisibility: data.missionVisibility,
+          missionVisibility: radioValue,
           startTime: data.startTime,
           endTime: data.endTime,
           missionLat: data.missionLat,
