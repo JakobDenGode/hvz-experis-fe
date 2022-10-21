@@ -43,6 +43,11 @@ function Map() {
   console.log("her-----");
   console.log(mapCords);
 
+  //to style map based on time
+  const date = new Date();
+  let hour = date.getHours();
+  console.log(hour);
+
   //styling for missions
   const fillZombie = { fillColor: "red" };
   const fillHuman = { fillColor: "blue" };
@@ -253,20 +258,28 @@ function Map() {
         height={180}
       >
         <LocationMarker />
-        <TileLayer
-          url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
-          attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-        />
 
         {/* marker for missions */}
         <MultipleMarkers />
         {/*Rectangle to draw game area*/}
         <Rectangle
           bounds={getRectangle}
-          pathOptions={{ color: "black" }}
+          pathOptions={{ color: "grey" }}
         ></Rectangle>
         {/*test marker for tombstone styling*/}
         <MultipleTombstoneMarkers />
+        {/*If time is greater than 17 we switch to night mode */}
+        {hour > 17 ? (
+          <TileLayer
+            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+          />
+        ) : (
+          <TileLayer
+            url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+          />
+        )}
       </MapContainer>
     </>
   );
