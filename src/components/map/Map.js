@@ -249,7 +249,7 @@ function Map() {
     <>
       <HeaderNavBar title={gameData.gameTitle} />
       <MapContainer
-        center={[59.930037166920634, 10.75424208634164]}
+        center={[59.93012584871356, 10.755658290786386]}
         zoom={14}
         scrollWheelZoom={false}
         height={180}
