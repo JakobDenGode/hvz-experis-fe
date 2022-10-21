@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   MapContainer,
@@ -10,15 +10,18 @@ import {
   Tooltip,
   LocationMarker,
   Circle,
+  useMap,
 } from "react-leaflet";
 import L from "leaflet";
 import { createHeaders } from "../admin/CreateHeaders";
 import { useAuth0 } from "@auth0/auth0-react";
-import { usePlayer } from "../../context/PlayerContext";
+import { useKillerCords, usePlayer } from "../../context/PlayerContext";
 import HeaderNavBar from "../nav/HeaderNavBar";
 import { divIcon } from "leaflet";
 import { Button } from "react-bootstrap";
 import { showBiteCode } from "../player/ShowBiteCode";
+import { storageSave } from "../../utils/storage";
+import { STORAGE_KEY_PLAYER } from "../../const/storageKeys";
 
 function Map() {
   const { getAccessTokenSilently } = useAuth0();
@@ -27,12 +30,11 @@ function Map() {
   const [gameData, setGame] = useState([]);
   const [cords, setCords] = useState([]);
   const [missionCords, setMissionCords] = useState([]);
-  const [killCords, setKillCords] = useState([]);
   const [getRectangle, setRectangle] = useState([
     [0, 0],
     [0, 0],
   ]);
-  const [killState, setKillState] = useState([]);
+  const [killCords, setKillCords] = useState([]);
 
   //styling for missions
   const fillZombie = { fillColor: "red" };
@@ -156,32 +158,86 @@ function Map() {
       );
     });
   }
-  
 
+  /*
+  useEffect(() => {
+    const map = useMap();
+    map.locate().on("locationfound", function (e) {
+      setPosition(e.latlng);
+      map.flyTo(e.latlng, map.getZoom());
+      const radius = e.accuracy;
+      const circle = L.circle(e.latlng, radius);
+      circle.addTo(map);
+      setBbox(e.bounds.toBBoxString().split(","));
+    });
+  }, [map]);
+
+
+*/
+
+  function LocationMarker() {
+    const [position, setPosition] = useState(null);
+
+    const map = useMap();
+    /*
+
+    useEffect(() => {
+      map.locate().on("locationfound", function (e) {
+        setPosition(e.latlng);
+        map.flyTo(e.latlng, map.getZoom());
+      });
+    }, [map]);
+
+    if (position !== null && player) {
+      console.log("her-----");
+      console.log(position);
+      storageSave(STORAGE_KEY_KILLCORDS, {
+        lat: position.lat,
+        lng: position.lng,
+      });
+      setTheMapCords(STORAGE_KEY_KILLCORDS, {
+        lat: position.lat,
+        lng: position.lng,
+      });
+    }
+    */
+
+    return position === null ? null : (
+      <>
+        <Marker position={position}>
+          <Popup>You are here.</Popup>
+        </Marker>
+        {console.log(position.lat, position.lng)}
+      </>
+    );
+  }
+
+  /*
   //Get player location when the game starts
   function LocationMarker() {
     const [position, setPosition] = useState(null);
-    const map = useMapEvent({
-      click() {
-        map.locate();
-      },
+    const map = useMap({
       locationfound(e) {
+        map.locate();
         setPosition(e.latlng);
         map.flyTo(e.latlng, map.getZoom());
       },
     });
 
+    */
+  /*
     return position === null ? null : (
       <>
         <Marker position={position}>
           <Popup>Player Location</Popup>
-          {/* Sets state for kill position */}
-          {/*setKillState([position.lat, position.lng]) */}
+         
+          {setKillState([position.lat, position.lng])}
           {console.log(killState)}
         </Marker>
       </>
     );
   }
+  */
 
   //Map
   return (
@@ -189,7 +245,7 @@ function Map() {
       <HeaderNavBar title={gameData.gameTitle} />
       <MapContainer
         center={[59.930037166920634, 10.75424208634164]}
-        zoom={8}
+        zoom={14}
         scrollWheelZoom={false}
         height={180}
       >
