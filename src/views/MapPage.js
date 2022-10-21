@@ -58,12 +58,6 @@ const MapPage = () => {
         human: true,
         bitecode: biteCodeIdResult.biteCode,
       });
-
-      window.history.replaceState(
-        null,
-        "",
-        `/game/${gameId.gameId}/player/${playerIdResult.player}/map`
-      );
     } catch (error) {
       //setPostError(error.toString());
       return [error.message, []];

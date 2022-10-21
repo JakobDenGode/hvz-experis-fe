@@ -6,9 +6,9 @@ function SquadList({ squads }) {
   return (
     <Row className="border">
       {squads.map((squad) => {
-        const { name, id } = squad;
+        const { name, id, members } = squad;
 
-        return <SquadItem key={id} id={id} name={name} />;
+        return <SquadItem key={id} id={id} name={name} members={members} />;
       })}
     </Row>
   );
