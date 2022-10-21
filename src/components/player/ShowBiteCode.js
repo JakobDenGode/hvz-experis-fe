@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { usePlayer } from "../../context/PlayerContext";
+import { useMapCords, usePlayer } from "../../context/PlayerContext";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 import { createHeaders } from "../admin/CreateHeaders";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import FormMessage from "../../common/FormMessage";
-// Spør mr front tech om hvordan vi kaller på map ting :)
 
 const schema = yup.object().shape({
   bitecode: yup
@@ -26,8 +25,7 @@ function ShowBiteCode() {
   const [postSuccess, setPostSuccess] = useState(false);
   const gameId = useParams();
   const { getAccessTokenSilently } = useAuth0();
-  //const [killState, setKillState] = useState([]);
-
+  const { mapCords, setMapCords } = useMapCords();
   const {
     register,
     handleSubmit,
@@ -39,6 +37,7 @@ function ShowBiteCode() {
   function showBiteCode() {
     //const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/player/Sjekk1`;
     console.log(player.human);
+    console.log(mapCords.lat);
 
     if (player.human === true) {
       console.log("hi");
@@ -61,8 +60,8 @@ function ShowBiteCode() {
         headers: createHeaders(accessToken),
         body: JSON.stringify({
           biteCode: data.bitecode,
-          lat: 0,
-          lng: 0,
+          lat: mapCords.lat,
+          lng: mapCords.lng,
           game: gameId.gameId,
           playerKiller: player.id,
         }),

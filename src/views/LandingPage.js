@@ -18,6 +18,7 @@ const LandingPage = () => {
     getAccessTokenSilently,
   } = useAuth0();
   const { MapCords, setMapCords } = useMapCords();
+  console.log("our map cords");
   console.log(MapCords);
 
   /*if (user) {

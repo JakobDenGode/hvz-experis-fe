@@ -15,13 +15,16 @@ import {
 import L from "leaflet";
 import { createHeaders } from "../admin/CreateHeaders";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useKillerCords, usePlayer } from "../../context/PlayerContext";
+import { useMapCords, usePlayer } from "../../context/PlayerContext";
 import HeaderNavBar from "../nav/HeaderNavBar";
 import { divIcon } from "leaflet";
 import { Button } from "react-bootstrap";
 import { showBiteCode } from "../player/ShowBiteCode";
 import { storageSave } from "../../utils/storage";
-import { STORAGE_KEY_PLAYER } from "../../const/storageKeys";
+import {
+  STORAGE_KEY_MAPCORDS,
+  STORAGE_KEY_PLAYER,
+} from "../../const/storageKeys";
 
 function Map() {
   const { getAccessTokenSilently } = useAuth0();
@@ -35,6 +38,10 @@ function Map() {
     [0, 0],
   ]);
   const [killCords, setKillCords] = useState([]);
+  const { mapCords, setMapCords } = useMapCords();
+
+  console.log("her-----");
+  console.log(mapCords);
 
   //styling for missions
   const fillZombie = { fillColor: "red" };
@@ -179,7 +186,6 @@ function Map() {
     const [position, setPosition] = useState(null);
 
     const map = useMap();
-    /*
 
     useEffect(() => {
       map.locate().on("locationfound", function (e) {
@@ -191,16 +197,15 @@ function Map() {
     if (position !== null && player) {
       console.log("her-----");
       console.log(position);
-      storageSave(STORAGE_KEY_KILLCORDS, {
+      storageSave(STORAGE_KEY_MAPCORDS, {
         lat: position.lat,
         lng: position.lng,
       });
-      setTheMapCords(STORAGE_KEY_KILLCORDS, {
+      setMapCords(STORAGE_KEY_MAPCORDS, {
         lat: position.lat,
         lng: position.lng,
       });
     }
-    */
 
     return position === null ? null : (
       <>
