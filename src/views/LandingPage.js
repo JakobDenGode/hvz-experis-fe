@@ -4,6 +4,7 @@ import Heading from "../common/Heading";
 import GameList from "../components/game-list/GameList";
 import CreateGame from "../components/admin/CreateGame";
 import { createHeaders } from "../components/admin/CreateHeaders";
+import { useMapCords } from "../context/PlayerContext";
 
 const LandingPage = () => {
   const {
@@ -16,11 +17,12 @@ const LandingPage = () => {
     getIdTokenClaims,
     getAccessTokenSilently,
   } = useAuth0();
+  const { MapCords, setMapCords } = useMapCords();
+  console.log(MapCords);
 
   /*if (user) {
     console.log(user["http://mynamespace/roles"].pop());
   }*/
-  console.log(user);
 
   useEffect(() => {
     const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}users`;

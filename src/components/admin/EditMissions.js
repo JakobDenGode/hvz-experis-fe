@@ -13,7 +13,7 @@ function EditMissions() {
 
   useEffect(() => {
     const findMissions = async () => {
-      const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions/1`;
+      const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions/9`;
       const accessToken = await getAccessTokenSilently();
       try {
         const response = await fetch(apiUrl, {
@@ -31,22 +31,43 @@ function EditMissions() {
     findMissions();
   }, []);
 
-  function displayModal(id) {
-    setDisplayModalForm(!displayModalForm);
-    /*
-    const newMissions = missions.map((mission) => {
-      // find the same id as you click on
-      console.log(player);
-      /*
-      if (mission.id === id) {
-
-        return { ...mission, human: !player.human };
-      }
-      return player;
-    });
-
-    */
+  function changeArray(id, formData) {
     console.log(id);
+    console.log(formData);
+    if (formData) {
+      console.log("hi");
+      const newMissions = missions.map((mission) => {
+        return mission;
+      });
+      console.log(newMissions);
+      //setMissions(newMissions);
+    }
+  }
+
+  function deleteMission(id) {
+    console.log(id);
+    const newMissions = missions.filter((mission) => {
+      if (id !== mission.id) {
+        const deleteMission = async () => {
+          const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions/${id}`;
+          const accessToken = await getAccessTokenSilently();
+          try {
+            const response = await fetch(apiUrl2, {
+              method: "DELETE",
+              headers: createHeaders(accessToken),
+            });
+            console.log(response);
+          } catch (error) {
+            console.log(error);
+            return [error.message, []];
+          }
+        };
+        deleteMission();
+
+        return mission;
+      }
+    });
+    setMissions(newMissions);
   }
 
   return (
@@ -66,7 +87,11 @@ function EditMissions() {
               Change
             </Col>
           </Row>
-          <MissionList missions={missions} onShowEditForm={displayModal} />
+          <MissionList
+            missions={missions}
+            onShowEditForm={changeArray}
+            onDeleteMission={deleteMission}
+          />
         </Container>
       </div>
       <Button className="w-100 border-danger bg-danger">Delete mission</Button>

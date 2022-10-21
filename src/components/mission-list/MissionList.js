@@ -2,7 +2,7 @@ import React from "react";
 import { Row } from "react-bootstrap";
 import MissionItem from "./MissionItem";
 
-function MissionList({ missions, onShowEditForm }) {
+function MissionList({ missions, onShowEditForm, onDeleteMission }) {
   return (
     <Row className="border mt-2">
       {missions.map((mission) => {
@@ -15,6 +15,7 @@ function MissionList({ missions, onShowEditForm }) {
             name={missionName}
             description={missionDescription}
             onShowEditForm={onShowEditForm}
+            onDeleteMission={onDeleteMission}
           />
         );
       })}
