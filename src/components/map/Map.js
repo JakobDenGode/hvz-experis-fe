@@ -47,11 +47,24 @@ function Map() {
   const fillZombie = { fillColor: "red" };
   const fillHuman = { fillColor: "blue" };
 
+  //Option 1
+  //https://img.icons8.com/color/344/headstone--v1.png
+  //Option 2
+  //https://img.icons8.com/external-justicon-lineal-color-justicon/344/external-zombie-halloween-justicon-lineal-color-justicon-1.png
   //styling for tombstone marker
   const tombstone = L.icon({
-    iconUrl: "https://img.icons8.com/ios-filled/50/000000/grave.png",
-    iconSize: [23, 23], // size of the icon
-    iconAnchor: [23, 23], // point of the icon which will correspond to marker's location
+    iconUrl:
+      "https://img.icons8.com/external-justicon-lineal-color-justicon/344/external-zombie-halloween-justicon-lineal-color-justicon-1.png",
+    iconSize: [35, 35], // size of the icon
+    iconAnchor: [35, 35], // point of the icon which will correspond to marker's location
+    popupAnchor: [-10, -15], // point from which the popup should open relative to the iconAnchor
+  });
+
+  //styling for mission Icon
+  const missionIcon = L.icon({
+    iconUrl: "https://img.icons8.com/doodle/344/filled-flag.png",
+    iconSize: [35, 35], // size of the icon
+    iconAnchor: [35, 35], // point of the icon which will correspond to marker's location
     popupAnchor: [-10, -15], // point from which the popup should open relative to the iconAnchor
   });
 
@@ -113,15 +126,16 @@ function Map() {
     });
     return missionCords.map((item) => {
       return (
-        <Circle
-          center={[item.missionLat, item.missionLng]}
-          pathOptions={fillHuman}
-          radius={70}
+        <Marker
+          position={[item.missionLat, item.missionLng]}
+          icon={missionIcon}
         >
           <Popup>
+            <b>Mission</b>
+            <br></br>
             {item.missionName} <br></br> {item.missionDescription}
           </Popup>
-        </Circle>
+        </Marker>
       );
     });
   }
@@ -165,22 +179,6 @@ function Map() {
       );
     });
   }
-
-  /*
-  useEffect(() => {
-    const map = useMap();
-    map.locate().on("locationfound", function (e) {
-      setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
-      const radius = e.accuracy;
-      const circle = L.circle(e.latlng, radius);
-      circle.addTo(map);
-      setBbox(e.bounds.toBBoxString().split(","));
-    });
-  }, [map]);
-
-
-*/
 
   function LocationMarker() {
     const [position, setPosition] = useState(null);
@@ -256,9 +254,10 @@ function Map() {
       >
         <LocationMarker />
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
         />
+
         {/* marker for missions */}
         <MultipleMarkers />
         {/*Rectangle to draw game area*/}
