@@ -145,7 +145,7 @@ function Map() {
           zoom={8}
           scrollWheelZoom={false}
           height={180}
-          style={{ height: 480, width: "90%" }}
+          style={{ height: "80vh", width: "100%" }}
         >
           <LocationMarker />
           <TileLayer
