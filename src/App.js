@@ -15,6 +15,7 @@ import AdminPage from "./views/EditPage";
 import { Auth0Provider } from "@auth0/auth0-react";
 import EditPage from "./views/EditPage";
 import { usePlayer } from "./context/PlayerContext";
+import SingleSquad from "./views/SingleSquad";
 
 const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
   const navigate = useNavigate();
@@ -42,17 +43,16 @@ function App() {
         redirectUri={window.location.origin}
         audience={process.env.REACT_APP_AUTH0_AUDIENCE}
       >
-        <Container>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/games/:gameId/squad" element={<SquadPage />} />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/games/:gameId/squad" element={<SquadPage />} />
 
-            <Route path="/games/:gameId/chat" element={<ChatPage />} />
-            <Route path="games/:gameId/admin" element={<AdminPage />} />
-            <Route path="/games/:gameId/edit" element={<EditPage />} />
-            <Route path="games/:gameId/map" element={<MapPage />} />
-          </Routes>
-        </Container>
+          <Route path="/games/:gameId/chat" element={<ChatPage />} />
+          <Route path="games/:gameId/admin" element={<AdminPage />} />
+          <Route path="/games/:gameId/edit" element={<EditPage />} />
+          <Route path="games/:gameId/map" element={<MapPage />} />
+          <Route path="games/:gameId/mysquad" element={<SingleSquad />} />
+        </Routes>
       </Auth0ProviderWithRedirectCallback>
     </BrowserRouter>
   );

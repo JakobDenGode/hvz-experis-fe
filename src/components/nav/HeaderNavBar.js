@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { createHeaders } from "../admin/CreateHeaders";
 import { storageSave } from "../../utils/storage";
 import { STORAGE_KEY_PLAYER } from "../../const/storageKeys";
+import Heading from "../../common/Heading";
 
 function HeaderNavBar({ title }) {
   const { getAccessTokenSilently } = useAuth0();
@@ -77,9 +78,23 @@ function HeaderNavBar({ title }) {
   };
 
   return (
-    <Nav className="mx-auto w-100 bg-light justify-content-around">
-      <div onClick={goToLanding}>Exit</div>
-      <h2>{title}</h2>
+    <Nav className="w-100 bg-light d-flex align-items-center justify-content-around">
+      <img
+        className="back-arrow"
+        src="/assets/back.png"
+        onClick={goToLanding}
+      />
+      <h2
+        style={{
+          color: "black",
+          fontSize: "40px",
+          fontWeight: "600",
+          textAlign: "center",
+          padding: "20px",
+        }}
+      >
+        {title}
+      </h2>
 
       <ShowBiteCode />
     </Nav>

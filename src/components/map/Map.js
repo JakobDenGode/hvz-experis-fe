@@ -18,7 +18,7 @@ import { usePlayer } from "../../context/PlayerContext";
 import HeaderNavBar from "../nav/HeaderNavBar";
 
 import { divIcon } from "leaflet";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 
 function Map() {
   const { getAccessTokenSilently } = useAuth0();
@@ -139,30 +139,33 @@ function Map() {
   return (
     <>
       <HeaderNavBar title={gameData.gameTitle} />
-      <MapContainer
-        center={[59.930037166920634, 10.75424208634164]}
-        zoom={8}
-        scrollWheelZoom={false}
-        height={180}
-      >
-        <LocationMarker />
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {/* marker for missions */}
-        <MultipleMarkers />
-        {/*Rectangle to draw game area*/}
-        <Rectangle
-          bounds={getRectangle}
-          pathOptions={{ color: "black" }}
-        ></Rectangle>
-        {/*test marker for tombstone styling*/}
-        <Marker icon={tombstone} position={[59.931145, 10.78683]}>
-          {" "}
-          <Popup>A dead player</Popup>
-        </Marker>
-      </MapContainer>
+      <Container className="px-0 border">
+        <MapContainer
+          center={[59.930037166920634, 10.75424208634164]}
+          zoom={8}
+          scrollWheelZoom={false}
+          height={180}
+          style={{ height: 480, width: "90%" }}
+        >
+          <LocationMarker />
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {/* marker for missions */}
+          <MultipleMarkers />
+          {/*Rectangle to draw game area*/}
+          <Rectangle
+            bounds={getRectangle}
+            pathOptions={{ color: "black" }}
+          ></Rectangle>
+          {/*test marker for tombstone styling*/}
+          <Marker icon={tombstone} position={[59.931145, 10.78683]}>
+            {" "}
+            <Popup>A dead player</Popup>
+          </Marker>
+        </MapContainer>
+      </Container>
     </>
   );
 }

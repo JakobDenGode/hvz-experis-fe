@@ -9,6 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { createHeaders } from "../components/admin/CreateHeaders";
 import CreateSquad from "../components/player/CreateSquad";
 import LeaveSquad from "../components/player/LeaveSquad";
+import { Container } from "react-bootstrap";
 
 function SquadPage() {
   const gameId = useParams();
@@ -43,10 +44,11 @@ function SquadPage() {
   return (
     <div>
       <Heading title="Squads" />
-      {player && <CreateSquad />}
-      {squad && <LeaveSquad />}
-      <CreateSquad />
-      <SquadList squads={squads} />
+      <Container>
+        {player && <CreateSquad />}
+        {squad && <LeaveSquad />}
+        <SquadList squads={squads} />
+      </Container>
       <MobileNavBar />
     </div>
   );
