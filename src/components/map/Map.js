@@ -180,8 +180,6 @@ function Map() {
       setBbox(e.bounds.toBBoxString().split(","));
     });
   }, [map]);
-
-
 */
 
   function LocationMarker() {
@@ -253,7 +251,7 @@ function Map() {
       <Container className="px-0 border">
         <MapContainer
           center={[59.930037166920634, 10.75424208634164]}
-          zoom={8}
+          zoom={15}
           scrollWheelZoom={false}
           height={180}
           style={{ height: "80vh", width: "100%" }}
