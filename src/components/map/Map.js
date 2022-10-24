@@ -45,15 +45,33 @@ function Map() {
   console.log("her-----");
   console.log(mapCords);
 
+  //to style map based on time
+  const date = new Date();
+  let hour = date.getHours();
+  console.log(hour);
+
   //styling for missions
   const fillZombie = { fillColor: "red" };
   const fillHuman = { fillColor: "blue" };
 
+  //Option 1
+  //https://img.icons8.com/color/344/headstone--v1.png
+  //Option 2
+  //https://img.icons8.com/external-justicon-lineal-color-justicon/344/external-zombie-halloween-justicon-lineal-color-justicon-1.png
   //styling for tombstone marker
   const tombstone = L.icon({
-    iconUrl: "https://img.icons8.com/ios-filled/50/000000/grave.png",
-    iconSize: [23, 23], // size of the icon
-    iconAnchor: [23, 23], // point of the icon which will correspond to marker's location
+    iconUrl:
+      "https://img.icons8.com/external-justicon-lineal-color-justicon/344/external-zombie-halloween-justicon-lineal-color-justicon-1.png",
+    iconSize: [35, 35], // size of the icon
+    iconAnchor: [35, 35], // point of the icon which will correspond to marker's location
+    popupAnchor: [-10, -15], // point from which the popup should open relative to the iconAnchor
+  });
+
+  //styling for mission Icon
+  const missionIcon = L.icon({
+    iconUrl: "https://img.icons8.com/doodle/344/filled-flag.png",
+    iconSize: [35, 35], // size of the icon
+    iconAnchor: [35, 35], // point of the icon which will correspond to marker's location
     popupAnchor: [-10, -15], // point from which the popup should open relative to the iconAnchor
   });
 
@@ -115,15 +133,16 @@ function Map() {
     });
     return missionCords.map((item) => {
       return (
-        <Circle
-          center={[item.missionLat, item.missionLng]}
-          pathOptions={fillHuman}
-          radius={70}
+        <Marker
+          position={[item.missionLat, item.missionLng]}
+          icon={missionIcon}
         >
           <Popup>
+            <b>Mission</b>
+            <br></br>
             {item.missionName} <br></br> {item.missionDescription}
           </Popup>
-        </Circle>
+        </Marker>
       );
     });
   }
@@ -168,6 +187,7 @@ function Map() {
     });
   }
 
+
   /*
   useEffect(() => {
     const map = useMap();
@@ -194,6 +214,13 @@ function Map() {
       });
     }, [map]);
 
+    /*
+    const interval = setInterval(() => {
+      console.log("This will run every second!");
+    }, 10000);
+    console.log(interval);
+    */
+
     if (position !== null && player) {
       console.log("her-----");
       console.log(position);
@@ -217,33 +244,6 @@ function Map() {
     );
   }
 
-  /*
-  //Get player location when the game starts
-  function LocationMarker() {
-    const [position, setPosition] = useState(null);
-    const map = useMap({
-      locationfound(e) {
-        map.locate();
-        setPosition(e.latlng);
-        map.flyTo(e.latlng, map.getZoom());
-      },
-    });
-
-    */
-  /*
-    return position === null ? null : (
-      <>
-        <Marker position={position}>
-          <Popup>Player Location</Popup>
-         
-          {setKillState([position.lat, position.lng])}
-          {console.log(killState)}
-        </Marker>
-      </>
-    );
-  }
-  */
-
   //Map
   return (
     <>
@@ -264,37 +264,34 @@ function Map() {
           {/* marker for missions */}
           <MultipleMarkers />
           {/*Rectangle to draw game area*/}
-          <Rectangle
-            bounds={getRectangle}
-            pathOptions={{ color: "black" }}
-          ></Rectangle>
-          {/*test marker for tombstone styling*/}
-          <Marker icon={tombstone} position={[59.931145, 10.78683]}>
-            {" "}
-            <Popup>A dead player</Popup>
-          </Marker>
+
+          {/* marker for tombstone styling*/}
+        <MultipleTombstoneMarkers />
+        {/*If time is greater than 17 we switch to night mode */}
+        {hour > 5 && hour < 17 ? (
+          <>
+            <TileLayer
+              url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
+              attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+            />
+            <Rectangle
+              bounds={getRectangle}
+              pathOptions={{ color: "grey" }}
+            ></Rectangle>
+          </>
+        ) : (
+          <>
+            <TileLayer
+              url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+              attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+            />
+            <Rectangle
+              bounds={getRectangle}
+              pathOptions={{ color: "green" }}
+            ></Rectangle>
+          </>)}
         </MapContainer>
       </Container>
-      {/*
-      <MapContainer
-        center={[59.93012584871356, 10.755658290786386]}
-        zoom={14}
-        scrollWheelZoom={false}
-        height={180}
-      >
-        <LocationMarker />
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <MultipleMarkers />
-        <Rectangle
-          bounds={getRectangle}
-          pathOptions={{ color: "black" }}
-        ></Rectangle>
-        <MultipleTombstoneMarkers />
-      </MapContainer>
-  */}
 </>
     
   );
