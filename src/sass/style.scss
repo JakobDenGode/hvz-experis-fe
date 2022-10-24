@@ -3,15 +3,19 @@ html {
   height: 100%;
 }
 
+$body-bg: rgb(16, 16, 55);
 $link-color: rgb(0, 0, 0);
+$link-hover-color: grey;
 $primary: #8C0303;
 $secondary: #587E8C;
 
 
+@import "partials/animation";
 @import "partials/layout";
 @import "partials/map";
 @import "partials/modal";
 @import "partials/forms";
 @import "partials/nav";
 @import "partials/icons";
+@import "partials/games";
 @import "~bootstrap/scss/bootstrap";

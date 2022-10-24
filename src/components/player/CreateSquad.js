@@ -49,9 +49,10 @@ function CreateSquad() {
 
     const accessToken = await getAccessTokenSilently();
     const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/squad`;
+    const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/squads`;
 
     try {
-      const response = await fetch(apiUrl, {
+      const newSquadPost = await fetch(apiUrl, {
         method: "POST",
         headers: createHeaders(accessToken),
         body: JSON.stringify({
@@ -60,22 +61,27 @@ function CreateSquad() {
           player: player.id,
         }),
       });
-      console.log(response);
+
+      const allSquadsFetch = await fetch(apiUrl2, {
+        method: "GET",
+        headers: createHeaders(accessToken),
+      });
+
+      const allSquadsFetchResult = await allSquadsFetch.json();
+      console.log(allSquadsFetchResult);
       setPostSuccess(true);
       setSquad({});
       storageSave(STORAGE_KEY_SQUAD, {
+        id: allSquadsFetchResult[allSquadsFetchResult.length - 1].id,
         player: player.id,
-        name: data.name,
       });
       setSquad({
+        id: allSquadsFetchResult[allSquadsFetchResult.length - 1].id,
         player: player.id,
-        name: data.name,
       });
       setTimeout(() => {
         setDisplayModalForm(false);
       }, 1500);
-      if (!response.ok) throw new Error("Could not create user with username");
-      return [null, response];
     } catch (error) {
       console.log(error);
       setPostError(error.toString());
