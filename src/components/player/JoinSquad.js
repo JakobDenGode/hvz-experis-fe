@@ -33,6 +33,7 @@ function JoinSquad({ id }) {
           player: player.id,
         });
         setSquad({
+          id: id,
           player: player.id,
         });
         navigate(`/games/${gameId.gameId}/mysquad`);

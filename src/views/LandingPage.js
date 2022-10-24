@@ -23,9 +23,10 @@ const LandingPage = () => {
   console.log(MapCords);
 
   /*if (user) {
-    console.log(user["http://mynamespace/roles"].pop());
+    console
+  .log(user["http://mynamespace/roles"].pop());
   }*/
-
+  console.log(user);
   useEffect(() => {
     const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}users`;
     const postUser = async () => {
