@@ -18,7 +18,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useMapCords, usePlayer } from "../../context/PlayerContext";
 import HeaderNavBar from "../nav/HeaderNavBar";
 import { divIcon } from "leaflet";
-import { Button, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { showBiteCode } from "../player/ShowBiteCode";
 import { storageSave } from "../../utils/storage";
@@ -277,7 +277,7 @@ function Map() {
           </Marker>
         </MapContainer>
       </Container>
-{/*
+      {/*
       <MapContainer
         center={[59.93012584871356, 10.755658290786386]}
         zoom={14}
@@ -289,14 +289,11 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {/* marker for missions */}
         <MultipleMarkers />
-        {/*Rectangle to draw game area*/}
         <Rectangle
           bounds={getRectangle}
           pathOptions={{ color: "black" }}
         ></Rectangle>
-        {/*test marker for tombstone styling*/}
         <MultipleTombstoneMarkers />
       </MapContainer>
   */}
