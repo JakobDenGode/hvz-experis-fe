@@ -60,7 +60,7 @@ function HeaderNavBar({ title }) {
       localStorage.clear();
 
       // Navigate back to LandingPage
-      navigate("/");
+      navigate("/games");
 
       // delete squad
     }

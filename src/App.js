@@ -16,6 +16,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import EditPage from "./views/EditPage";
 import { usePlayer } from "./context/PlayerContext";
 import SingleSquad from "./views/SingleSquad";
+import LandingAnimation from "./views/LandingAnimation";
 
 const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
   const navigate = useNavigate();
@@ -44,9 +45,9 @@ function App() {
         audience={process.env.REACT_APP_AUTH0_AUDIENCE}
       >
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingAnimation />} />
           <Route path="/games/:gameId/squad" element={<SquadPage />} />
-
+          <Route path="/games" element={<LandingPage />} />
           <Route path="/games/:gameId/chat" element={<ChatPage />} />
           <Route path="games/:gameId/admin" element={<AdminPage />} />
           <Route path="/games/:gameId/edit" element={<EditPage />} />

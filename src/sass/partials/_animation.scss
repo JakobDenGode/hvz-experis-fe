@@ -1,0 +1,231 @@
+body {
+  background-color: #252759;
+}
+
+.image-container {
+  text-align: center;
+  width: 75%;
+  margin-top: 54%;
+}
+
+.boy-container {
+  animation: boy-disappear 5s;
+  animation-fill-mode: forwards;
+}
+
+.boy {
+  width: 60%;
+}
+
+.boy3 {
+  width: 93%;
+  animation: boy-appear 8s;
+  animation-fill-mode: forwards;
+  left: 50%;
+}
+
+@keyframes boy-appear {
+  0% {
+    opacity: 0;
+  }
+
+  60% {
+    opacity: 0;
+  }
+
+  65% {
+    opacity: 1;
+    left: 50%;
+  }
+
+  75% {
+    left: -40%;
+  }
+
+  100% {
+    opacity: 1;
+    left: -70%;
+  }
+}
+
+@keyframes boy-disappear {
+  0% {
+    opacity: 1;
+  }
+
+  98% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.boy3 {
+  top: 0;
+  transform: translate(-47%);
+}
+
+.eyes {
+  top: 32%;
+  left: 38%;
+  width: 25%;
+  animation: look-around 4s;
+}
+
+@keyframes look-around {
+  0% {
+    transform: translate(0)
+  }
+
+  5% {
+    transform: translate(5%)
+  }
+
+  20% {
+    transform: translate(-20%)
+  }
+
+  25% {
+    transform: translate(-10%)
+  }
+
+  100% {
+    transform: translate(0, 0)
+  }
+}
+
+.mouth {
+  top: 50%;
+  left: 40%;
+  width: 18%;
+  animation: mouth-disappear 4s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes mouth-disappear {
+  0% {
+    opacity: 1;
+  }
+
+  95% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.mouth2 {
+  top: 50%;
+  left: 43%;
+  width: 10%;
+  animation: mouth2-appear 4s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes mouth2-appear {
+  0% {
+    opacity: 0;
+  }
+
+  95% {
+    opacity: 0;
+  }
+
+  100% {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.zombie {
+  width: 80%;
+  animation: zombie-wiggle 2s linear infinite;
+  animation-delay: 8s;
+}
+
+@keyframes zombie-wiggle {
+
+  0%,
+  7% {
+    transform: rotateZ(0);
+  }
+
+  15% {
+    transform: rotateZ(-15deg);
+  }
+
+  20% {
+    transform: rotateZ(10deg);
+  }
+
+  25% {
+    transform: rotateZ(-10deg);
+  }
+
+  30% {
+    transform: rotateZ(6deg);
+  }
+
+  35% {
+    transform: rotateZ(-4deg);
+  }
+
+  100% {
+    transform: rotateZ(0);
+  }
+}
+
+.zombie-container {
+  top: 0%;
+  left: 130%;
+  width: 100%;
+  animation: zombie-appear 8s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes zombie-appear {
+  0% {
+    left: 130%;
+  }
+
+  60% {
+    left: 100%;
+  }
+
+  90% {
+    left: 5%;
+  }
+
+  100% {
+    opacity: 1;
+    left: 5%;
+  }
+}
+
+.grass {
+  width: 100%;
+  margin-top: -19%;
+}
+
+.logo {
+  width: 95%;
+  transform: translate(-103%);
+  animation: logo-up 1s;
+  animation-fill-mode: forwards;
+  animation-delay: 8s;
+  top: 110%;
+}
+
+@keyframes logo-up {
+  0% {
+    top: 110%;
+  }
+
+  100% {
+    top: 20%;
+  }
+}
