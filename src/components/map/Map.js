@@ -236,7 +236,7 @@ function Map() {
       <Container className="px-0 border">
         <MapContainer
           center={[59.930037166920634, 10.75424208634164]}
-          zoom={8}
+          zoom={15}
           scrollWheelZoom={false}
           height={180}
           style={{ height: "80vh", width: "100%" }}
@@ -249,29 +249,8 @@ function Map() {
           {/* marker for missions */}
           <MultipleMarkers />
           {/*Rectangle to draw game area*/}
-          <Rectangle
-            bounds={getRectangle}
-            pathOptions={{ color: "black" }}
-          ></Rectangle>
-          {/*test marker for tombstone styling*/}
-          <Marker icon={tombstone} position={[59.931145, 10.78683]}>
-            {" "}
-            <Popup>A dead player</Popup>
-          </Marker>
-        </MapContainer>
-      </Container>
-      {/*
-      <MapContainer
-        center={[59.93012584871356, 10.755658290786386]}
-        zoom={14}
-        scrollWheelZoom={false}
-        height={180}
-      >
-        <LocationMarker />
-        {/* marker for missions */}
-        <MultipleMarkers />
-        {/*Rectangle to draw game area*/}
-        {/* marker for tombstone styling*/}
+
+          {/* marker for tombstone styling*/}
         <MultipleTombstoneMarkers />
         {/*If time is greater than 17 we switch to night mode */}
         {hour > 5 && hour < 17 ? (
@@ -295,10 +274,9 @@ function Map() {
               bounds={getRectangle}
               pathOptions={{ color: "green" }}
             ></Rectangle>
-          </>
-        )}
-      </MapContainer>
-  */}
+          </>)}
+        </MapContainer>
+      </Container>
 </>
     
   );
