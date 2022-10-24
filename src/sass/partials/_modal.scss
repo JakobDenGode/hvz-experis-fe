@@ -24,9 +24,11 @@
 
   &--close {
     position: absolute;
-    top: 5px;
-    right: 10px;
+    font-size: 40px;
+    top: 0px;
+    right: 0px;
     width: 50px;
+    color: rgb(161, 105, 0);
   }
 
   &--close:hover,

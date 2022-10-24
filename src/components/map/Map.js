@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   MapContainer,
@@ -10,15 +10,23 @@ import {
   Tooltip,
   LocationMarker,
   Circle,
+  useMap,
 } from "react-leaflet";
 import L from "leaflet";
 import { createHeaders } from "../admin/CreateHeaders";
 import { useAuth0 } from "@auth0/auth0-react";
-import { usePlayer } from "../../context/PlayerContext";
+import { useMapCords, usePlayer } from "../../context/PlayerContext";
 import HeaderNavBar from "../nav/HeaderNavBar";
-
 import { divIcon } from "leaflet";
+import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import { showBiteCode } from "../player/ShowBiteCode";
+import { storageSave } from "../../utils/storage";
+import {
+  STORAGE_KEY_MAPCORDS,
+  STORAGE_KEY_PLAYER,
+} from "../../const/storageKeys";
+
 
 function Map() {
   const { getAccessTokenSilently } = useAuth0();
@@ -31,6 +39,11 @@ function Map() {
     [0, 0],
     [0, 0],
   ]);
+  const [killCords, setKillCords] = useState([]);
+  const { mapCords, setMapCords } = useMapCords();
+
+  console.log("her-----");
+  console.log(mapCords);
 
   //styling for missions
   const fillZombie = { fillColor: "red" };
@@ -115,33 +128,159 @@ function Map() {
     });
   }
 
-  //Get player location when the game starts
-  function LocationMarker() {
-    const [position, setPosition] = useState(null);
+  //Get all kills in a game
+  useEffect(() => {
+    const findKills = async () => {
+      const accessToken = await getAccessTokenSilently();
+      try {
+        const response = await fetch(
+          `https://hvz-api-noroff.herokuapp.com/api/v1/games/${gameId.gameId}/kills`,
+          { headers: createHeaders(accessToken) }
+        );
+        const data = await response.json();
+        setKillCords(data);
+        return [null, data];
+      } catch (error) {
+        return [error.message, []];
+      }
+    };
+    findKills();
+  }, []);
+
+  //Function to get all tombstones where players have been killed
+  function MultipleTombstoneMarkers() {
     const map = useMapEvent({
       click() {
         map.locate();
       },
+    });
+
+    return killCords.map((killItem) => {
+      return (
+        <Marker icon={tombstone} position={[killItem.lat, killItem.lng]}>
+          <Popup>
+            A dead player: {killItem.id}
+            <br></br> Killed at: <br></br>
+            {killItem.timeOfDeath}
+          </Popup>
+        </Marker>
+      );
+    });
+  }
+
+  /*
+  useEffect(() => {
+    const map = useMap();
+    map.locate().on("locationfound", function (e) {
+      setPosition(e.latlng);
+      map.flyTo(e.latlng, map.getZoom());
+      const radius = e.accuracy;
+      const circle = L.circle(e.latlng, radius);
+      circle.addTo(map);
+      setBbox(e.bounds.toBBoxString().split(","));
+    });
+  }, [map]);
+
+
+*/
+
+  function LocationMarker() {
+    const [position, setPosition] = useState(null);
+
+    const map = useMap();
+
+    useEffect(() => {
+      map.locate().on("locationfound", function (e) {
+        setPosition(e.latlng);
+        map.flyTo(e.latlng, map.getZoom());
+      });
+    }, [map]);
+
+    if (position !== null && player) {
+      console.log("her-----");
+      console.log(position);
+      storageSave(STORAGE_KEY_MAPCORDS, {
+        lat: position.lat,
+        lng: position.lng,
+      });
+      setMapCords(STORAGE_KEY_MAPCORDS, {
+        lat: position.lat,
+        lng: position.lng,
+      });
+    }
+
+    return position === null ? null : (
+      <>
+        <Marker position={position}>
+          <Popup>You are here.</Popup>
+        </Marker>
+        {console.log(position.lat, position.lng)}
+      </>
+    );
+  }
+
+  /*
+  //Get player location when the game starts
+  function LocationMarker() {
+    const [position, setPosition] = useState(null);
+    const map = useMap({
       locationfound(e) {
+        map.locate();
         setPosition(e.latlng);
         map.flyTo(e.latlng, map.getZoom());
       },
     });
 
+    */
+  /*
     return position === null ? null : (
-      <Marker position={position}>
-        <Popup>Player Location</Popup>
-      </Marker>
+      <>
+        <Marker position={position}>
+          <Popup>Player Location</Popup>
+         
+          {setKillState([position.lat, position.lng])}
+          {console.log(killState)}
+        </Marker>
+      </>
     );
   }
+  */
 
   //Map
   return (
     <>
       <HeaderNavBar title={gameData.gameTitle} />
+      <Container className="px-0 border">
+        <MapContainer
+          center={[59.930037166920634, 10.75424208634164]}
+          zoom={8}
+          scrollWheelZoom={false}
+          height={180}
+          style={{ height: "80vh", width: "100%" }}
+        >
+          <LocationMarker />
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {/* marker for missions */}
+          <MultipleMarkers />
+          {/*Rectangle to draw game area*/}
+          <Rectangle
+            bounds={getRectangle}
+            pathOptions={{ color: "black" }}
+          ></Rectangle>
+          {/*test marker for tombstone styling*/}
+          <Marker icon={tombstone} position={[59.931145, 10.78683]}>
+            {" "}
+            <Popup>A dead player</Popup>
+          </Marker>
+        </MapContainer>
+      </Container>
+      {/*
       <MapContainer
-        center={[59.930037166920634, 10.75424208634164]}
-        zoom={8}
+        center={[59.93012584871356, 10.755658290786386]}
+        zoom={14}
         scrollWheelZoom={false}
         height={180}
       >
@@ -150,20 +289,16 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {/* marker for missions */}
         <MultipleMarkers />
-        {/*Rectangle to draw game area*/}
         <Rectangle
           bounds={getRectangle}
           pathOptions={{ color: "black" }}
         ></Rectangle>
-        {/*test marker for tombstone styling*/}
-        <Marker icon={tombstone} position={[59.931145, 10.78683]}>
-          {" "}
-          <Popup>A dead player</Popup>
-        </Marker>
+        <MultipleTombstoneMarkers />
       </MapContainer>
-    </>
+  */}
+</>
+    
   );
 }
 

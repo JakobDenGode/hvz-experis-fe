@@ -239,7 +239,7 @@ function EditCreatedGame() {
             <Form.Label htmlFor="gameState" className="mt-3">
               State of game
             </Form.Label>
-            {/*
+
             <ButtonGroup className="d-block">
               {radioButtons.map((radio, idx) => (
                 <ToggleButton
@@ -256,7 +256,7 @@ function EditCreatedGame() {
                 </ToggleButton>
               ))}
             </ButtonGroup>
-            */}
+
             <button
               type="submit"
               className="button mt-3 bg-primary text-white w-100 border border-none p-2"

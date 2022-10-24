@@ -23,31 +23,52 @@ function MobileNavBar() {
 
   return (
     <>
-      <Navbar
-        bg={`${
+      <div
+        className={`d-flex justify-content-around border position-fixed w-100 bottom-0 right-0 border ${
           !player
-            ? "secondary"
+            ? "bg-secondary"
             : player.human === false
-            ? "primary"
-            : "secondary"
+            ? "bg-primary"
+            : "bg-secondary"
         }`}
-        expand="lg"
-        className="position-fixed w-100 bottom-0 right-0 border"
       >
-        <Nav className="mx-auto w-100">
-          <div className="d-flex justify-content-around">
-            <Link to={`/games/${gameId}/squad`}>Squads</Link>
-            {player && <Link to={`/games/${gameId}/chat`}>Chat</Link>}
-            <Link to={`/games/${gameId}/map`}>Map</Link>
-            {user && user["https//:hvz-server.com/roles"].length > 0 && (
-              <>
-                <Link to={`/games/${gameId}/chat`}>Chat</Link>
-                <Link to={`/games/${gameId}/edit`}>Edit</Link>
-              </>
-            )}
-          </div>
-        </Nav>
-      </Navbar>
+        <Link
+          className="nav-link w-100  p-3 text-center border"
+          to={`/games/${gameId}/squad`}
+        >
+          Squads
+        </Link>
+        {player && (
+          <Link
+            className="nav-link w-100 p-3 text-center  border"
+            to={`/games/${gameId}/chat`}
+          >
+            Chat
+          </Link>
+        )}
+        <Link
+          className="nav-link w-100 text-center p-3 text-center border"
+          to={`/games/${gameId}/map`}
+        >
+          Map
+        </Link>
+        {user && user["https//:hvz-server.com/roles"].length > 0 && (
+          <>
+            <Link
+              className="nav-link w-100  p-3 text-center border"
+              to={`/games/${gameId}/chat`}
+            >
+              Chat
+            </Link>
+            <Link
+              className="nav-link w-100  p-3 text-center border"
+              to={`/games/${gameId}/edit`}
+            >
+              Edit
+            </Link>
+          </>
+        )}
+      </div>
     </>
   );
 }

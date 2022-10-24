@@ -4,6 +4,8 @@ import Heading from "../common/Heading";
 import GameList from "../components/game-list/GameList";
 import CreateGame from "../components/admin/CreateGame";
 import { createHeaders } from "../components/admin/CreateHeaders";
+import { useMapCords } from "../context/PlayerContext";
+import { Button, Container } from "react-bootstrap";
 
 const LandingPage = () => {
   const {
@@ -16,6 +18,9 @@ const LandingPage = () => {
     getIdTokenClaims,
     getAccessTokenSilently,
   } = useAuth0();
+  const { MapCords, setMapCords } = useMapCords();
+  console.log("our map cords");
+  console.log(MapCords);
 
   /*if (user) {
     console.log(user["http://mynamespace/roles"].pop());
@@ -69,34 +74,33 @@ const LandingPage = () => {
   }, [apiUrl]);
 
   return (
-    <>
-      <div>
-        <Heading
-          title={
-            user && user["https//:hvz-server.com/roles"].length > 0
-              ? "Admin"
-              : "Games"
-          }
-        />
-        <CreateGame />
+    <div className="position-relative">
+      <Heading
+        title={
+          user && user["https//:hvz-server.com/roles"].length > 0
+            ? "Admin"
+            : "Games"
+        }
+      />
+      <CreateGame />
+      <Container>
         <GameList games={games} />
-      </div>
-      {isAuthenticated && (
-        <>
-          <div>
-            <img src={user.picture} alt={user.name} />
-            <h2>{user.name}</h2>
-            <p>{user.sub}</p>
-          </div>
-          <button onClick={() => logout({ returnTo: window.location.origin })}>
-            Log Out
-          </button>
-        </>
-      )}
+
+        {isAuthenticated && (
+          <>
+            <Button
+              className="p-2 bg-success mt-4 me-3 position-absolute top-0 end-0"
+              onClick={() => logout({ returnTo: window.location.origin })}
+            >
+              Log Out
+            </Button>
+          </>
+        )}
+      </Container>
       {!isAuthenticated && (
         <button onClick={() => loginWithRedirect()}>Log In</button>
       )}
-    </>
+    </div>
   );
 };
 export default LandingPage;
