@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import { useAuth0 } from "@auth0/auth0-react";
+import { useParams } from 'react-router-dom';
+import { usePlayer, useSquad } from '../context/PlayerContext';
 
 let stompClient =null;
 let gameId = 1; 
 let human = false; 
 let squadId = 0; 
 let playerId = 2; 
+//let nickname = "sondre.mahre"
 const ChatPage = () => {
+
+  //const gameId = useParams(); 
+  const { player, setPlayer } = usePlayer();
+  const { squad, setSquad } = useSquad();
+  const nickname = "sondre.mahre"
 
     const {
         getAccessTokenSilently
@@ -19,10 +27,11 @@ const ChatPage = () => {
     const [humanChats, setHumanChats] = useState([]); 
     const [zombieChats, setZombieChats] = useState([]); 
     const [squadChats, setSquadChats] = useState([]); 
+    const [loading, setLoading] = useState(true); 
 
     const [tab,setTab] = useState("GLOBAL");
     const [userData, setUserData] = useState({
-        username: '',
+        username: nickname,
         receivername: '',
         connected: false,
         message: ''
@@ -32,15 +41,21 @@ const ChatPage = () => {
       console.log(userData);
     }, [userData]);
 
-    //useEffect(() => )
-
     const connect =()=>{
         let Sock = new SockJS('http://localhost:8080/ws');
         stompClient = over(Sock);
         stompClient.connect({},onConnected, onError);
     }
+    
 
-    useEffect(() => {
+    /*useEffect(() => {
+      setUserData({...userData, "username": nickname})
+      connect(); 
+    }, [])*/
+
+    useEffect(() => { 
+        //connect(); 
+        
         const findGames = async () => {
             const accessToken = await getAccessTokenSilently(); 
             console.log(accessToken); 
@@ -71,13 +86,52 @@ const ChatPage = () => {
                 return [error.message, []];
             }
         };
+
+        const findFactionChats = async () => {
+          const accessToken = await getAccessTokenSilently(); 
+          console.log(accessToken); 
+          try {
+              console.log("HER DA!!!!")
+            const config = {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${accessToken}`, 
+              },
+            };
+            const response = await fetch(`http://localhost:8080/api/v1/games/${gameId}/chat/${playerId}/faction`, config);
+            //if (!response.ok) throw new Error("Could not complete request");
+            console.log(response);
+            const data = await response.json();
+            console.log(data);
+            
+            //setGames2(data);
+            /*const test = []
+            data.forEach(element => {
+              test.push(element.body)
+            });*/
+            if (human) {
+              setHumanChats(data); 
+            } else {
+              setZombieChats(data); 
+            }
+            console.log(publicChats); 
+            return [null, data];
+          } catch (error) {
+              return [error.message, []];
+          }
+      };
         
         //setPublicChats(findGames[1]); 
         //console.log(publicChats); 
+        
         findGames();
+        findFactionChats();
+         
+          
     }, [])
     
-    useEffect(() => {
+    /*useEffect(() => {
         const findFactionChats = async () => {
             const accessToken = await getAccessTokenSilently(); 
             console.log(accessToken); 
@@ -100,7 +154,7 @@ const ChatPage = () => {
               /*const test = []
               data.forEach(element => {
                 test.push(element.body)
-              });*/
+              });
               if (human) {
                 setHumanChats(data); 
               } else {
@@ -115,8 +169,12 @@ const ChatPage = () => {
         
         //setPublicChats(findGames[1]); 
         //console.log(publicChats); 
-        findFactionChats();
-    }, [])
+        findFactionChats(); 
+    }, [])*/
+
+    /*useEffect(() => {
+      connect(); 
+    }, [!loading])*/
 
     const onConnected = () => {
         setUserData({...userData,"connected": true});
@@ -285,6 +343,7 @@ const ChatPage = () => {
         }
     }
 
+    
     const handleUsername=(event)=>{
         const {value}=event.target;
         setUserData({...userData,"username": value});
@@ -293,6 +352,11 @@ const ChatPage = () => {
     const registerUser=()=>{
         connect();
     }
+
+    const registerUser2=()=>{
+      setUserData({...userData, "username": nickname})
+      connect();
+  }
 
     return (
     <div className="container">
@@ -332,6 +396,7 @@ const ChatPage = () => {
             </div>}
             {tab==="ZOMBIE" && <div className="chat-content">
                 <ul className="chat-messages">
+                <div >
                     {zombieChats.map((chat,index)=>(
                         <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                             {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
@@ -339,6 +404,7 @@ const ChatPage = () => {
                             {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
                         </li>
                     ))}
+                    </div>
                 </ul>
 
                 <div className="send-message">
@@ -348,6 +414,7 @@ const ChatPage = () => {
             </div>}
             {tab==="HUMAN" && <div className="chat-content">
                 <ul className="chat-messages">
+                <div >
                     {humanChats.map((chat,index)=>(
                         <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                             {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
@@ -355,6 +422,7 @@ const ChatPage = () => {
                             {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
                         </li>
                     ))}
+                    </div>
                 </ul>
 
                 <div className="send-message">
@@ -364,6 +432,7 @@ const ChatPage = () => {
             </div>}
             {tab==="SQUAD" && <div className="chat-content">
                 <ul className="chat-messages">
+                <div >
                     {squadChats.map((chat,index)=>(
                         <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                             {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
@@ -371,6 +440,7 @@ const ChatPage = () => {
                             {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
                         </li>
                     ))}
+                    </div>
                 </ul>
 
                 <div className="send-message">
@@ -381,18 +451,13 @@ const ChatPage = () => {
         </div>
         :
         <div className="register">
-            <input
-                id="user-name"
-                placeholder="Enter your name"
-                name="userName"
-                value={userData.username}
-                onChange={handleUsername}
-                margin="normal"
-              />
+           
               <button type="button" onClick={registerUser}>
                     connect
               </button> 
         </div>}
+        
+        
     </div>
     )
 }
