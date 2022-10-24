@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormMessage from "../../common/FormMessage";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { createHeaders } from "../admin/CreateHeaders";
 import { usePlayer, useSquad } from "../../context/PlayerContext";
 import { STORAGE_KEY_SQUAD } from "../../const/storageKeys";
@@ -26,6 +26,7 @@ function CreateSquad() {
   const { user, getAccessTokenSilently } = useAuth0();
   const { player, setPlayer } = usePlayer();
   const { squad, setSquad } = useSquad();
+  const navigate = useNavigate();
   console.log(squad);
 
   const gameId = useParams();
@@ -82,6 +83,7 @@ function CreateSquad() {
       setTimeout(() => {
         setDisplayModalForm(false);
       }, 1500);
+      navigate(`/games/${gameId.gameId}/mysquad`);
     } catch (error) {
       console.log(error);
       setPostError(error.toString());
