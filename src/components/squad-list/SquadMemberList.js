@@ -7,16 +7,9 @@ function SquadMemberList({ squadMembers }) {
   return (
     <Row className="border">
       {squadMembers.map((squadmember) => {
-        const { id, members, players } = squadmember;
+        const { id, rank, member } = squadmember;
 
-        return (
-          <SquadMemberItem
-            key={id}
-            id={id}
-            members={members}
-            players={players}
-          />
-        );
+        return <SquadMemberItem key={id} id={id} rank={rank} member={member} />;
       })}
     </Row>
   );

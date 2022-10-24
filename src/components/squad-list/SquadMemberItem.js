@@ -1,12 +1,26 @@
 import React from "react";
-import { Col } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 
-function SquadMemberItem({ id, members, players }) {
+function SquadMemberItem({ rank, member }) {
   return (
-    <Col className="border my-2 mx-auto" xs={12} md={4} lg={3}>
-      <h3> {}</h3>
-      <p>{members.length}</p>
-    </Col>
+    <Form className="bg-secondary rounded mt-3 mb-3">
+      <Row>
+        <Col className="border text-center" xs={6}>
+          Player ID
+        </Col>
+        <Col className="border text-center" xs={6}>
+          Rank
+        </Col>
+      </Row>
+      <Row>
+        <Col className="border text-center" xs={6}>
+          {member}
+        </Col>
+        <Col className="border text-center" xs={6}>
+          {rank}
+        </Col>
+      </Row>
+    </Form>
   );
 }
 

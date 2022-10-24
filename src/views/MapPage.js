@@ -53,11 +53,13 @@ const MapPage = () => {
         id: playerIdResult.player,
         human: true,
         bitecode: biteCodeIdResult.biteCode,
+        nickname: playerIdResult.nickname,
       });
       setPlayer({
         id: playerIdResult.player,
         human: true,
         bitecode: biteCodeIdResult.biteCode,
+        nickname: playerIdResult.nickname,
       });
     } catch (error) {
       //setPostError(error.toString());
