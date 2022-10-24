@@ -27,7 +27,6 @@ import {
   STORAGE_KEY_PLAYER,
 } from "../../const/storageKeys";
 
-
 function Map() {
   const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
@@ -187,7 +186,6 @@ function Map() {
     });
   }
 
-
   /*
   useEffect(() => {
     const map = useMap();
@@ -247,7 +245,6 @@ function Map() {
   //Map
   return (
     <>
-      <HeaderNavBar title={gameData.gameTitle} />
       <Container className="px-0 border">
         <MapContainer
           center={[59.930037166920634, 10.75424208634164]}
@@ -266,34 +263,34 @@ function Map() {
           {/*Rectangle to draw game area*/}
 
           {/* marker for tombstone styling*/}
-        <MultipleTombstoneMarkers />
-        {/*If time is greater than 17 we switch to night mode */}
-        {hour > 5 && hour < 17 ? (
-          <>
-            <TileLayer
-              url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
-              attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-            />
-            <Rectangle
-              bounds={getRectangle}
-              pathOptions={{ color: "grey" }}
-            ></Rectangle>
-          </>
-        ) : (
-          <>
-            <TileLayer
-              url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-              attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-            />
-            <Rectangle
-              bounds={getRectangle}
-              pathOptions={{ color: "green" }}
-            ></Rectangle>
-          </>)}
+          <MultipleTombstoneMarkers />
+          {/*If time is greater than 17 we switch to night mode */}
+          {hour > 5 && hour < 17 ? (
+            <>
+              <TileLayer
+                url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
+                attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+              />
+              <Rectangle
+                bounds={getRectangle}
+                pathOptions={{ color: "grey" }}
+              ></Rectangle>
+            </>
+          ) : (
+            <>
+              <TileLayer
+                url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+                attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+              />
+              <Rectangle
+                bounds={getRectangle}
+                pathOptions={{ color: "green" }}
+              ></Rectangle>
+            </>
+          )}
         </MapContainer>
       </Container>
-</>
-    
+    </>
   );
 }
 

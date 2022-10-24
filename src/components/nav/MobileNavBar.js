@@ -5,13 +5,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { usePlayer } from "../../context/PlayerContext";
+import { usePlayer, useSquad } from "../../context/PlayerContext";
 
 function MobileNavBar() {
   const { gameId } = useParams();
   console.log(gameId);
   const { isAuthenticated, user } = useAuth0();
-
+  const { squad, setSquad } = useSquad();
   const { player, setPlayer } = usePlayer();
 
   /*
@@ -32,12 +32,21 @@ function MobileNavBar() {
             : "bg-secondary"
         }`}
       >
-        <Link
-          className="nav-link w-100  p-3 text-center border"
-          to={`/games/${gameId}/squad`}
-        >
-          Squads
-        </Link>
+        {squad ? (
+          <Link
+            className="nav-link w-100  p-3 text-center border"
+            to={`/games/${gameId}/mysquad`}
+          >
+            Squads
+          </Link>
+        ) : (
+          <Link
+            className="nav-link w-100  p-3 text-center border"
+            to={`/games/${gameId}/squad`}
+          >
+            Squads
+          </Link>
+        )}
         {player && (
           <Link
             className="nav-link w-100 p-3 text-center  border"
