@@ -136,7 +136,7 @@ const ChatPage = () => {
               Authorization: `Bearer ${accessToken}`, 
             },
           };
-          const response = await fetch(`${process.env.REACT_APP_API_SERVER_URL}games/${gameId}/squad/${squad.id}`, config);
+          const response = await fetch(`${process.env.REACT_APP_API_SERVER_URL}games/${gameId}/squad/${squad.id}/chat`, config);
           //if (!response.ok) throw new Error("Could not complete request");
           console.log(response);
           const data = await response.json();
