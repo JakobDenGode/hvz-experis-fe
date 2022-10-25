@@ -41,7 +41,10 @@ function PingButton({ squadMembers }) {
   }
 
   return (
-    <Button onClick={pingLocation} className="w-100 bg-success">
+    <Button
+      onClick={pingLocation}
+      className="w-100 border border-none bg-success mb-2 mt-3"
+    >
       PingButton
     </Button>
   );

@@ -44,7 +44,10 @@ function LeaveSquadButton() {
   };
 
   return (
-    <Button onClick={leaveSquad} className="w-100 mt-2">
+    <Button
+      onClick={leaveSquad}
+      className="leave-squad-button bg-dark text-white border border-none w-100 mt-2"
+    >
       Leave Squad
     </Button>
   );

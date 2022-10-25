@@ -99,7 +99,12 @@ const LandingPage = () => {
         )}
       </Container>
       {!isAuthenticated && (
-        <button onClick={() => loginWithRedirect()}>Log In</button>
+        <button
+          className="p-2 bg-secondary mt-4 me-3 position-absolute top-0 end-0"
+          onClick={() => loginWithRedirect()}
+        >
+          Log In
+        </button>
       )}
     </div>
   );

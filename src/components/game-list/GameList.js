@@ -4,7 +4,7 @@ import GameItem from "./GameItem";
 
 function GameList({ games }) {
   return (
-    <Row className="border">
+    <Row className="">
       {games.map((game) => {
         const { gameTitle, gameState, players, id } = game;
 

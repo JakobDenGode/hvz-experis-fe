@@ -6,3 +6,11 @@
   width: 30px;
   cursor: pointer;
 }
+
+.custom-heading {
+  background-color: $body-bg;
+}
+
+.mobile-navbar {
+  z-index: 500;
+}

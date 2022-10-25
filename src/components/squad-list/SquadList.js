@@ -4,7 +4,7 @@ import SquadItem from "./SquadItem";
 
 function SquadList({ squads }) {
   return (
-    <Row className="border">
+    <Row className="">
       {squads.map((squad) => {
         const { name, id, members } = squad;
 

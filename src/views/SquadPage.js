@@ -44,7 +44,6 @@ function SquadPage() {
   return (
     <div>
       <HeaderNavBar />
-      <Heading title="Squads" />
       <Container>
         {player && <CreateSquad />}
         {squad && <LeaveSquad />}

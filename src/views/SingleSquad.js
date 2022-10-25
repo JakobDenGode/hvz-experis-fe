@@ -1,10 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Heading from "../common/Heading";
 import { createHeaders } from "../components/admin/CreateHeaders";
 import HeaderNavBar from "../components/nav/HeaderNavBar";
+import MobileNavBar from "../components/nav/MobileNavBar";
 import LeaveSquadButton from "../components/player/LeaveSquadButton";
 import PingButton from "../components/player/PingButton";
 import SquadMemberList from "../components/squad-list/SquadMemberList";
@@ -40,6 +41,7 @@ function SingleSquad() {
         */
 
         console.log(squadMembersResult);
+        console.log(squadMembers);
 
         //console.log(players);
         setSquadMembers(squadMembersResult);
@@ -53,10 +55,23 @@ function SingleSquad() {
   return (
     <div>
       <HeaderNavBar />
-      <Heading title={squadMembers && squadMembers.name} />
-      <SquadMemberList squadMembers={squadMembers} />
-      <PingButton squadMembers={squadMembers} />
-      <LeaveSquadButton squadMembers={squadMembers} />
+      <Form className="bg-secondary rounded mt-3 mb-3 p-3 mx-auto w-75">
+        <Container>
+          <h3>{squadMembers && squadMembers.name}</h3>
+          <Row>
+            <Col className="border bg-white text-center" xs={6}>
+              Player ID
+            </Col>
+            <Col className="border bg-white text-center" xs={6}>
+              Rank
+            </Col>
+          </Row>
+          <SquadMemberList squadMembers={squadMembers} />
+          <PingButton squadMembers={squadMembers} />
+          <LeaveSquadButton squadMembers={squadMembers} />
+        </Container>
+      </Form>
+      <MobileNavBar />
     </div>
   );
 }

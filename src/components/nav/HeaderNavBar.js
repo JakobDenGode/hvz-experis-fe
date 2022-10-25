@@ -88,7 +88,7 @@ function HeaderNavBar() {
   };
 
   return (
-    <Nav className="w-100 bg-light d-flex align-items-center justify-content-around">
+    <Nav className="w-100 d-flex align-items-center justify-content-around">
       <img
         className="back-arrow"
         src="/assets/back.png"
