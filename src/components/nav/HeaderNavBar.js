@@ -9,26 +9,29 @@ import { storageSave } from "../../utils/storage";
 import { STORAGE_KEY_PLAYER } from "../../const/storageKeys";
 import Heading from "../../common/Heading";
 
-function HeaderNavBar({ title }) {
+function HeaderNavBar() {
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
   const gameId = useParams();
   const { player, setPlayer } = usePlayer();
+  const [title, setTitle] = useState([]);
+
+  console.log("hi");
 
   useEffect(() => {
     const findPlayer = async () => {
       const accessToken = await getAccessTokenSilently();
 
-      if (player) {
-        console.log("hi");
-        const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players/${player.id}`;
-        try {
+      const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}`;
+      try {
+        if (player) {
+          const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players/${player.id}`;
           const playerId = await fetch(apiUrl, {
             method: "GET",
             headers: createHeaders(accessToken),
           });
+
           const playerIdResults = await playerId.json();
-          console.log(playerIdResults);
           if (playerIdResults.human !== player.human) {
             storageSave(STORAGE_KEY_PLAYER, {
               id: player.id,
@@ -41,9 +44,16 @@ function HeaderNavBar({ title }) {
               biteCode: playerIdResults.biteCode,
             });
           }
-        } catch (error) {
-          return [error.message, []];
         }
+
+        const gameTitle = await fetch(apiUrl2, {
+          method: "GET",
+          headers: createHeaders(accessToken),
+        });
+        const gameIdResults = await gameTitle.json();
+        setTitle(gameIdResults.gameTitle);
+      } catch (error) {
+        return [error.message, []];
       }
     };
     findPlayer();

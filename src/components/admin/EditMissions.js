@@ -48,25 +48,24 @@ function EditMissions() {
     console.log(id);
     const newMissions = missions.filter((mission) => {
       if (id !== mission.id) {
-        const deleteMission = async () => {
-          const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions/${id}`;
-          const accessToken = await getAccessTokenSilently();
-          try {
-            const response = await fetch(apiUrl2, {
-              method: "DELETE",
-              headers: createHeaders(accessToken),
-            });
-            console.log(response);
-          } catch (error) {
-            console.log(error);
-            return [error.message, []];
-          }
-        };
-        deleteMission();
-
         return mission;
       }
     });
+    const deleteMission = async () => {
+      const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions/${id}`;
+      const accessToken = await getAccessTokenSilently();
+      try {
+        const response = await fetch(apiUrl2, {
+          method: "DELETE",
+          headers: createHeaders(accessToken),
+        });
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        return [error.message, []];
+      }
+    };
+    deleteMission();
     setMissions(newMissions);
   }
 

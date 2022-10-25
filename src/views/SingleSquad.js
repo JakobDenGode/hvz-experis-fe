@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Heading from "../common/Heading";
 import { createHeaders } from "../components/admin/CreateHeaders";
+import HeaderNavBar from "../components/nav/HeaderNavBar";
 import LeaveSquadButton from "../components/player/LeaveSquadButton";
 import PingButton from "../components/player/PingButton";
 import SquadMemberList from "../components/squad-list/SquadMemberList";
@@ -51,6 +52,7 @@ function SingleSquad() {
 
   return (
     <div>
+      <HeaderNavBar />
       <Heading title={squadMembers && squadMembers.name} />
       <SquadMemberList squadMembers={squadMembers} />
       <PingButton squadMembers={squadMembers} />
