@@ -8,7 +8,7 @@ import { usePlayer, useSquad } from '../context/PlayerContext';
 let stompClient =null;
 let gameId = 1; 
 let human = false; 
-let squadId = 0; 
+let squadId = 1; 
 let playerId = 2; 
 //let nickname = "sondre.mahre"
 const ChatPage = () => {
