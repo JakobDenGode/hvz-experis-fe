@@ -127,7 +127,28 @@ const ChatPage = () => {
       }
     };
 
-    const findSquadChats = async () => {
+      const findSquadChats = async () => {
+        const accessToken = await getAccessTokenSilently(); 
+        console.log(accessToken); 
+        try {
+            console.log("HER DA!!!!")
+          const config = {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${accessToken}`, 
+            },
+          };
+          const response = await fetch(`${process.env.REACT_APP_API_SERVER_URL}games/${gameId}/squad/${squad.id}/chat`, config);
+          //if (!response.ok) throw new Error("Could not complete request");
+          console.log(response);
+          const data = await response.json();
+          console.log(data);
+          
+          //setGames2(data);
+          /*const test = []
+
+    /*const findSquadChats = async () => {
       const accessToken = await getAccessTokenSilently();
       console.log(accessToken);
       try {
@@ -149,7 +170,8 @@ const ChatPage = () => {
         console.log(data);
 
         //setGames2(data);
-        /*const test = []
+        const test = []*/
+ 
           data.forEach(element => {
             test.push(element.body)
           });*/
