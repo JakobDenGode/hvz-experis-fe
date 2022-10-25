@@ -1,6 +1,7 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import React from "react";
 import EditList from "../components/admin/EditList";
+import MobileNavBar from "../components/nav/MobileNavBar";
 
 export default withAuthenticationRequired(AdminPage, {
   onRedirecting: () => <div>Redirecting to Login page</div>,
@@ -15,6 +16,7 @@ function AdminPage() {
   return (
     <div>
       <EditList />
+      <MobileNavBar />
     </div>
   );
 }

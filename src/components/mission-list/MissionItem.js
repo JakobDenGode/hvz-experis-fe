@@ -6,6 +6,10 @@ function MissionItem({
   id,
   name,
   description,
+  startTime,
+  endTime,
+  missionLat,
+  missionLng,
   onShowEditForm,
   onDeleteMission,
 }) {
@@ -21,7 +25,16 @@ function MissionItem({
         className="my-2 mx-auto d-flex justify-content-between align-items-center"
         xs={4}
       >
-        <EditMission onShowEditForm={onShowEditForm} id={id} />
+        <EditMission
+          onShowEditForm={onShowEditForm}
+          id={id}
+          name={name}
+          description={description}
+          startTime={startTime}
+          endTime={endTime}
+          missionLat={missionLat}
+          missionLng={missionLng}
+        />
         <span onClick={() => onDeleteMission(id)} className="fs-2 pb-1">
           &times;
         </span>

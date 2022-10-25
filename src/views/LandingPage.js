@@ -83,8 +83,9 @@ const LandingPage = () => {
             : "Games"
         }
       />
-      <CreateGame />
       <Container>
+        <CreateGame />
+
         <GameList games={games} />
       </Container>
       {isAuthenticated && (

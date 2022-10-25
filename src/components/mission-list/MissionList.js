@@ -6,7 +6,15 @@ function MissionList({ missions, onShowEditForm, onDeleteMission }) {
   return (
     <Row className="border mt-2">
       {missions.map((mission) => {
-        const { id, missionName, missionDescription } = mission;
+        const {
+          id,
+          missionName,
+          missionDescription,
+          startTime,
+          endTime,
+          missionLat,
+          missionLng,
+        } = mission;
 
         return (
           <MissionItem
@@ -14,6 +22,10 @@ function MissionList({ missions, onShowEditForm, onDeleteMission }) {
             id={id}
             name={missionName}
             description={missionDescription}
+            startTime={startTime}
+            endTime={endTime}
+            missionLat={missionLat}
+            missionLng={missionLng}
             onShowEditForm={onShowEditForm}
             onDeleteMission={onDeleteMission}
           />
