@@ -6,14 +6,19 @@ html {
 input {
   color: white;
 }
-$body-bg: rgb(16, 16, 55);
-$link-color: rgb(0, 0, 0);
-$link-hover-color: grey;
-$primary: #8C0303;
-$secondary: #587E8C;
+//$body-bg: rgb(16, 16, 55);
 
+$custom-dark: #2e2e2e;
+$body-bg:#a78eb8;
+$dark: $custom-dark;
+$customBackground: $body-bg;
+$link-color: $custom-dark;
+$link-hover-color: $custom-dark;
+$primary: #fd990d;
+$secondary: #644b77;
 
 @import "partials/animation";
+@import "partials/squad";
 @import "partials/layout";
 @import "partials/map";
 @import "partials/modal";

@@ -10,10 +10,10 @@ function GameItem({ gameTitle, gameState, players, id }) {
   const { user, getAccessTokenSilently } = useAuth0();
 
   return (
-    <Col className="border my-2 mx-auto" xs={12} md={6} lg={4}>
+    <Col className="my-2 mx-auto" xs={12} md={6} lg={4}>
       {
         <Link to={`/games/${id}/map`} className="link">
-          <div className="game-card d-flex align-items-center justify-content-around border">
+          <div className="game-card d-flex align-items-center justify-content-around">
             <div>
               <h3 className="mt-2">{gameTitle}</h3>
               <p>{players.length} players</p>
