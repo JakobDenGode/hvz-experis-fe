@@ -9,7 +9,7 @@ function LandingAnimation() {
   }
 
   return (
-    <div onClick={navigateToGames}>
+    <div onClick={navigateToGames} className="animation-container border">
       <div className="mx-auto image-container position-relative">
         <div className="boy-container">
           <img className="boy" src="/assets/boy.png" />
