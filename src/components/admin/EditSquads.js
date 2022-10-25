@@ -34,7 +34,28 @@ function EditSquads() {
   }
 
   function deleteSquad(id) {
-    console.log("delete");
+    console.log(id);
+    const newSquads = squads.filter((squad) => {
+      if (id !== squad.id) {
+        return squad;
+      }
+    });
+    const deleteSquad = async () => {
+      const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/squad/${id}`;
+      const accessToken = await getAccessTokenSilently();
+      try {
+        const response = await fetch(apiUrl2, {
+          method: "DELETE",
+          headers: createHeaders(accessToken),
+        });
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        return [error.message, []];
+      }
+    };
+    deleteSquad();
+    setSquads(newSquads);
   }
 
   return (
@@ -56,7 +77,7 @@ function EditSquads() {
           </Row>
           <SquadListAdmin
             squads={squads}
-            onShowSquadForm={changeArray}
+            //onShowSquadForm={changeArray}
             onDeleteSquad={deleteSquad}
           />
         </Container>

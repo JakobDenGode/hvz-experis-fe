@@ -6,7 +6,7 @@ function SquadListAdmin({ squads, onShowSquadForm, onDeleteSquad }) {
   return (
     <Row className="border mt-2">
       {squads.map((squad) => {
-        const { id, name, members } = squad;
+        const { id, name, members, player } = squad;
 
         return (
           <SquadItemAdmin
@@ -14,7 +14,8 @@ function SquadListAdmin({ squads, onShowSquadForm, onDeleteSquad }) {
             id={id}
             name={name}
             members={members}
-            onShowSquadForm={onShowSquadForm}
+            player={player}
+            //onShowSquadForm={onShowSquadForm}
             onDeleteSquad={onDeleteSquad}
           />
         );
