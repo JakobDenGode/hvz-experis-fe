@@ -86,25 +86,24 @@ const LandingPage = () => {
       <CreateGame />
       <Container>
         <GameList games={games} />
-
-        {isAuthenticated && (
-          <>
-            <Button
-              className="p-2 bg-success mt-4 me-3 position-absolute top-0 end-0"
-              onClick={() => logout({ returnTo: window.location.origin })}
-            >
-              Log Out
-            </Button>
-          </>
-        )}
       </Container>
+      {isAuthenticated && (
+        <>
+          <Button
+            className="p-2 bg-success mt-4 me-3 position-absolute top-0 end-0"
+            onClick={() => logout({ returnTo: window.location.origin })}
+          >
+            Log Out
+          </Button>
+        </>
+      )}
       {!isAuthenticated && (
-        <button
+        <Button
           className="p-2 bg-secondary mt-4 me-3 position-absolute top-0 end-0"
           onClick={() => loginWithRedirect()}
         >
           Log In
-        </button>
+        </Button>
       )}
     </div>
   );
