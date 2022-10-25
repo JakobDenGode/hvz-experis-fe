@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   MapContainer,
   TileLayer,
@@ -40,6 +40,7 @@ function Map() {
   ]);
   const [killCords, setKillCords] = useState([]);
   const { mapCords, setMapCords } = useMapCords();
+  const navigate = useNavigate();
 
   console.log("her-----");
   console.log(mapCords);
@@ -242,10 +243,20 @@ function Map() {
     );
   }
 
+  function showRules() {
+    navigate("/games/rules");
+  }
+
   //Map
   return (
     <>
-      <Container className="px-0 border">
+      <Container className="px-0 border position-relative">
+        <img
+          onClick={showRules}
+          className="rules-icon position-absolute"
+          src="/assets/information-button.png"
+          alt="rules"
+        />
         <MapContainer
           center={[59.930037166920634, 10.75424208634164]}
           zoom={15}

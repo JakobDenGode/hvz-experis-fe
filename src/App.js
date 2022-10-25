@@ -17,6 +17,7 @@ import EditPage from "./views/EditPage";
 import { usePlayer } from "./context/PlayerContext";
 import SingleSquad from "./views/SingleSquad";
 import LandingAnimation from "./views/LandingAnimation";
+import RulesPage from "./views/RulesPage";
 
 const Auth0ProviderWithRedirectCallback = ({ children, ...props }) => {
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ function App() {
           <Route path="/games/:gameId/edit" element={<EditPage />} />
           <Route path="games/:gameId/map" element={<MapPage />} />
           <Route path="games/:gameId/mysquad" element={<SingleSquad />} />
+          <Route path="games/rules" element={<RulesPage />} />
         </Routes>
       </Auth0ProviderWithRedirectCallback>
     </BrowserRouter>
