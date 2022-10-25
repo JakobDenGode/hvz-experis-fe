@@ -5,18 +5,20 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useParams } from 'react-router-dom';
 import { usePlayer, useSquad } from '../context/PlayerContext';
 
-let stompClient =null;
-let gameId = 1; 
-let human = false; 
-let squadId = 1; 
-let playerId = 2; 
-//let nickname = "sondre.mahre"
+let stompClient = null;
 const ChatPage = () => {
+    
+//let gameId = 1; 
+//let human = false; 
+//let squad.id = 1; 
+//let player.id = 1; 
+//let nickname = "sondre.mahre"
 
-  //const gameId = useParams(); 
+  const game = useParams(); 
+  const gameId = game.gameId; 
   const { player, setPlayer } = usePlayer();
   const { squad, setSquad } = useSquad();
-  const nickname = "sondre.mahre"
+  //const nickname = "sondre.mahre"
 
     const {
         getAccessTokenSilently
@@ -31,7 +33,7 @@ const ChatPage = () => {
 
     const [tab,setTab] = useState("GLOBAL");
     const [userData, setUserData] = useState({
-        username: nickname,
+        username: player.nickname,
         receivername: '',
         connected: false,
         message: ''
@@ -42,7 +44,7 @@ const ChatPage = () => {
     }, [userData]);
 
     const connect =()=>{
-        let Sock = new SockJS('http://localhost:8080/ws');
+        let Sock = new SockJS(`https://hvz-api-noroff.herokuapp.com/ws`);
         stompClient = over(Sock);
         stompClient.connect({},onConnected, onError);
     }
@@ -56,7 +58,7 @@ const ChatPage = () => {
     useEffect(() => { 
         //connect(); 
         
-        const findGames = async () => {
+        const findGlobal = async () => {
             const accessToken = await getAccessTokenSilently(); 
             console.log(accessToken); 
             try {
@@ -68,7 +70,7 @@ const ChatPage = () => {
                   Authorization: `Bearer ${accessToken}`, 
                 },
               };
-              const response = await fetch(`http://localhost:8080/api/v1/games/${gameId}/chat/${playerId}/global`, config);
+              const response = await fetch(`${process.env.REACT_APP_API_SERVER_URL}games/${gameId}/chat/${player.id}/global`, config);
               //if (!response.ok) throw new Error("Could not complete request");
               console.log(response);
               const data = await response.json();
@@ -99,7 +101,7 @@ const ChatPage = () => {
                 Authorization: `Bearer ${accessToken}`, 
               },
             };
-            const response = await fetch(`http://localhost:8080/api/v1/games/${gameId}/chat/${playerId}/faction`, config);
+            const response = await fetch(`${process.env.REACT_APP_API_SERVER_URL}games/${gameId}/chat/${player.id}/faction`, config);
             //if (!response.ok) throw new Error("Could not complete request");
             console.log(response);
             const data = await response.json();
@@ -110,7 +112,7 @@ const ChatPage = () => {
             data.forEach(element => {
               test.push(element.body)
             });*/
-            if (human) {
+            if (player.human) {
               setHumanChats(data); 
             } else {
               setZombieChats(data); 
@@ -121,12 +123,46 @@ const ChatPage = () => {
               return [error.message, []];
           }
       };
+
+      const findSquadChats = async () => {
+        const accessToken = await getAccessTokenSilently(); 
+        console.log(accessToken); 
+        try {
+            console.log("HER DA!!!!")
+          const config = {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${accessToken}`, 
+            },
+          };
+          const response = await fetch(`${process.env.REACT_APP_API_SERVER_URL}games/${gameId}/squad/${squad.id}`, config);
+          //if (!response.ok) throw new Error("Could not complete request");
+          console.log(response);
+          const data = await response.json();
+          console.log(data);
+          
+          //setGames2(data);
+          /*const test = []
+          data.forEach(element => {
+            test.push(element.body)
+          });*/
+          setSquadChats(data); 
+          console.log(publicChats); 
+          return [null, data];
+        } catch (error) {
+            return [error.message, []];
+        }
+    };
         
         //setPublicChats(findGames[1]); 
         //console.log(publicChats); 
         
-        findGames();
+        findGlobal();
         findFactionChats();
+        if (squad) {
+            findSquadChats(); 
+        }
          
           
     }, [])
@@ -144,7 +180,7 @@ const ChatPage = () => {
                   Authorization: `Bearer ${accessToken}`, 
                 },
               };
-              const response = await fetch(`http://localhost:8080/api/v1/games/${gameId}/chat/${playerId}/faction`, config);
+              const response = await fetch(`http://localhost:8080/api/v1/games/${gameId}/chat/${player.id}/faction`, config);
               //if (!response.ok) throw new Error("Could not complete request");
               console.log(response);
               const data = await response.json();
@@ -181,13 +217,15 @@ const ChatPage = () => {
         stompClient.subscribe('/chatroom/'+gameId, onMessageReceived);
 
     
-        if (human) {
+        if (player.human) {
             stompClient.subscribe('/chatroom/'+gameId+'/human', onHumanMessage);
         } else {
             stompClient.subscribe('/chatroom/'+gameId+'/zombie', onZombieMessage);
         }
 
-        stompClient.subscribe('/chatroom/'+gameId+'/'+squadId, onSquadMessage);
+        if (squad) {
+            stompClient.subscribe('/chatroom/'+gameId+'/'+squad.id, onSquadMessage);
+        }
 
         userJoin();
         
@@ -197,10 +235,10 @@ const ChatPage = () => {
           const chatMessage = {
             senderName: userData.username,
             status:"JOIN", 
-            human: human, 
+            human: player.human, 
             global: true, 
             game: gameId, 
-            player: playerId
+            player: player.id
           };
           stompClient.send(`/app/chat/${gameId}/addUser`, {}, JSON.stringify(chatMessage));
           stompClient.send(`/app/chat/${gameId}/sendMessage`, {}, JSON.stringify(chatMessage));
@@ -277,15 +315,16 @@ const ChatPage = () => {
     }
 
     const sendValue=()=>{
+        console.log("HERE DA!!!")
             if (stompClient) {
               const chatMessage = {
                 senderName: userData.username,
                 message: userData.message,
                 status:"MESSAGE",
-                human: human, 
+                human: player.human, 
                 global: true, 
                 game: gameId, 
-                player: playerId
+                player: player.id
               };
               console.log(chatMessage);
               //setPublicChats([...publicChats])
@@ -301,10 +340,10 @@ const ChatPage = () => {
                 senderName: userData.username,
                 message: userData.message,
                 status:"MESSAGE",
-                human: human, 
+                human: player.human, 
                 global: false, 
                 game: gameId, 
-                player: playerId
+                player: player.id
               };
           stompClient.send(`/app/chat/${gameId}/human/sendMessage`, {}, JSON.stringify(chatMessage));
           setUserData({...userData,"message": ""});
@@ -317,10 +356,10 @@ const ChatPage = () => {
                 senderName: userData.username,
                 message: userData.message,
                 status:"MESSAGE",
-                human: human, 
+                human: player.human, 
                 global: false, 
                 game: gameId, 
-                player: playerId
+                player: player.id
               };
           stompClient.send(`/app/chat/${gameId}/zombie/sendMessage`, {}, JSON.stringify(chatMessage));
           setUserData({...userData,"message": ""});
@@ -333,12 +372,12 @@ const ChatPage = () => {
                 senderName: userData.username,
                 message: userData.message,
                 status:"MESSAGE",
-                human: human, 
+                human: player.human, 
                 global: false, 
                 game: gameId, 
-                player: playerId
+                player: player.id
               };
-          stompClient.send(`/app/chat/${gameId}/${squadId}/sendMessage`, {}, JSON.stringify(chatMessage));
+          stompClient.send(`/app/chat/${gameId}/${squad.id}/sendMessage`, {}, JSON.stringify(chatMessage));
           setUserData({...userData,"message": ""});
         }
     }
@@ -354,7 +393,7 @@ const ChatPage = () => {
     }
 
     const registerUser2=()=>{
-      setUserData({...userData, "username": nickname})
+      //setUserData({...userData, "username": nickname})
       connect();
   }
 
@@ -365,10 +404,10 @@ const ChatPage = () => {
             <div className="member-list">
                 <ul>
                     <li onClick={()=>{setTab("GLOBAL")}} className={`member ${tab==="GLOBAL" && "active"}`}>Global</li>
-                    {!human ? <li onClick={()=>{setTab("ZOMBIE")}} className={`member ${tab==="ZOMBIE" && "active"}`}>Zombie</li>:
+                    {!player.human ? <li onClick={()=>{setTab("ZOMBIE")}} className={`member ${tab==="ZOMBIE" && "active"}`}>Zombie</li>:
                     <li onClick={()=>{setTab("HUMAN")}} className={`member ${tab==="HUMAN" && "active"}`}>Human</li>}
                     
-                    {squadId !== 0 && <li onClick={()=>{setTab("SQUAD")}} className={`member ${tab==="SQUAD" && "active"}`}>Squad</li>}
+                    {squad && squad.id !== 0 && <li onClick={()=>{setTab("SQUAD")}} className={`member ${tab==="SQUAD" && "active"}`}>Squad</li>}
 
                     {[...privateChats.keys()].map((name,index)=>(
                         <li onClick={()=>{setTab(name)}} className={`member ${tab===name && "active"}`} key={index}>{name}</li>
@@ -397,7 +436,7 @@ const ChatPage = () => {
             {tab==="ZOMBIE" && <div className="chat-content">
                 <ul className="chat-messages">
                 <div >
-                    {zombieChats.map((chat,index)=>(
+                    {zombieChats.length > 0 && zombieChats.map((chat,index)=>(
                         <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                             {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
                             <div className="message-data"><b>{chat.message} </b>{chat.chatTime}</div>
@@ -415,7 +454,7 @@ const ChatPage = () => {
             {tab==="HUMAN" && <div className="chat-content">
                 <ul className="chat-messages">
                 <div >
-                    {humanChats.map((chat,index)=>(
+                    {humanChats.length > 0 && humanChats.map((chat,index)=>(
                         <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                             {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
                             <div className="message-data"><b>{chat.message} </b>{chat.chatTime}</div>
@@ -433,7 +472,7 @@ const ChatPage = () => {
             {tab==="SQUAD" && <div className="chat-content">
                 <ul className="chat-messages">
                 <div >
-                    {squadChats.map((chat,index)=>(
+                    {squadChats.length > 0 && squadChats.map((chat,index)=>(
                         <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                             {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
                             <div className="message-data"><b>{chat.message} </b>{chat.chatTime}</div>
@@ -453,7 +492,7 @@ const ChatPage = () => {
         <div className="register">
            
               <button type="button" onClick={registerUser}>
-                    connect
+                    Open chat
               </button> 
         </div>}
         
