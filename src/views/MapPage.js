@@ -5,6 +5,7 @@ import { json, Link, useNavigate, useParams } from "react-router-dom";
 import { createHeaders } from "../components/admin/CreateHeaders";
 import JoinButton from "../components/map/JoinButton";
 import Map from "../components/map/Map";
+import HeaderNavBar from "../components/nav/HeaderNavBar";
 import MobileNavBar from "../components/nav/MobileNavBar";
 import { STORAGE_KEY_PLAYER } from "../const/storageKeys";
 import { usePlayer } from "../context/PlayerContext";
@@ -16,7 +17,6 @@ const MapPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const { player, setPlayer } = usePlayer();
   const navigate = useNavigate();
-  console.log(player);
 
   const apiUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/players`;
   const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}users/current`;
@@ -71,6 +71,7 @@ const MapPage = () => {
 
   return (
     <div className="position-relative">
+      <HeaderNavBar />
       <Map />
       {user && !user["https//:hvz-server.com/roles"].length > 0 && !player && (
         <div>
