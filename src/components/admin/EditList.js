@@ -37,6 +37,17 @@ function EditList() {
     findGames();
   }, []);
 
+  const {
+    id,
+    gameTitle,
+    gameDescription,
+    nw_lat,
+    nw_lng,
+    se_lat,
+    se_lng,
+    gameState,
+  } = gameData;
+
   return (
     /*
     <Accordion className="mt-2">
@@ -48,7 +59,16 @@ function EditList() {
       <Accordion.Item eventKey="0">
         <Accordion.Header className="text-end">Game Info</Accordion.Header>
         <Accordion.Body>
-          <EditCreatedGame />
+          <EditCreatedGame
+            gameTitle={gameTitle}
+            gameDescription={gameDescription}
+            nw_lat={nw_lat}
+            nw_lng={nw_lng}
+            se_lat={se_lat}
+            se_lng={se_lng}
+            gameState={gameState}
+            gameData={gameData}
+          />
           <EditGame />
         </Accordion.Body>
       </Accordion.Item>

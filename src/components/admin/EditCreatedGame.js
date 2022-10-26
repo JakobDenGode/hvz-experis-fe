@@ -8,94 +8,71 @@ import FormMessage from "../../common/FormMessage";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useParams } from "react-router-dom";
 
-const apiUrl = "https://hvz-api-noroff.herokuapp.com/api/v1/games";
-
-const schema = yup.object().shape({
-  gameTitle: yup
-    .string()
-    .required("Title is required")
-    .min(3, "Title must be at least 3 characters"),
-  nw_lat: yup
-    .number()
-    .integer("Value must be an integer")
-    .required("Please enter a northwest latitude"),
-  nw_lng: yup
-    .number()
-    .integer("Value must be an integer")
-    .required("Please enter a northwest longitude"),
-  se_lat: yup
-    .number()
-    .integer("Value must be an integer")
-    .required("Please enter a southeast latitude"),
-  se_lng: yup
-    .number()
-    .integer("Value must be an integer")
-    .required("Please enter a southeast longitude"),
-  gameDescription: yup
-    .string()
-    .required("Please enter a description")
-    .min(20, "Dame description must be at least 20 characters long")
-    .max(200, "Game description must be at most 200 characters long"),
-});
-
-function EditCreatedGame() {
+function EditCreatedGame({
+  gameTitle,
+  gameDescription,
+  nw_lat,
+  nw_lng,
+  se_lat,
+  se_lng,
+  gameState,
+  gameData,
+}) {
   const [displayModalForm, setDisplayModalForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [postError, setPostError] = useState(null);
   const [postSuccess, setPostSuccess] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
-  const [gameData, setGame] = useState([]);
+  //const [gameData, setGame] = useState([]);
+  const [title, setTitle] = useState([]);
+  console.log(title);
+  const [description, setDescription] = useState([]);
+  const [nwLat, setNwLat] = useState([]);
+  const [nwLng, setNwLng] = useState([]);
+  const [seLat, setSeLat] = useState([]);
+  const [seLng, setSeLng] = useState([]);
+  const [stateValue, setStateValue] = useState([]);
+  console.log(gameData);
+  console.log(gameData.gameTitle);
+  console.log(title);
 
-  const [stateValue, setStateValue] = useState();
+  useEffect(() => {
+    setTitle(gameData.gameTitle);
+    setDescription(gameData.gameDescription);
+    setNwLat(gameData.nw_lat);
+    setNwLng(gameData.nw_lng);
+    setSeLat(gameData.se_lat);
+    setSeLng(gameData.se_lng);
+    setStateValue(gameData.gameState);
+    console.log(title);
+  }, [gameData.gameTitle]);
+
+  console.log(title);
   const radioButtons = [
     { name: "REGISTRATION", value: "REGISTRATION" },
     { name: "IN_PROGRESS", value: "IN_PROGRESS" },
     { name: "COMPLETE", value: "COMPLETE" },
   ];
 
-  //Get data to display
-  //Get game
-  useEffect(() => {
-    const findGames = async () => {
-      const accessToken = await getAccessTokenSilently();
-      try {
-        const response = await fetch(
-          `https://hvz-api-noroff.herokuapp.com/api/v1/games/${gameId.gameId}`,
-          { headers: createHeaders(accessToken) }
-        );
-        //if (!response.ok) throw new Error("Could not complete request");
-        console.log("responsen min: ");
-        console.log(response);
-        const data = await response.json();
-        setGame(data);
-        console.log(gameData);
-        return [null, data];
-      } catch (error) {
-        return [error.message, []];
-      }
-    };
-    findGames();
-  }, []);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
   function displayModal() {
     setDisplayModalForm(!displayModalForm);
   }
 
-  async function onSubmit(data, e) {
+  async function editGame(data, e) {
     console.log(stateValue);
     setSubmitting(true);
     setPostError(null);
 
     const accessToken = await getAccessTokenSilently();
+    console.log(gameId.gameId);
+    console.log(title);
+    console.log(stateValue);
+    console.log(description);
+    console.log(nwLat);
+    console.log(nwLng);
+    console.log(seLat);
+    console.log(seLng);
 
     try {
       const response = await fetch(
@@ -105,22 +82,17 @@ function EditCreatedGame() {
           headers: createHeaders(accessToken),
           body: JSON.stringify({
             id: gameId.gameId,
-            gameTitle: data.gameTitle,
+            gameTitle: title,
             gameState: stateValue,
-            gameDescription: data.gameDescription,
-            nw_lat: data.nw_lat,
-            nw_lng: data.nw_lng,
-            se_lat: data.se_lat,
-            se_lng: data.se_lng,
+            gameDescription: description,
+            nw_lat: nwLat,
+            nw_lng: nwLng,
+            se_lat: seLat,
+            se_lng: seLng,
           }),
         }
       );
-      console.log("my radio: ");
-      console.log(stateValue);
-      console.log("test");
-      console.log(data);
       setPostSuccess(true);
-      e.target.reset();
       setTimeout(() => {
         setDisplayModalForm(false);
       }, 1500);
@@ -129,11 +101,15 @@ function EditCreatedGame() {
       return [null, response];
     } catch (error) {
       setPostError(error.toString());
+      console.log(error);
       return [error.message, []];
     } finally {
       setSubmitting(false);
     }
   }
+
+  console.log(title);
+  console.log(description);
 
   return (
     <>
@@ -142,7 +118,6 @@ function EditCreatedGame() {
       </Button>
       <div className={`modal ${displayModalForm ? "d-block" : "d-none"}`}>
         <Form
-          onSubmit={handleSubmit(onSubmit)}
           className={`modal--content p-3 d-flex flex-column mx-auto text-start position-relative`}
           autoComplete="off"
         >
@@ -154,88 +129,58 @@ function EditCreatedGame() {
               Name
             </Form.Label>
             <Form.Control
-              {...register("gameTitle")}
               id="gameTitle"
+              onChange={(event) => setTitle(event.target.value)}
               defaultValue={gameData.gameTitle}
             />
-            {errors.gameTitle && (
-              <div className="mb-3 text-danger">{errors.gameTitle.message}</div>
-            )}
+
             <Form.Label htmlFor="gameDescription" className="mt-3">
               About the game
             </Form.Label>
             <Form.Control
-              {...register("gameDescription")}
               id="gameDescription"
               as="textarea"
               rows={5}
-              defaultValue={gameData.gameDescription}
+              defaultValue={gameDescription}
+              onChange={(event) => setDescription(event.target.value)}
             />
-            {errors.gameDescription && (
-              <div className="mb-3 text-danger">
-                {errors.gameDescription.message}
-              </div>
-            )}
+
             <Form.Label htmlFor="nw_lat" className="mt-3">
               Northwest latitude
             </Form.Label>
             <Form.Control
-              {...register("nw_lat")}
               id="nw_lat"
-              defaultValue={gameData.nw_lat}
+              defaultValue={nw_lat}
+              onChange={(event) => setNwLat(event.target.value)}
             />
-            {errors.nw_lat && (
-              <div className="mb-3 text-danger">
-                {errors.nw_lat.message.includes("NaN")
-                  ? "Value must be a number (integer)"
-                  : errors.nw_lat.message}
-              </div>
-            )}
+
             <Form.Label htmlFor="nw_lng" className="mt-3">
               Northwest longitude
             </Form.Label>
             <Form.Control
-              {...register("nw_lng")}
               id="nw_lng"
-              defaultValue={gameData.nw_lng}
+              defaultValue={nw_lng}
+              onChange={(event) => setNwLng(event.target.value)}
             />
-            {errors.nw_lng && (
-              <div className="mb-3 text-danger">
-                {errors.nw_lng.message.includes("NaN")
-                  ? "Value must be a number (integer)"
-                  : errors.nw_lng.message}
-              </div>
-            )}
+
             <Form.Label htmlFor="se_lat" className="mt-3">
               Southeast latitude
             </Form.Label>
             <Form.Control
-              {...register("se_lat")}
               id="se_lat"
-              defaultValue={gameData.se_lat}
+              defaultValue={se_lat}
+              onChange={(event) => setSeLat(event.target.value)}
             />
-            {errors.se_lat && (
-              <div className="mb-3 text-danger">
-                {errors.se_lat.message.includes("NaN")
-                  ? "Value must be a number (integer)"
-                  : errors.se_lat.message}
-              </div>
-            )}
+
             <Form.Label htmlFor="se_lng" className="mt-3">
               Southeast longitude
             </Form.Label>
             <Form.Control
-              {...register("se_lng")}
               id="se_lng"
-              defaultValue={gameData.se_lng}
+              defaultValue={se_lng}
+              onChange={(event) => setSeLng(event.target.value)}
             />
-            {errors.se_lng && (
-              <div className="mb-3 text-danger">
-                {errors.se_lng.message.includes("NaN")
-                  ? "Value must be a number (integer)"
-                  : errors.se_lng.message}
-              </div>
-            )}
+
             <Form.Label htmlFor="gameState" className="mt-3">
               State of game
             </Form.Label>
@@ -258,7 +203,7 @@ function EditCreatedGame() {
             </ButtonGroup>
 
             <button
-              type="submit"
+              onClick={editGame}
               className="button mt-3 bg-primary text-white w-100 border border-none p-2"
             >
               {submitting === true ? "Working..." : "Submit"}
