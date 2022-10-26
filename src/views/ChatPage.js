@@ -8,17 +8,11 @@ import MobileNavBar from "../components/nav/MobileNavBar";
 
 let stompClient = null;
 const ChatPage = () => {
-  //let gameId = 1;
-  //let human = false;
-  //let squad.id = 1;
-  //let player.id = 1;
-  //let nickname = "sondre.mahre"
-
+  
   const game = useParams();
   const gameId = game.gameId;
   const { player, setPlayer } = usePlayer();
   const { squad, setSquad } = useSquad();
-  //const nickname = "sondre.mahre"
 
   const { getAccessTokenSilently } = useAuth0();
   const [privateChats, setPrivateChats] = useState([]);
@@ -37,9 +31,6 @@ const ChatPage = () => {
     message: "",
   });
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
 
   const connect = () => {
     let Sock = new SockJS(`https://hvz-api-noroff.herokuapp.com/ws`);
@@ -47,19 +38,12 @@ const ChatPage = () => {
     stompClient.connect({}, onConnected, onError);
   };
 
-  /*useEffect(() => {
-      setUserData({...userData, "username": nickname})
-      connect(); 
-    }, [])*/
 
   useEffect(() => {
-    //connect();
 
     const findGlobal = async () => {
       const accessToken = await getAccessTokenSilently();
-      console.log(accessToken);
       try {
-        console.log("HER DA!!!!");
         const config = {
           method: "GET",
           headers: {
@@ -72,17 +56,9 @@ const ChatPage = () => {
           config
         );
         //if (!response.ok) throw new Error("Could not complete request");
-        console.log(response);
+        
         const data = await response.json();
-        console.log(data);
-
-        //setGames2(data);
-        /*const test = []
-              data.forEach(element => {
-                test.push(element.body)
-              });*/
         setPublicChats(data);
-        console.log(publicChats);
         return [null, data];
       } catch (error) {
         return [error.message, []];
@@ -91,9 +67,7 @@ const ChatPage = () => {
 
     const findFactionChats = async () => {
       const accessToken = await getAccessTokenSilently();
-      console.log(accessToken);
       try {
-        console.log("HER DA!!!!");
         const config = {
           method: "GET",
           headers: {
@@ -106,21 +80,13 @@ const ChatPage = () => {
           config
         );
         //if (!response.ok) throw new Error("Could not complete request");
-        console.log(response);
         const data = await response.json();
-        console.log(data);
 
-        //setGames2(data);
-        /*const test = []
-            data.forEach(element => {
-              test.push(element.body)
-            });*/
         if (player.human) {
           setHumanChats(data);
         } else {
           setZombieChats(data);
         }
-        console.log(publicChats);
         return [null, data];
       } catch (error) {
         return [error.message, []];
@@ -128,10 +94,8 @@ const ChatPage = () => {
     };
 
       const findSquadChats = async () => {
-        const accessToken = await getAccessTokenSilently(); 
-        console.log(accessToken); 
+        const accessToken = await getAccessTokenSilently();  
         try {
-            console.log("HER DA!!!!")
           const config = {
             method: "GET",
             headers: {
@@ -141,71 +105,20 @@ const ChatPage = () => {
           };
           const response = await fetch(`${process.env.REACT_APP_API_SERVER_URL}games/${gameId}/squad/${squad.id}/chat`, config);
           //if (!response.ok) throw new Error("Could not complete request");
-          console.log(response);
           const data = await response.json();
-          console.log(data);
         setSquadChats(data);
-        console.log(publicChats);
         return [null, data];
       } catch (error) {
         return [error.message, []];
       }
     };
 
-    //setPublicChats(findGames[1]);
-    //console.log(publicChats);
-
     findGlobal();
-    findFactionChats();
+    findFactionChats(); 
     if (squad) {
       findSquadChats();
     }
   }, []);
-
-  /*useEffect(() => {
-        const findFactionChats = async () => {
-            const accessToken = await getAccessTokenSilently(); 
-            console.log(accessToken); 
-            try {
-                console.log("HER DA!!!!")
-              const config = {
-                method: "GET",
-                headers: {
-                  "content-type": "application/json",
-                  Authorization: `Bearer ${accessToken}`, 
-                },
-              };
-              const response = await fetch(`http://localhost:8080/api/v1/games/${gameId}/chat/${player.id}/faction`, config);
-              //if (!response.ok) throw new Error("Could not complete request");
-              console.log(response);
-              const data = await response.json();
-              console.log(data);
-              
-              //setGames2(data);
-              /*const test = []
-              data.forEach(element => {
-                test.push(element.body)
-              });
-              if (human) {
-                setHumanChats(data); 
-              } else {
-                setZombieChats(data); 
-              }
-              console.log(publicChats); 
-              return [null, data];
-            } catch (error) {
-                return [error.message, []];
-            }
-        };
-        
-        //setPublicChats(findGames[1]); 
-        //console.log(publicChats); 
-        findFactionChats(); 
-    }, [])*/
-
-  /*useEffect(() => {
-      connect(); 
-    }, [!loading])*/
 
   const onConnected = () => {
     setUserData({ ...userData, connected: true });
@@ -223,7 +136,6 @@ const ChatPage = () => {
         onSquadMessage
       );
     }
-
     userJoin();
   };
 
@@ -249,29 +161,21 @@ const ChatPage = () => {
   };
 
   const onMessageReceived = (payload) => {
-    console.log(publicChats);
     let payloadData = JSON.parse(payload.body);
-    console.log("PAYLOAD: " + payloadData.status);
     switch (payloadData.status) {
       case "JOIN":
-        console.log(payloadData.senderName + "joined ");
         break;
       default:
-        console.log(publicChats);
         publicChats.push(payloadData);
-        console.log(publicChats);
-        //setPublicChats([...publicChats,[payloadData]]);
         setPublicChats([...publicChats]);
         break;
     }
   };
 
   const onHumanMessage = (payload) => {
-    console.log(payload);
     let payloadData = JSON.parse(payload.body);
     switch (payloadData.status) {
       case "JOIN":
-        console.log(payloadData.senderName + "joined ");
         break;
       default:
         humanChats.push(payloadData);
@@ -281,11 +185,9 @@ const ChatPage = () => {
   };
 
   const onZombieMessage = (payload) => {
-    console.log(payload);
     let payloadData = JSON.parse(payload.body);
     switch (payloadData.status) {
       case "JOIN":
-        console.log(payloadData.senderName + "joined ");
         break;
       default:
         zombieChats.push(payloadData);
@@ -295,11 +197,9 @@ const ChatPage = () => {
   };
 
   const onSquadMessage = (payload) => {
-    console.log(payload);
     let payloadData = JSON.parse(payload.body);
     switch (payloadData.status) {
       case "JOIN":
-        console.log(payloadData.senderName + "joined ");
         break;
       default:
         squadChats.push(payloadData);
@@ -318,7 +218,6 @@ const ChatPage = () => {
   };
 
   const sendValue = () => {
-    console.log("HERE DA!!!");
     if (stompClient) {
       const chatMessage = {
         senderName: userData.username,
@@ -329,9 +228,6 @@ const ChatPage = () => {
         game: gameId,
         player: player.id,
       };
-      console.log(chatMessage);
-      //setPublicChats([...publicChats])
-      console.log(publicChats);
       stompClient.send(
         `/app/chat/${gameId}/sendMessage`,
         {},
@@ -407,11 +303,6 @@ const ChatPage = () => {
   };
 
   const registerUser = () => {
-    connect();
-  };
-
-  const registerUser2 = () => {
-    //setUserData({...userData, "username": nickname})
     connect();
   };
 
