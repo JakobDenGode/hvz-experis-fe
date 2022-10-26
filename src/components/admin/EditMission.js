@@ -36,7 +36,16 @@ const schema = yup.object().shape({
     .required("Please enter a southeast latitude"),
 });
 
-function EditMission({ onShowEditForm, id }) {
+function EditMission({
+  onShowEditForm,
+  id,
+  name,
+  description,
+  startTime,
+  endTime,
+  missionLat,
+  missionLng,
+}) {
   const [displayModalForm, setDisplayModalForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [postError, setPostError] = useState(null);
@@ -48,6 +57,7 @@ function EditMission({ onShowEditForm, id }) {
 
   const [radioButton, setRadioButton] = useState("HUMAN");
 
+  /*
   useEffect(() => {
     const getMissionUrl = `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}/missions/${id}/players/9`;
     const postUser = async () => {
@@ -70,12 +80,14 @@ function EditMission({ onShowEditForm, id }) {
     };
     postUser();
   }, [formData]);
+  */
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
+    defaultValues: {},
     resolver: yupResolver(schema),
   });
 
@@ -160,7 +172,7 @@ function EditMission({ onShowEditForm, id }) {
               {...register("missionName")}
               id="missionName"
               placeholder="Name of Mission"
-              defaultValue={missions.missionName}
+              defaultValue={name}
             />
             {errors.missionName && (
               <div className="mb-3 text-danger">
@@ -176,7 +188,7 @@ function EditMission({ onShowEditForm, id }) {
               as="textarea"
               rows={5}
               placeholder="Describe the mission - max 200 words"
-              defaultValue={missions.missionDescription}
+              defaultValue={description}
             />
             {errors.missionDescription && (
               <div className="mb-3 text-danger">
@@ -211,7 +223,7 @@ function EditMission({ onShowEditForm, id }) {
               {...register("startTime")}
               id="startTime"
               placeholder="Mission starts at..."
-              defaultValue={missions.startTime}
+              defaultValue={startTime}
             />
             {errors.startTime && (
               <div className="mb-3 text-danger">{errors.startTime.message}</div>
@@ -223,7 +235,7 @@ function EditMission({ onShowEditForm, id }) {
               {...register("endTime")}
               id="endTime"
               placeholder="Mission ends at..."
-              defaultValue={missions.endTime}
+              defaultValue={endTime}
             />
             {errors.endTime && (
               <div className="mb-3 text-danger">{errors.endTime.message}</div>
@@ -235,7 +247,7 @@ function EditMission({ onShowEditForm, id }) {
               {...register("missionLat")}
               id="missionLat"
               placeholder="Mission Latitude"
-              defaultValue={missions.missionLat}
+              defaultValue={missionLat}
             />
             {errors.missionLat && (
               <div className="mb-3 text-danger">
@@ -251,7 +263,7 @@ function EditMission({ onShowEditForm, id }) {
               {...register("missionLng")}
               id="missionLng"
               placeholder="Mission Longitude"
-              defaultValue={missions.missionLng}
+              defaultValue={missionLng}
             />
             {errors.missionLng && (
               <div className="mb-3 text-danger">

@@ -13,21 +13,27 @@ function GameItem({ gameTitle, gameState, players, id }) {
     <Col className="my-2 mx-auto" xs={12} md={6} lg={4}>
       {
         <Link to={`/games/${id}/map`} className="link">
-          <div className="game-card d-flex align-items-center justify-content-around">
-            <div>
-              <h3 className="mt-2">{gameTitle}</h3>
-              <p>{players.length} players</p>
+          <div className="game-card">
+            <div className="d-flex align-items-center justify-content-around">
+              <div className="mt-3">
+                <h3 className="mt-2">{gameTitle}</h3>
+                <p>{players.length} players</p>
+              </div>
+              <p>{gameState}</p>
             </div>
-            <p>{gameState}</p>
+            {/* TODO: ADMIN RESTRICTION HERE */}
+            {user && user["https//:hvz-server.com/roles"].length > 0 && (
+              <Link to={`/games/${id}/admin`}>
+                <div className="text-center">
+                  <Button className="w-75 mb-3 bg-dark text-white">
+                    Edit game
+                  </Button>
+                </div>
+              </Link>
+            )}
           </div>
         </Link>
       }
-      {/* TODO: ADMIN RESTRICTION HERE */}
-      {user && user["https//:hvz-server.com/roles"].length > 0 && (
-        <Link to={`/games/${id}/admin`}>
-          <Button className="w-100">Edit game</Button>
-        </Link>
-      )}
     </Col>
   );
 }

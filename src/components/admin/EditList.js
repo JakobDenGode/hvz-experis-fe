@@ -44,7 +44,7 @@ function EditList() {
       <HeaderNavBar title={gameData.gameTitle} />
     */
 
-    <Accordion className="mt-2" defaultActiveKey="1">
+    <Accordion className="mt-2" defaultActiveKey="0">
       <Accordion.Item eventKey="0">
         <Accordion.Header className="text-end">Game Info</Accordion.Header>
         <Accordion.Body>
