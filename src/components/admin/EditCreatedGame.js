@@ -38,14 +38,23 @@ const schema = yup.object().shape({
     .max(200, "Game description must be at most 200 characters long"),
 });
 
-function EditCreatedGame() {
+function EditCreatedGame({
+  id,
+  gameTitle,
+  gameDescription,
+  nw_lat,
+  nw_lng,
+  se_lat,
+  se_lng,
+}) {
   const [displayModalForm, setDisplayModalForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [postError, setPostError] = useState(null);
   const [postSuccess, setPostSuccess] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
-  const [gameData, setGame] = useState([]);
+  //const [gameData, setGame] = useState([]);
+  console.log(gameTitle);
 
   const [stateValue, setStateValue] = useState();
   const radioButtons = [
@@ -56,6 +65,7 @@ function EditCreatedGame() {
 
   //Get data to display
   //Get game
+  /*
   useEffect(() => {
     const findGames = async () => {
       const accessToken = await getAccessTokenSilently();
@@ -77,12 +87,14 @@ function EditCreatedGame() {
     };
     findGames();
   }, []);
+  */
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
+    defaultValues: {},
     resolver: yupResolver(schema),
   });
 
@@ -156,7 +168,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("gameTitle")}
               id="gameTitle"
-              defaultValue={gameData.gameTitle}
+              defaultValue={gameTitle}
             />
             {errors.gameTitle && (
               <div className="mb-3 text-danger">{errors.gameTitle.message}</div>
@@ -169,7 +181,7 @@ function EditCreatedGame() {
               id="gameDescription"
               as="textarea"
               rows={5}
-              defaultValue={gameData.gameDescription}
+              defaultValue={gameDescription}
             />
             {errors.gameDescription && (
               <div className="mb-3 text-danger">
@@ -182,7 +194,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("nw_lat")}
               id="nw_lat"
-              defaultValue={gameData.nw_lat}
+              defaultValue={nw_lat}
             />
             {errors.nw_lat && (
               <div className="mb-3 text-danger">
@@ -197,7 +209,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("nw_lng")}
               id="nw_lng"
-              defaultValue={gameData.nw_lng}
+              defaultValue={nw_lng}
             />
             {errors.nw_lng && (
               <div className="mb-3 text-danger">
@@ -212,7 +224,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("se_lat")}
               id="se_lat"
-              defaultValue={gameData.se_lat}
+              defaultValue={se_lat}
             />
             {errors.se_lat && (
               <div className="mb-3 text-danger">
@@ -227,7 +239,7 @@ function EditCreatedGame() {
             <Form.Control
               {...register("se_lng")}
               id="se_lng"
-              defaultValue={gameData.se_lng}
+              defaultValue={se_lng}
             />
             {errors.se_lng && (
               <div className="mb-3 text-danger">

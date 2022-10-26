@@ -68,7 +68,7 @@ function EditMissions() {
     deleteMission();
     setMissions(newMissions);
   }
-
+  console.log(missions);
   return (
     <div>
       <div className="bg-secondary rounded mt-3 mb-3">

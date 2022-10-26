@@ -11,31 +11,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { createHeaders } from "../admin/CreateHeaders";
 import CreateMission from "./CreateMission";
 
-function EditList() {
+function EditList({ gameData }) {
   const { getAccessTokenSilently } = useAuth0();
   const gameId = useParams();
-  const [gameData, setGame] = useState([]);
+  //const [gameData, setGameData] = useState([]);
+  const { id, gameTitle, gameDescription, nw_lat, nw_lng, se_lat, se_lng } =
+    gameData;
 
   //Get game
-  useEffect(() => {
-    const findGames = async () => {
-      const accessToken = await getAccessTokenSilently();
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_SERVER_URL}games/${gameId.gameId}`,
-          { headers: createHeaders(accessToken) }
-        );
-        //if (!response.ok) throw new Error("Could not complete request");
-        console.log(response);
-        const data = await response.json();
-        setGame(data);
-        return [null, data];
-      } catch (error) {
-        return [error.message, []];
-      }
-    };
-    findGames();
-  }, []);
 
   return (
     /*
@@ -48,7 +31,15 @@ function EditList() {
       <Accordion.Item eventKey="0">
         <Accordion.Header className="text-end">Game Info</Accordion.Header>
         <Accordion.Body>
-          <EditCreatedGame />
+          <EditCreatedGame
+            id={id}
+            gameTitle={gameTitle}
+            gameDescription={gameDescription}
+            nw_lat={nw_lat}
+            nw_lng={nw_lng}
+            se_lat={se_lat}
+            se_lng={se_lng}
+          />
           <EditGame />
         </Accordion.Body>
       </Accordion.Item>

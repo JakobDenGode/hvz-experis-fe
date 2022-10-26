@@ -3,6 +3,7 @@ import { Row } from "react-bootstrap";
 import MissionItem from "./MissionItem";
 
 function MissionList({ missions, onShowEditForm, onDeleteMission }) {
+  console.log(missions);
   return (
     <Row className="border mt-2">
       {missions.map((mission) => {
@@ -15,6 +16,8 @@ function MissionList({ missions, onShowEditForm, onDeleteMission }) {
           missionLat,
           missionLng,
         } = mission;
+
+        console.log(missionName);
 
         return (
           <MissionItem

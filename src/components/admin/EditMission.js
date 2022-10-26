@@ -56,6 +56,7 @@ function EditMission({
   const [formData, setFormData] = useState();
 
   const [radioButton, setRadioButton] = useState("HUMAN");
+  console.log(name);
 
   /*
   useEffect(() => {
