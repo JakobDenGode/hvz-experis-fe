@@ -7,15 +7,15 @@ input {
   color: white;
 }
 //$body-bg: rgb(16, 16, 55);
-
+$secondary: #644b77;
 $custom-dark: #2e2e2e;
-$body-bg:#26272a;
+$body-bg:$secondary;
 $dark: $custom-dark;
 $customBackground: $body-bg;
 $link-color: $dark;
 $link-hover-color: $custom-dark;
 $primary: #fd990d;
-$secondary: #644b77;
+
 $success: #4A8E41;
 $danger: #ffad39fe;
 
