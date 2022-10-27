@@ -17,7 +17,7 @@ This page lists all the games and some information about them. Here you can also
 ### Game Page 
 The game page consists of a map and is where the game is played. Users can see their location on a map, tombstones where other players died, missions and ping their location to squad members. If you are logged in with an admin user you can administrate the game and it's users. 
 
-##Installation
+## Installation
 
 ### Link to Online application
 https://hvz-fe-noroff.herokuapp.com/
