@@ -31,10 +31,17 @@
     color: rgb(161, 105, 0);
   }
 
+  
+
   &--close:hover,
   &--close:focus {
     color: #bbb;
     text-decoration: none;
     cursor: pointer;
   }
+}
+
+.delete--icon {
+  font-size: 30px;
+  color: $danger;
 }

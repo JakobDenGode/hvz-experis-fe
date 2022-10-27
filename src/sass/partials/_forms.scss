@@ -21,3 +21,7 @@ form {
 .form-table-data {
   background-color: rgb(235, 235, 235);
 }
+
+.accordion-button:not(.collapsed) {
+  background-color: $dark !important;
+}

@@ -4,7 +4,7 @@ import PlayerItem from "./PlayerItem";
 
 function PlayerList({ players, onToggleClick }) {
   return (
-    <Row className="border mt-2">
+    <Row className="mt-2">
       {players.map((player) => {
         const { id, human } = player;
 

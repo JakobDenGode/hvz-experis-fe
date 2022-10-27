@@ -4,7 +4,7 @@ import SquadItemAdmin from "./SquadItemAdmin";
 
 function SquadListAdmin({ squads, onShowSquadForm, onDeleteSquad }) {
   return (
-    <Row className="border mt-2">
+    <Row className="mt-2">
       {squads.map((squad) => {
         const { id, name, members, player } = squad;
 

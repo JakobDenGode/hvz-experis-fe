@@ -60,18 +60,18 @@ function EditSquads() {
 
   return (
     <div>
-      <Form className="bg-secondary rounded mt-3 mb-3">
-        <h2 className="text-center">Game</h2>
+      <Form className="bg-secondary bg-dark text-light rounded mt-3 mb-3">
+        <h2 className="text-center p-3">Game</h2>
 
         <Container>
-          <Row>
-            <Col className="border text-center" xs={4}>
+          <Row className="fs-4 border-bottom">
+            <Col className="text-center fs-4" xs={4}>
               Squad
             </Col>
-            <Col className="border text-center" xs={4}>
+            <Col className="text-center fs-4" xs={4}>
               Total members
             </Col>
-            <Col className="border text-center" xs={4}>
+            <Col className="text-center fs-4" xs={4}>
               Change
             </Col>
           </Row>
