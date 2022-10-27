@@ -36,9 +36,9 @@ https://hvz-fe-noroff.herokuapp.com/
 - Open the terminal from the project folder
 - Run the commands "npm install" -> "npm update" 
 - Finally run "npm run dev" to run the application 
-- view the application on http://localhost:3000
+- View the application on http://localhost:3000
 
-You can find the guide to set up the Back End of the procjet here: 
+You can find the guide to set up the Back End of the project here: 
 https://github.com/TrulsHafnor/HvZ-experis-be
 
 ## Technologies
