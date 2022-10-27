@@ -103,7 +103,7 @@ function CreateGame() {
       {user && user["https//:hvz-server.com/roles"].length > 0 && (
         <Button
           onClick={displayModal}
-          className="w-100 mt-3 mb-3 bg-danger text-dark fs-3"
+          className="w-100 mt-3 mb-3 bg-danger text-dark fs-2"
         >
           Create Game
         </Button>

@@ -9,18 +9,20 @@ input {
 //$body-bg: rgb(16, 16, 55);
 $secondary: #644b77;
 $custom-dark: #2e2e2e;
-$body-bg:$secondary;
+$body-bg:#26272a;
 $dark: $custom-dark;
 $customBackground: $body-bg;
 $link-color: $dark;
 $link-hover-color: $custom-dark;
 $primary: #fd990d;
-
+$font-family-sans-serif: 'Vollkorn',
+serif;
 $success: #4A8E41;
 $danger: #ffad39fe;
 
 @import "partials/animation";
 @import "partials/squad";
+@import "partials/fonts";
 @import "partials/layout";
 @import "partials/map";
 @import "partials/modal";

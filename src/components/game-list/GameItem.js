@@ -16,8 +16,8 @@ function GameItem({ gameTitle, gameState, players, id }) {
           <div className="game-card">
             <div className="d-flex text-primary align-items-center justify-content-around">
               <div className="mt-3">
-                <h3 className="mt-2">{gameTitle}</h3>
-                <p>{players.length} players</p>
+                <h3 className="mt-3 game-title fs-1">{gameTitle}</h3>
+                <p className="fs-2">{players.length} players</p>
               </div>
               <p>{gameState}</p>
             </div>
@@ -25,7 +25,7 @@ function GameItem({ gameTitle, gameState, players, id }) {
             {user && user["https//:hvz-server.com/roles"].length > 0 && (
               <Link to={`/games/${id}/admin`}>
                 <div className="text-center">
-                  <Button className="w-50 text-dark bg-danger border-secondary mb-3">
+                  <Button className="w-50 fs-4 text-dark bg-danger border-secondary mb-3">
                     Edit game
                   </Button>
                 </div>

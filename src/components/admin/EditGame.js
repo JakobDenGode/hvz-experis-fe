@@ -99,17 +99,17 @@ function EditGame() {
   return (
     <div>
       <Form className="bg-secondary rounded mt-3 mb-3">
-        <h2 className="text-center">Game</h2>
+        <h2 className="text-center p-3">Game</h2>
 
         <Container>
           <Row>
-            <Col className="border text-center" xs={4}>
+            <Col className="text-center" xs={4}>
               Player
             </Col>
-            <Col className="border text-center" xs={4}>
+            <Col className="text-center" xs={4}>
               Status
             </Col>
-            <Col className="border text-center" xs={4}>
+            <Col className="text-center" xs={4}>
               Change
             </Col>
           </Row>

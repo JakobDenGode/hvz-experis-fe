@@ -24,7 +24,7 @@ function MobileNavBar() {
   return (
     <>
       <div
-        className={`mobile-navbar d-flex justify-content-around border position-fixed w-100 bottom-0 right-0 border ${
+        className={`mobile-navbar text-light fs-4 d-flex justify-content-around border position-fixed w-100 bottom-0 right-0 border ${
           !player
             ? "bg-secondary"
             : player.human === false
