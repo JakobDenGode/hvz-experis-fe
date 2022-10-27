@@ -116,7 +116,10 @@ function EditGame() {
           <PlayerList players={players} onToggleClick={toggleHumanZombie} />
         </Container>
       </Form>
-      <Button className="w-100 border-danger bg-danger" onClick={goToLanding}>
+      <Button
+        className="fs-3 w-100 border-danger bg-danger"
+        onClick={goToLanding}
+      >
         Delete game
       </Button>
     </div>

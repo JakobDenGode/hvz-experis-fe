@@ -59,8 +59,8 @@ function ShowBiteCode() {
         headers: createHeaders(accessToken),
         body: JSON.stringify({
           biteCode: data.bitecode,
-          lat: 0,
-          lng: 0,
+          lat: 59.920309874090464,
+          lng: 10.763991449470184,
           game: gameId.gameId,
           playerKiller: player.id,
         }),
@@ -102,8 +102,7 @@ function ShowBiteCode() {
           <span onClick={showBiteCode} className="modal--close">
             &times;
           </span>
-          <h4>Your bite code</h4>
-          {player && <p>{player.bitecode}</p>}
+          {player && <p className="bitecode">{player.bitecode}</p>}
         </Form>
       </div>
       <div className={`modal ${displayZombieCode ? "d-block" : "d-none"}`}>
