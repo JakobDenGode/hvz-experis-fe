@@ -24,7 +24,7 @@ function MobileNavBar() {
   return (
     <>
       <div
-        className={`mobile-navbar d-flex justify-content-around border position-fixed w-100 bottom-0 right-0 border ${
+        className={`mobile-navbar text-light d-flex justify-content-around border position-fixed w-100 bottom-0 right-0 border ${
           !player
             ? "bg-secondary"
             : player.human === false
@@ -37,14 +37,14 @@ function MobileNavBar() {
             className="nav-link w-100  p-3 text-center border"
             to={`/games/${gameId}/mysquad`}
           >
-            Squads
+            Squad
           </Link>
         ) : (
           <Link
             className="nav-link w-100  p-3 text-center border"
             to={`/games/${gameId}/squad`}
           >
-            Squads
+            Squad
           </Link>
         )}
         {player && (

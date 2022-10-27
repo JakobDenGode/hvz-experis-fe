@@ -12,11 +12,11 @@ function RulesPage() {
     <div className="position-relative">
       <img
         className="back-arrow position-absolute mt-2 mx-2"
-        src="/assets/back.png"
+        src="/assets/go-back.png"
         onClick={backToGame}
       />
       <h1 className="mt-4 text-center">Rules</h1>
-      <div className="p-3">
+      <div className="p-3 text-light fs-4">
         <p>
           Humans vs. Zombies is a game of tag. All players begin as humans, and
           one is randomly chosen to be the “Original Zombie.” The Original
@@ -32,7 +32,7 @@ function RulesPage() {
         </p>
         <p>
           Read more at{" "}
-          <a className="text-secondary" href="https://humansvszombies.org/">
+          <a className="text-primary" href="https://humansvszombies.org/">
             humansvszombies.org
           </a>
         </p>

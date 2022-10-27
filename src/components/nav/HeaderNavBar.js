@@ -91,13 +91,14 @@ function HeaderNavBar() {
     <Nav className="w-100 d-flex align-items-center justify-content-around">
       <img
         className="back-arrow"
-        src="/assets/back.png"
+        src="/assets/go-back.png"
         onClick={goToLanding}
       />
       <h2
+        className="text-light"
         style={{
           color: "black",
-          fontSize: "40px",
+          fontSize: "25px",
           fontWeight: "600",
           textAlign: "center",
           padding: "20px",

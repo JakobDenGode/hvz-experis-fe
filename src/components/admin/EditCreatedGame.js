@@ -137,7 +137,10 @@ function EditCreatedGame() {
 
   return (
     <>
-      <Button onClick={displayModal} className="w-100 mt-3 mb-3 btn-success">
+      <Button
+        onClick={displayModal}
+        className="w-100 mt-3 mb-3 bg-primary fs-2"
+      >
         Edit Game
       </Button>
       <div className={`modal ${displayModalForm ? "d-block" : "d-none"}`}>

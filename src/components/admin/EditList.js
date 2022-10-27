@@ -44,23 +44,30 @@ function EditList() {
       <HeaderNavBar title={gameData.gameTitle} />
     */
 
-    <Accordion className="mt-2" defaultActiveKey="0">
-      <Accordion.Item eventKey="0">
-        <Accordion.Header className="text-end">Game Info</Accordion.Header>
-        <Accordion.Body>
+    <Accordion className="mt-2 accordion" defaultActiveKey="0">
+      <Accordion.Item className="accordion__item" eventKey="0">
+        <Accordion.Header className="accordion__header text-light-light text-end">
+          <div className="fs-4 text-light">Game Info</div>
+        </Accordion.Header>
+
+        <Accordion.Body className="accordion__body">
           <EditCreatedGame />
           <EditGame />
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
-        <Accordion.Header>Missions</Accordion.Header>
+        <Accordion.Header>
+          <div className="fs-4 text-light">Missions</div>
+        </Accordion.Header>
         <Accordion.Body>
           <CreateMission />
           <EditMissions />
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="2">
-        <Accordion.Header>Squad</Accordion.Header>
+        <Accordion.Header>
+          <div className="fs-4 text-light">Squad</div>
+        </Accordion.Header>
         <Accordion.Body>
           <EditSquads />
         </Accordion.Body>

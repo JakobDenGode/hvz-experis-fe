@@ -5,10 +5,10 @@ function PlayerItem({ id, state, onToggleClick }) {
   function deletePlayer() {}
   return (
     <>
-      <Col className="my-2 mx-auto" xs={4}>
+      <Col className="my-2 mx-auto fs-3" xs={4}>
         <p>{id}</p>
       </Col>
-      <Col className="my-2 mx-auto" xs={4}>
+      <Col className="my-2 mx-auto fs-3" xs={4}>
         <p>{state ? "human" : "zombie"}</p>
       </Col>
       <Col
@@ -24,7 +24,7 @@ function PlayerItem({ id, state, onToggleClick }) {
           />
           <span className="slider round"></span>
         </label>
-        <span onClick={deletePlayer} className="fs-2 pb-1">
+        <span onClick={deletePlayer} className="delete--icon pb-1">
           &times;
         </span>
       </Col>

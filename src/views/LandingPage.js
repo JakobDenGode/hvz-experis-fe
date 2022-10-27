@@ -91,7 +91,7 @@ const LandingPage = () => {
       {isAuthenticated && (
         <>
           <Button
-            className="p-2 bg-success mt-4 me-3 position-absolute top-0 end-0"
+            className="p-2 bg-dark text-light mt-4 me-3 position-absolute top-0 end-0"
             onClick={() => logout({ returnTo: window.location.origin })}
           >
             Log Out

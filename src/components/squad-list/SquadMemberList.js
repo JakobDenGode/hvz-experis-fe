@@ -5,7 +5,7 @@ import SquadMemberItem from "./SquadMemberItem";
 function SquadMemberList({ squadMembers }) {
   console.log(squadMembers);
   return (
-    <Row className="border">
+    <Row className="">
       {squadMembers.map((squadmember) => {
         const { id, rank, member } = squadmember;
 

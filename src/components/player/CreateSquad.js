@@ -95,7 +95,7 @@ function CreateSquad() {
 
   return (
     <>
-      <Button onClick={displayModal} className="w-100 mt-3 mb-3">
+      <Button onClick={displayModal} className="w-100 mt-3 mb-3 fs-3">
         Create New Squad
       </Button>
       <div className={`modal ${displayModalForm ? "d-block" : "d-none"}`}>

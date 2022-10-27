@@ -2,16 +2,17 @@
 input {
     padding: 10px;
     font-size: 1.2em;
-    color: black;
   }
-  
+
   .chat-button{
     border: none;
-    padding: 10px;
-    background: green;
-    color:#fff;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: $primary;
+    color:$dark;
     font-size: 1.2em;
     font-weight: bold;
+    width: 100%;
   }
   
   
@@ -21,12 +22,12 @@ input {
   
   .register{
     position: fixed;
-    padding:30px;
-    box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
+    padding:0px;
     top:35%;
-    left:32%;
+    left: 23%;
     display: flex;
     flex-direction: row;
+    width: 200px;
   }
 
   .chat-box{
@@ -52,7 +53,7 @@ input {
   .chat-messages{
     height: 70%;
     max-width: 700px;
-    border: 1px solid #000;
+    border: 1px solid white;
     overflow-y: scroll;
     overflow-anchor: auto; 
     display: flex;
@@ -69,6 +70,7 @@ input {
     width:90%;
     border-radius: 10px;
     margin-top: 50px;
+    color: black;
   }
   
   ul {
@@ -85,15 +87,17 @@ input {
   }
   .member{
     padding: 10px;
-    background: rgb(210, 210, 210);
+    background: $secondary;
     border:#000;
     cursor: pointer;
     margin: 5px 2px;
-    box-shadow: 0 8px 8px -4px lightblue;
+    color: white;
+    font-size: 20px;
   }
   .member.active{
     background: $dark;
     color:#fff;
+    font-size: 20px;
   }
   .member:hover{
     background: grey;
@@ -101,14 +105,15 @@ input {
   }
   
   .avatar{
-    background-color: cornflowerblue;
+    background-color: $secondary;
     padding: 3px 5px;
     border-radius: 5px;
     color:#fff;
   }
   .avatar.self{
     color:#000;
-    background-color: greenyellow;
+    background-color: $danger;
+    padding-top: 15px;
   }
   .message{
     padding:5px;
@@ -120,6 +125,8 @@ input {
   }
   .message-data{
     padding:5px;
+    border: 1px solid green;
+    color: white;
   }
   .message.self{
     justify-content: end;

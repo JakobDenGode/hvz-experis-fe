@@ -15,10 +15,10 @@ function MissionItem({
 }) {
   return (
     <>
-      <Col className="my-2 mx-auto" xs={4}>
+      <Col className="my-2 mx-auto fs-3" xs={4}>
         <p>{name}</p>
       </Col>
-      <Col className="my-2 mx-auto" xs={4}>
+      <Col className="my-2 mx-auto fs-5" xs={4}>
         <p>{description}</p>
       </Col>
       <Col
@@ -35,7 +35,7 @@ function MissionItem({
           missionLat={missionLat}
           missionLng={missionLng}
         />
-        <span onClick={() => onDeleteMission(id)} className="fs-2 pb-1">
+        <span onClick={() => onDeleteMission(id)} className="delete--icon pb-1">
           &times;
         </span>
       </Col>
