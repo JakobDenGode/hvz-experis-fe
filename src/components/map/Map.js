@@ -265,10 +265,7 @@ function Map() {
           style={{ height: "80vh", width: "100%" }}
         >
           <LocationMarker />
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+
           {/* marker for missions */}
           <MultipleMarkers />
           {/*Rectangle to draw game area*/}

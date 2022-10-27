@@ -37,7 +37,6 @@ function ShowBiteCode() {
   function showBiteCode() {
     //const apiUrl2 = `${process.env.REACT_APP_API_SERVER_URL}game/${gameId.gameId}/player/Sjekk1`;
     console.log(player.human);
-    console.log(mapCords.lat);
 
     if (player.human === true) {
       console.log("hi");
@@ -60,8 +59,8 @@ function ShowBiteCode() {
         headers: createHeaders(accessToken),
         body: JSON.stringify({
           biteCode: data.bitecode,
-          lat: mapCords.lat,
-          lng: mapCords.lng,
+          lat: 0,
+          lng: 0,
           game: gameId.gameId,
           playerKiller: player.id,
         }),
@@ -90,7 +89,7 @@ function ShowBiteCode() {
           onClick={showBiteCode}
           className={`${
             player.human === true ? "btn-secondary" : "btn-primary"
-          }`}
+          } mb-2`}
         >
           Bite Code
         </Button>

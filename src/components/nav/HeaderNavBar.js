@@ -98,7 +98,7 @@ function HeaderNavBar() {
         className="text-light"
         style={{
           color: "black",
-          fontSize: "40px",
+          fontSize: "25px",
           fontWeight: "600",
           textAlign: "center",
           padding: "20px",

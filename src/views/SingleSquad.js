@@ -55,22 +55,22 @@ function SingleSquad() {
   return (
     <div>
       <HeaderNavBar />
-      <Form className="bg-secondary rounded mt-3 mb-3 p-3 mx-auto w-75">
-        <Container>
+      <Container>
+        <Form className="bg-dark rounded mt-3 mb-3 p-3 mx-auto w-100">
           <h3>{squadMembers && squadMembers.name}</h3>
-          <Row>
-            <Col className="border bg-white text-center" xs={6}>
+          <Row className="border-bottom fs-3">
+            <Col className="text-light text-center" xs={6}>
               Player ID
             </Col>
-            <Col className="border bg-white text-center" xs={6}>
+            <Col className="text-light text-center" xs={6}>
               Rank
             </Col>
           </Row>
           <SquadMemberList squadMembers={squadMembers} />
           <PingButton squadMembers={squadMembers} />
           <LeaveSquadButton squadMembers={squadMembers} />
-        </Container>
-      </Form>
+        </Form>
+      </Container>
       <MobileNavBar />
     </div>
   );
