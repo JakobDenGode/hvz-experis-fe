@@ -1,5 +1,13 @@
-# Human vs. Zombies Backend - Experis/Noroff 2022
+# Human vs. Zombies Frontend - Experis/Noroff 2022
 This project is about the real life game "Humans vs Zombies" and the goal is to make the experience easier and more managable for both players and admins. 
+
+This project is about building a software solution for players and administrators of the game Human vs. Zombies (HvZ). We have designed and implemened a software solution for managing the state and communication of one or more concurrent games of HvZ. The main components of the system are as follows:
+
+- A static, single-page, front-end using react. 
+- RESTful API service, through which the front end may interact with the database.
+- PostGres database
+
+The deployed front-end application can be found here: [Human vs. Zombies App](https://hvz-fe-noroff.herokuapp.com/) 
 
 ## Table of Contents
 
@@ -35,7 +43,7 @@ https://github.com/TrulsHafnor/HvZ-experis-be
 
 ## Technologies
 - Javascript React
-- Css
+- CSS
 - HTML
 - Node.js 
 - Bootstrap + Sass
