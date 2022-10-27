@@ -42,7 +42,7 @@ function App() {
       <Auth0ProviderWithRedirectCallback
         domain={process.env.REACT_APP_AUTH0_DOMAIN}
         clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
-        redirectUri="https://hvz-fe-noroff.herokuapp.com/games"
+        redirectUri="http://localhost:3000/games"
         audience={process.env.REACT_APP_AUTH0_AUDIENCE}
       >
         <Routes>
