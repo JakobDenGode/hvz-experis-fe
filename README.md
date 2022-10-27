@@ -30,6 +30,8 @@ https://hvz-fe-noroff.herokuapp.com/
 - Finally run "npm run dev" to run the application 
 - view the application on http://localhost:3000
 
+You can find the guide to set up the Back End of the procjet here: 
+https://github.com/TrulsHafnor/HvZ-experis-be
 
 ## Technologies
 - Javascript React
@@ -42,4 +44,9 @@ https://hvz-fe-noroff.herokuapp.com/
 - Leaflet 
 
 ### Contributors
+- [Lars-Inge Gammelsæter Jonsen](https://github.com/Kaladinge)
+- [Sondre Mæhre](https://github.com/Sondrema)
+- [Truls Ombye Hafnor](https://github.com/TrulsHafnor)
+- [Jakob Slyngstadli](https://github.com/JakobDenGode)
+- [Carl Markus Malde](https://github.com/CarlMarkus)
 
