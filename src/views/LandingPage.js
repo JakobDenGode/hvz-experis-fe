@@ -76,6 +76,11 @@ const LandingPage = () => {
 
   return (
     <div className="position-relative">
+      <img
+        className="ghost position-absolute"
+        src="/assets/ghost.png"
+        alt="ghost"
+      />
       <Heading
         title={
           user && user["https//:hvz-server.com/roles"].length > 0
@@ -92,7 +97,6 @@ const LandingPage = () => {
         <>
           <Button
             className="p-2 log-out bg-dark text-light mt-4 me-3 position-absolute top-0 end-0"
-
             onClick={() => logout({ returnTo: window.location.origin })}
           >
             Log Out

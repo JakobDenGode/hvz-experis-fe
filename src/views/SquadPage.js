@@ -42,7 +42,7 @@ function SquadPage() {
   }, []);
 
   return (
-    <div>
+    <div className="position-relative">
       <HeaderNavBar />
       <Container>
         {player && <CreateSquad />}
@@ -50,6 +50,11 @@ function SquadPage() {
         <SquadList squads={squads} />
       </Container>
       <MobileNavBar />
+      <img
+        className="pumpkin position-absolute"
+        src="/assets/pumpkin.png"
+        alt="pumpkin"
+      />
     </div>
   );
 }

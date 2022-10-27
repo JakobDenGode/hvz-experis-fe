@@ -233,3 +233,71 @@ body {
     top: 20%;
   }
 }
+
+.ghost {
+  width: 70px;
+  top: 3px;
+  left: 14px;
+  animation: ghost-wiggle 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 2s;
+}
+
+@keyframes ghost-wiggle {
+
+  0% {
+    transform: rotateZ(0);
+  }
+
+  15% {
+    transform: rotateZ(-15deg);
+  }
+
+  20% {
+    transform: rotateZ(10deg);
+  }
+
+  25% {
+    transform: rotateZ(-10deg);
+  }
+
+  30% {
+    transform: rotateZ(6deg);
+  }
+
+  35% {
+    transform: rotateZ(-4deg);
+  }
+
+  100% {
+    transform: rotateZ(0);
+  }
+}
+
+.pumpkin {
+  width: 170px;
+  left: -50%;
+  top: 120%;
+  animation: pumpkin-appear 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 2s;
+}
+
+@keyframes pumpkin-appear {
+  0% {
+    left: -50%;
+  }
+  25% {
+    left: -30%;
+  }
+
+  50% {
+    left: -20%;
+  }
+  75% {
+    left: -20%;
+  }
+  100% {
+    left: -20%;
+  }
+}
