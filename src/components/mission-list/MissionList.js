@@ -4,7 +4,7 @@ import MissionItem from "./MissionItem";
 
 function MissionList({ missions, onShowEditForm, onDeleteMission }) {
   return (
-    <Row className="border mt-2">
+    <Row className="mt-2">
       {missions.map((mission) => {
         const {
           id,

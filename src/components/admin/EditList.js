@@ -73,14 +73,18 @@ function EditList() {
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
-        <Accordion.Header>Missions</Accordion.Header>
+        <Accordion.Header>
+          <div className="fs-4 text-light">Missions</div>
+        </Accordion.Header>
         <Accordion.Body>
           <CreateMission />
           <EditMissions />
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="2">
-        <Accordion.Header>Squad</Accordion.Header>
+        <Accordion.Header>
+          <div className="fs-4 text-light">Squad</div>
+        </Accordion.Header>
         <Accordion.Body>
           <EditSquads />
         </Accordion.Body>

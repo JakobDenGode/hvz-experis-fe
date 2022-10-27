@@ -98,25 +98,28 @@ function EditGame() {
 
   return (
     <div>
-      <Form className="bg-secondary rounded mt-3 mb-3">
-        <h2 className="text-center">Game</h2>
+      <Form className="bg-secondary bg-dark text-light rounded mt-3 mb-3">
+        <h2 className="text-center p-3">Players</h2>
 
         <Container>
-          <Row>
-            <Col className="border text-center" xs={4}>
+          <Row className="fs-3 border-bottom">
+            <Col className="text-center" xs={4}>
               Player
             </Col>
-            <Col className="border text-center" xs={4}>
+            <Col className="text-center" xs={4}>
               Status
             </Col>
-            <Col className="border text-center" xs={4}>
+            <Col className="text-center" xs={4}>
               Change
             </Col>
           </Row>
           <PlayerList players={players} onToggleClick={toggleHumanZombie} />
         </Container>
       </Form>
-      <Button className="w-100 border-danger bg-danger" onClick={goToLanding}>
+      <Button
+        className="fs-3 w-100 border-danger bg-danger"
+        onClick={goToLanding}
+      >
         Delete game
       </Button>
     </div>

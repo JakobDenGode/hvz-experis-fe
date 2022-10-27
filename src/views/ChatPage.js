@@ -8,7 +8,6 @@ import MobileNavBar from "../components/nav/MobileNavBar";
 
 let stompClient = null;
 const ChatPage = () => {
-  
   const game = useParams();
   const gameId = game.gameId;
   const { player, setPlayer } = usePlayer();
@@ -31,16 +30,13 @@ const ChatPage = () => {
     message: "",
   });
 
-
   const connect = () => {
     let Sock = new SockJS(`https://hvz-api-noroff.herokuapp.com/ws`);
     stompClient = over(Sock);
     stompClient.connect({}, onConnected, onError);
   };
 
-
   useEffect(() => {
-
     const findGlobal = async () => {
       const accessToken = await getAccessTokenSilently();
       try {
@@ -56,7 +52,7 @@ const ChatPage = () => {
           config
         );
         //if (!response.ok) throw new Error("Could not complete request");
-        
+
         const data = await response.json();
         setPublicChats(data);
         return [null, data];
@@ -93,19 +89,22 @@ const ChatPage = () => {
       }
     };
 
-      const findSquadChats = async () => {
-        const accessToken = await getAccessTokenSilently();  
-        try {
-          const config = {
-            method: "GET",
-            headers: {
-              "content-type": "application/json",
-              Authorization: `Bearer ${accessToken}`, 
-            },
-          };
-          const response = await fetch(`${process.env.REACT_APP_API_SERVER_URL}games/${gameId}/squad/${squad.id}/chat`, config);
-          //if (!response.ok) throw new Error("Could not complete request");
-          const data = await response.json();
+    const findSquadChats = async () => {
+      const accessToken = await getAccessTokenSilently();
+      try {
+        const config = {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+        const response = await fetch(
+          `${process.env.REACT_APP_API_SERVER_URL}games/${gameId}/squad/${squad.id}/chat`,
+          config
+        );
+        //if (!response.ok) throw new Error("Could not complete request");
+        const data = await response.json();
         setSquadChats(data);
         return [null, data];
       } catch (error) {
@@ -114,7 +113,7 @@ const ChatPage = () => {
     };
 
     findGlobal();
-    findFactionChats(); 
+    findFactionChats();
     if (squad) {
       findSquadChats();
     }
@@ -396,7 +395,7 @@ const ChatPage = () => {
                   <input
                     type="text"
                     className="input-message"
-                    placeholder="enter the message"
+                    placeholder="Enter the message"
                     value={userData.message}
                     onChange={handleMessage}
                   />
@@ -405,7 +404,7 @@ const ChatPage = () => {
                     className="send-button"
                     onClick={sendValue}
                   >
-                    send
+                    Send
                   </button>
                 </div>
               </div>
@@ -441,7 +440,7 @@ const ChatPage = () => {
                   <input
                     type="text"
                     className="input-message"
-                    placeholder="enter the message"
+                    placeholder="Enter the message"
                     value={userData.message}
                     onChange={handleMessage}
                   />
@@ -450,7 +449,7 @@ const ChatPage = () => {
                     className="send-button"
                     onClick={sendZombieValue}
                   >
-                    send
+                    Send
                   </button>
                 </div>
               </div>
@@ -486,7 +485,7 @@ const ChatPage = () => {
                   <input
                     type="text"
                     className="input-message"
-                    placeholder="enter the message"
+                    placeholder="Enter the message"
                     value={userData.message}
                     onChange={handleMessage}
                   />
@@ -495,7 +494,7 @@ const ChatPage = () => {
                     className="send-button"
                     onClick={sendHumanValue}
                   >
-                    send
+                    Send
                   </button>
                 </div>
               </div>
@@ -531,7 +530,7 @@ const ChatPage = () => {
                   <input
                     type="text"
                     className="input-message"
-                    placeholder="enter the message"
+                    placeholder="Enter the message"
                     value={userData.message}
                     onChange={handleMessage}
                   />
@@ -540,7 +539,7 @@ const ChatPage = () => {
                     className="send-button"
                     onClick={sendSquadValue}
                   >
-                    send
+                    Send
                   </button>
                 </div>
               </div>

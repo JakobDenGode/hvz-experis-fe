@@ -10,15 +10,23 @@ input {
 
 $custom-dark: #2e2e2e;
 $body-bg:$custom-dark;
+
+$secondary: #644b77;
+
 $dark: $custom-dark;
 $customBackground: $body-bg;
 $link-color: $dark;
 $link-hover-color: $custom-dark;
 $primary: #fd990d;
-$secondary: #644b77;
+$font-family-sans-serif: 'Vollkorn',
+serif;
+$success: #4A8E41;
+$danger: #ffad39fe;
+$input-bg: white;
 
 @import "partials/animation";
 @import "partials/squad";
+@import "partials/fonts";
 @import "partials/layout";
 @import "partials/map";
 @import "partials/modal";

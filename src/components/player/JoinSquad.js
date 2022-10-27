@@ -49,7 +49,7 @@ function JoinSquad({ id }) {
     <button
       onClick={joinSquad}
       type="button"
-      className="btn btn-secondary btn-sm"
+      className="btn fs-2 btn-danger w-25"
     >
       Join
     </button>

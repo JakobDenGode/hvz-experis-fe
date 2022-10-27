@@ -106,7 +106,10 @@ function CreateMission() {
   return (
     <>
       {user && user["https//:hvz-server.com/roles"].length > 0 && (
-        <Button onClick={displayModal} className="w-100 mt-3 mb-3">
+        <Button
+          onClick={displayModal}
+          className="bg-primary fs-2 w-100 mt-3 mb-3"
+        >
           Create Mission
         </Button>
       )}

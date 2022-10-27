@@ -24,11 +24,11 @@
 
   &--close {
     position: absolute;
-    font-size: 40px;
+    font-size: 50px;
     top: 0px;
     right: 0px;
     width: 50px;
-    color: rgb(161, 105, 0);
+    color: $danger;
   }
 
   &--close:hover,
@@ -37,4 +37,9 @@
     text-decoration: none;
     cursor: pointer;
   }
+}
+
+.delete--icon {
+  font-size: 30px;
+  color: $danger;
 }

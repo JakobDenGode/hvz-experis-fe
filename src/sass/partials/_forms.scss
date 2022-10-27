@@ -1,5 +1,7 @@
 form {
-  background-color: rgb(220, 220, 220);
+  background-color: $dark;
+  color: white;
+  font-size: 1.4rem;
   border-radius: 20px;
   max-width: 800px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
@@ -20,4 +22,8 @@ form {
 
 .form-table-data {
   background-color: rgb(235, 235, 235);
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: $dark !important;
 }
