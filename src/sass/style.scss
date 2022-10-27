@@ -6,10 +6,13 @@ html {
 input {
   color: white;
 }
-//$body-bg: rgb(16, 16, 55);
-$secondary: #644b77;
+//$body-bg: rgb(16, 16, 55); purple #a78eb8
+
 $custom-dark: #2e2e2e;
-$body-bg:#26272a;
+$body-bg:$custom-dark;
+
+$secondary: #644b77;
+
 $dark: $custom-dark;
 $customBackground: $body-bg;
 $link-color: $dark;

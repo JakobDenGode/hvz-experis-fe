@@ -37,6 +37,17 @@ function EditList() {
     findGames();
   }, []);
 
+  const {
+    id,
+    gameTitle,
+    gameDescription,
+    nw_lat,
+    nw_lng,
+    se_lat,
+    se_lng,
+    gameState,
+  } = gameData;
+
   return (
     /*
     <Accordion className="mt-2">
@@ -44,14 +55,20 @@ function EditList() {
       <HeaderNavBar title={gameData.gameTitle} />
     */
 
-    <Accordion className="mt-2 accordion" defaultActiveKey="0">
-      <Accordion.Item className="accordion__item" eventKey="0">
-        <Accordion.Header className="accordion__header text-light-light text-end">
-          <div className="fs-4 text-light">Game Info</div>
-        </Accordion.Header>
-
-        <Accordion.Body className="accordion__body">
-          <EditCreatedGame />
+    <Accordion className="mt-2" defaultActiveKey="0">
+      <Accordion.Item eventKey="0">
+        <Accordion.Header className="text-end">Game Info</Accordion.Header>
+        <Accordion.Body>
+          <EditCreatedGame
+            gameTitle={gameTitle}
+            gameDescription={gameDescription}
+            nw_lat={nw_lat}
+            nw_lng={nw_lng}
+            se_lat={se_lat}
+            se_lng={se_lng}
+            gameState={gameState}
+            gameData={gameData}
+          />
           <EditGame />
         </Accordion.Body>
       </Accordion.Item>
