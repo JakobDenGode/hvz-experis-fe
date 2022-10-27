@@ -15,7 +15,7 @@ function RulesPage() {
         src="/assets/go-back.png"
         onClick={backToGame}
       />
-      <h1 className="mt-4 text-center">Rules</h1>
+      <h1 className="mt-4 text-center text-light">Rules</h1>
       <div className="p-3 text-light fs-4">
         <p>
           Humans vs. Zombies is a game of tag. All players begin as humans, and

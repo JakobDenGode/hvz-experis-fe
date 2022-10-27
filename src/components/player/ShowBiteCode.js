@@ -59,8 +59,8 @@ function ShowBiteCode() {
         headers: createHeaders(accessToken),
         body: JSON.stringify({
           biteCode: data.bitecode,
-          lat: 59.920309874090464,
-          lng: 10.763991449470184,
+          lat: 59.916612,
+          lng: 10.762639,
           game: gameId.gameId,
           playerKiller: player.id,
         }),

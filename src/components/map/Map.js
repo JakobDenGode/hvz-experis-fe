@@ -138,9 +138,11 @@ function Map() {
           icon={missionIcon}
         >
           <Popup>
-            <b>Mission</b>
-            <br></br>
-            {item.missionName} <br></br> {item.missionDescription}
+            <h2>
+              <b>Mission</b>
+              <br></br>
+              {item.missionName} <br></br> {item.missionDescription}
+            </h2>
           </Popup>
         </Marker>
       );
@@ -178,9 +180,11 @@ function Map() {
       return (
         <Marker icon={tombstone} position={[killItem.lat, killItem.lng]}>
           <Popup>
-            A dead player: {killItem.id}
-            <br></br> Killed at: <br></br>
-            {killItem.timeOfDeath}
+            <h2>
+              A dead player: {killItem.id}
+              <br></br> Killed at: <br></br>
+              {killItem.timeOfDeath}
+            </h2>
           </Popup>
         </Marker>
       );
