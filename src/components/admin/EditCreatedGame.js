@@ -96,7 +96,6 @@ function EditCreatedGame({
       setTimeout(() => {
         setDisplayModalForm(false);
       }, 1500);
-      if (!response.ok) throw new Error("Could not create user with username");
       console.log(response);
       return [null, response];
     } catch (error) {

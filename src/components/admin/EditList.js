@@ -57,7 +57,9 @@ function EditList() {
 
     <Accordion className="mt-2" defaultActiveKey="0">
       <Accordion.Item eventKey="0">
-        <Accordion.Header className="text-end">Game Info</Accordion.Header>
+        <Accordion.Header>
+          <div className="fs-4 text-light">Game Info</div>
+        </Accordion.Header>
         <Accordion.Body>
           <EditCreatedGame
             gameTitle={gameTitle}

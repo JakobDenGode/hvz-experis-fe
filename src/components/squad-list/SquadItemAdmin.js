@@ -12,11 +12,11 @@ function SquadItemAdmin({
 }) {
   return (
     <>
-      <Col className="my-2 mx-auto fs-4" xs={4}>
+      <Col className="my-2 mx-auto fs-4 text-light" xs={4}>
         <p>{name}</p>
       </Col>
-      <Col className="my-2 mx-auto fs-4" xs={4}>
-        <p className="text-end">{members}</p>
+      <Col className="my-2 mx-auto fs-4 text-light" xs={4}>
+        <p className="text-end text-light">{members}</p>
       </Col>
       <Col
         className="my-2 mx-auto d-flex justify-content-between align-items-center"
