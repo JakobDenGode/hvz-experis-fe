@@ -48,7 +48,8 @@ https://github.com/TrulsHafnor/HvZ-experis-be
 - Node.js 
 - Bootstrap + Sass
 - Auth0
-- WebSocket
+- Sock JS
+- Stomp JS
 - Leaflet 
 
 ### Contributors
